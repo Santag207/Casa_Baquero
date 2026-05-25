@@ -1,0 +1,260 @@
+@use '../styles/variables' as *;
+
+.home-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: #fff;
+  margin-top: calc(-1 * var(--header-height));
+
+  &__slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    transform: scale(1.02);
+
+    &.active {
+      opacity: 1;
+      transform: scale(1);
+      transition:
+        opacity 1.4s ease,
+        transform 8s ease-out;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.25) 0%,
+        rgba(0, 0, 0, 0.05) 35%,
+        rgba(0, 0, 0, 0.55) 100%
+      );
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    padding: calc(var(--header-height) + 4rem) 0 4rem;
+    width: 100%;
+  }
+
+  &__eyebrow {
+    display: block;
+    font-family: $font-body;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    color: #fff;
+    font-size: clamp(2.75rem, 6vw, 4.25rem);
+    max-width: 16ch;
+    margin-bottom: 0.75rem;
+  }
+
+  &__tagline {
+    font-family: $font-body;
+    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 28rem;
+    margin: 0 0 0.5rem;
+    line-height: 1.5;
+  }
+}
+
+.home-intro {
+  background: $color-bg;
+  border-bottom: 1px solid $color-border;
+
+  &__grid {
+    display: grid;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  &__text {
+    font-size: 1.0625rem;
+    color: $color-text-muted;
+    margin: 0;
+    line-height: 1.65;
+  }
+}
+
+.home-editorial {
+  display: grid;
+  background: $color-bg;
+
+  @media (min-width: 960px) {
+    grid-template-columns: 1.1fr 1fr;
+    min-height: 85vh;
+  }
+
+  &--reverse {
+    @media (min-width: 960px) {
+      .home-editorial__media {
+        order: 2;
+      }
+    }
+  }
+
+  &__media {
+    position: relative;
+    min-height: 50vh;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 50vh;
+
+      @media (min-width: 960px) {
+        min-height: 85vh;
+      }
+    }
+  }
+
+  &__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2.5rem, 6vw, 5rem);
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.0625rem;
+      color: $color-text-muted;
+      max-width: 32rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: $color-text;
+    width: fit-content;
+
+    &:hover {
+      gap: 0.75rem;
+      color: $color-accent;
+    }
+  }
+}
+
+.home-rooms {
+  background: $color-bg-subtle;
+
+  &__scroll {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+
+    @media (min-width: 1100px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+}
+
+.home-tour {
+  background: $color-bg;
+
+  &__frame {
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0 1.25rem;
+
+    iframe {
+      width: 100%;
+      height: min(65vh, 520px);
+      border: none;
+      border-radius: $radius-lg;
+      box-shadow: $shadow;
+    }
+  }
+
+  &__cta {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+}
+
+.home-story {
+  background: $color-bg-warm;
+
+  &__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: start;
+
+    @media (min-width: 960px) {
+      grid-template-columns: 1fr 1.15fr;
+      gap: 4rem;
+    }
+  }
+
+  &__copy p {
+    color: $color-text-muted;
+    font-size: 1rem;
+  }
+}
+
+.home-pet {
+  padding: 0 0 clamp(3rem, 8vw, 5rem);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: clamp(2rem, 5vw, 3rem) !important;
+
+    h2 {
+      margin: 0.75rem 0 0.35rem;
+      font-size: 1.75rem;
+    }
+
+    p {
+      margin: 0;
+      color: $color-text-muted;
+    }
+  }
+}
+
+.home-social__links {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}

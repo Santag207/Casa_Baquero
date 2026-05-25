@@ -1,0 +1,8 @@
+@use 'variables' as *;
+
+@mixin surface {
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}

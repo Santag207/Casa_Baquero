@@ -1,0 +1,12 @@
+.virtual-tour__frame iframe {
+  width: 100%;
+  height: min(85vh, 720px);
+  border: none;
+  display: block;
+}
+
+.virtual-tour__help code {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}

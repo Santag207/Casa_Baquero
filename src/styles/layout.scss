@@ -1,0 +1,9 @@
+@use 'variables' as *;
+
+.main--home {
+  padding-top: 0;
+}
+
+.main--default {
+  padding-top: var(--header-height);
+}

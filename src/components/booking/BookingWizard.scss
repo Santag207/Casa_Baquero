@@ -1,0 +1,260 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.booking-wizard {
+  max-width: 880px;
+  margin: 0 auto;
+
+  &__progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: $color-border;
+      z-index: 0;
+    }
+  }
+
+  &__step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    background: none;
+    border: none;
+    opacity: 0.45;
+
+    span {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      background: $color-bg;
+      border: 1px solid $color-border;
+      color: $color-text-muted;
+      transition: all $transition;
+    }
+
+    small {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: $color-text-muted;
+    }
+
+    &.active,
+    &.done {
+      opacity: 1;
+    }
+
+    &.active span {
+      background: $color-text;
+      border-color: $color-text;
+      color: #fff;
+    }
+
+    &.done span {
+      background: $color-accent;
+      border-color: $color-accent;
+      color: #fff;
+    }
+  }
+
+  &__panel {
+    @include surface;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    > p:first-of-type {
+      color: $color-text-muted;
+      font-size: 0.9375rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__row {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: $color-text;
+    }
+
+    input {
+      padding: 0.75rem 1rem;
+      border: 1px solid $color-border;
+      border-radius: $radius-sm;
+      font: inherit;
+      min-width: 100px;
+
+      &:focus {
+        outline: none;
+        border-color: $color-text;
+      }
+    }
+  }
+
+  &__rooms {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+
+  &__room {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.875rem;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    background: $color-bg;
+    text-align: left;
+    transition: border-color $transition, box-shadow $transition;
+
+    img {
+      width: 88px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: $radius-sm;
+    }
+
+    strong {
+      display: block;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: $color-text;
+    }
+
+    span {
+      font-size: 0.8125rem;
+      color: $color-text-muted;
+    }
+
+    &.selected {
+      border-color: $color-text;
+      box-shadow: $shadow-sm;
+    }
+
+    &:hover:not(.selected) {
+      border-color: $color-border-strong;
+    }
+  }
+
+  &__form {
+    display: grid;
+    gap: 1.25rem;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: $color-text;
+    }
+
+    input,
+    textarea {
+      padding: 0.875rem 1rem;
+      border: 1px solid $color-border;
+      border-radius: $radius-sm;
+      font: inherit;
+      font-size: 0.9375rem;
+
+      &:focus {
+        outline: none;
+        border-color: $color-text;
+      }
+    }
+  }
+
+  &__summary {
+    display: grid;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: $color-bg-subtle;
+    border-radius: $radius;
+    border: 1px solid $color-border;
+
+    @media (min-width: 640px) {
+      grid-template-columns: 1.2fr 1fr;
+    }
+
+    h3 {
+      font-family: $font-body;
+      font-size: 1.0625rem;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 0.9375rem;
+      color: $color-text-muted;
+      margin: 0.25rem 0;
+    }
+  }
+
+  &__totals p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9375rem;
+
+    &.total {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: $color-text;
+      padding-top: 0.75rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid $color-border;
+    }
+  }
+
+  &__disclaimer {
+    font-size: 0.8125rem;
+    color: $color-text-muted;
+    margin: 1.25rem 0;
+    line-height: 1.5;
+  }
+
+  &__whatsapp {
+    width: 100%;
+    padding: 1rem 1.5rem;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,363 @@
+@use 'variables' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --header-height: #{$header-height};
+  --color-text: #{$color-text};
+  --color-muted: #{$color-text-muted};
+  --color-border: #{$color-border};
+  --color-accent: #{$color-accent};
+  --radius: #{$radius};
+  --shadow: #{$shadow};
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: $font-body;
+  font-size: 1rem;
+  font-weight: 400;
+  color: $color-text-secondary;
+  background: $color-bg;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-display;
+  font-weight: 500;
+  color: $color-text;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-weight: 500;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+}
+
+h3 {
+  font-size: 1.35rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color $transition, opacity $transition;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.container {
+  width: min(100% - 2.5rem, $max-content);
+  margin-inline: auto;
+}
+
+.container--narrow {
+  width: min(100% - 2.5rem, $max-narrow);
+  margin-inline: auto;
+}
+
+.section-pad {
+  padding: clamp(4rem, 10vw, 7rem) 0;
+}
+
+.section-pad--tight {
+  padding: clamp(2.5rem, 6vw, 4rem) 0;
+}
+
+// Encabezados de sección (Airbnb / Marriott)
+.section-header {
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  max-width: 36rem;
+
+  &--center {
+    margin-inline: auto;
+    text-align: center;
+    max-width: 42rem;
+  }
+
+  &__eyebrow {
+    display: block;
+    font-family: $font-body;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $color-accent;
+    margin-bottom: 0.75rem;
+  }
+
+  &__title {
+    margin-bottom: 0.75rem;
+  }
+
+  &__subtitle {
+    font-family: $font-body;
+    font-size: 1.0625rem;
+    font-weight: 400;
+    color: $color-text-muted;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  &__note {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: $color-text-muted;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: $radius-sm;
+  border: none;
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+  transition:
+    background $transition,
+    color $transition,
+    border-color $transition,
+    box-shadow $transition,
+    transform 0.2s $ease-out;
+
+  &:focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+
+  &--primary {
+    background: $color-text;
+    color: #fff;
+
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+  }
+
+  &--accent {
+    background: $color-accent;
+    color: #fff;
+
+    &:hover {
+      background: $color-accent-soft;
+      color: #fff;
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1px solid $color-border-strong;
+    color: $color-text;
+
+    &:hover {
+      border-color: $color-text;
+      background: $color-bg-subtle;
+    }
+  }
+
+  &--outline-light {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #fff;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #fff;
+      color: #fff;
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $color-text;
+    padding-inline: 0.75rem;
+
+    &:hover {
+      background: $color-bg-subtle;
+    }
+  }
+
+  &--sm {
+    padding: 0.625rem 1.125rem;
+    font-size: 0.875rem;
+  }
+
+  // Legacy
+  &--gold {
+    @extend .btn--primary;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: $radius-sm;
+  font-family: $font-body;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: $color-bg-subtle;
+  color: $color-text-secondary;
+  border: 1px solid $color-border;
+
+  &--pet {
+    background: $color-bg-warm;
+    border-color: transparent;
+  }
+
+  &--accent {
+    background: $color-accent-muted;
+    color: $color-accent;
+    border-color: transparent;
+  }
+}
+
+.link-underline {
+  font-weight: 500;
+  color: $color-text;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: $color-border-strong;
+
+  &:hover {
+    text-decoration-color: $color-text;
+  }
+}
+
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.surface {
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}
+
+.page-hero {
+  min-height: 48vh;
+  display: flex;
+  align-items: flex-end;
+  padding: calc(var(--header-height) + 3rem) 0 3.5rem;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: #fff;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.45) 55%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  h1 {
+    color: #fff;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-family: $font-body;
+    font-size: 1.0625rem;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 32rem;
+    margin: 0 0 1.5rem;
+  }
+}
+
+// FullCalendar
+.fc {
+  --fc-border-color: #{$color-border};
+  --fc-button-bg-color: #{$color-text};
+  --fc-button-border-color: #{$color-text};
+  --fc-button-hover-bg-color: #000;
+  --fc-today-bg-color: #{$color-accent-muted};
+  font-family: $font-body;
+}
+
+.fc-event-season-alta {
+  background: $season-alta !important;
+  border-color: $season-alta !important;
+}
+
+.fc-event-season-media {
+  background: $season-media !important;
+  border-color: $season-media !important;
+}
+
+.fc-event-season-baja {
+  background: $season-baja !important;
+  border-color: $season-baja !important;
+}
+
+.fc-event-occupied {
+  background: #b0b0b0 !important;
+  border-color: #999 !important;
+}
