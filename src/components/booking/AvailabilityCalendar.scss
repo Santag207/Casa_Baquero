@@ -4,13 +4,16 @@
   background: #fff;
   border-radius: $radius;
   padding: 1.25rem;
-  box-shadow: $shadow;
+  border: 1px solid $color-border;
 
   &__legend {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: $color-bg-subtle;
+    border-radius: $radius-sm;
     font-size: 0.85rem;
 
     .dot {

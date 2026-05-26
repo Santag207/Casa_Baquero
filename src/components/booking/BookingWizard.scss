@@ -34,7 +34,8 @@
     flex: 1;
     background: none;
     border: none;
-    opacity: 0.45;
+    opacity: 0.5;
+    transition: opacity $transition;
 
     span {
       width: 32px;
@@ -65,14 +66,15 @@
     }
 
     &.active span {
-      background: $color-text;
-      border-color: $color-text;
+      background: $color-accent;
+      border-color: $color-accent;
       color: #fff;
+      box-shadow: 0 0 0 4px rgba($color-accent, 0.15);
     }
 
     &.done span {
-      background: $color-accent;
-      border-color: $color-accent;
+      background: $color-accent-soft;
+      border-color: $color-accent-soft;
       color: #fff;
     }
   }

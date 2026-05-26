@@ -58,7 +58,11 @@ export function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
+            className="home-hero__actions"
           >
+            <Link to="/reservar" className="btn btn--accent btn--lg">
+              Reservar ahora
+            </Link>
             <HeroSearch />
           </motion.div>
         </div>
@@ -110,9 +114,9 @@ export function HomePage() {
         <div className="container">
           <SectionHeader
             eyebrow="Alojamiento"
-            title="Habitaciones pensadas para descansar"
-            subtitle="Nueve opciones con vista a jardines y piscina. Tarifas desde temporada baja."
-            note="Mejor tarifa garantizada al reservar directo"
+            title="Habitaciones diseñadas para el descanso"
+            subtitle="Espacios amplios con vista a los jardines y el piedemonte llanero."
+            note="Tarifas desde $120.000 + IVA en temporada baja"
             align="center"
           />
           <div className="home-rooms__scroll">

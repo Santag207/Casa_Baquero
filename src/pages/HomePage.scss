@@ -71,8 +71,20 @@
     font-weight: 400;
     color: rgba(255, 255, 255, 0.9);
     max-width: 28rem;
-    margin: 0 0 0.5rem;
+    margin: 0 0 2rem;
     line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
 }
 
@@ -101,10 +113,11 @@
 .home-editorial {
   display: grid;
   background: $color-bg;
+  overflow: hidden;
 
   @media (min-width: 960px) {
     grid-template-columns: 1.1fr 1fr;
-    min-height: 85vh;
+    min-height: 90vh;
   }
 
   &--reverse {
@@ -117,18 +130,23 @@
 
   &__media {
     position: relative;
-    min-height: 50vh;
+    min-height: 55vh;
     overflow: hidden;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      min-height: 50vh;
+      min-height: 55vh;
+      transition: transform 0.8s $ease-out;
 
       @media (min-width: 960px) {
-        min-height: 85vh;
+        min-height: 90vh;
       }
+    }
+
+    &:hover img {
+      transform: scale(1.04);
     }
   }
 

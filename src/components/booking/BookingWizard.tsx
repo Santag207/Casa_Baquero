@@ -63,7 +63,7 @@ export function BookingWizard() {
       <AnimatePresence mode="wait">
         {state.step === 1 && (
           <motion.div key="s1" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Selecciona tus fechas</h2>
+            <h2>1. Selecciona tus fechas</h2>
             <p>Elige entrada y salida en el calendario. Los colores indican temporada y disponibilidad.</p>
             <AvailabilityCalendar
               checkIn={state.checkIn}
@@ -97,7 +97,7 @@ export function BookingWizard() {
 
         {state.step === 2 && (
           <motion.div key="s2" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Elige tu habitación</h2>
+            <h2>2. Elige tu habitación</h2>
             <div className="booking-wizard__rooms">
               {ROOMS.map((r) => (
                 <button
@@ -119,7 +119,7 @@ export function BookingWizard() {
 
         {state.step === 3 && (
           <motion.div key="s3" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Datos del huésped</h2>
+            <h2>3. Datos del huésped</h2>
             <div className="booking-wizard__form">
               <label>
                 Nombre completo *
@@ -143,7 +143,7 @@ export function BookingWizard() {
 
         {state.step === 4 && room && price && (
           <motion.div key="s4" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Confirma tu reserva</h2>
+            <h2>4. Confirma tu reserva</h2>
             <div className="booking-wizard__summary">
               <div>
                 <h3>{room.name}</h3>

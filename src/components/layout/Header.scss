@@ -30,10 +30,18 @@
   }
 
   &--solid {
-    background: rgba($color-bg, 0.92);
-    backdrop-filter: blur(16px);
+    background: rgba($color-bg, 0.98);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid $color-border;
-    box-shadow: $shadow-sm;
+    box-shadow: $shadow;
+
+    .site-header__brand img {
+      height: 48px;
+
+      @media (max-width: 768px) {
+        height: 40px;
+      }
+    }
 
     .site-header__links a,
     .site-header__link-btn {
@@ -59,9 +67,13 @@
   }
 
   &__brand img {
-    height: 40px;
+    height: 56px;
     width: auto;
-    transition: filter $transition;
+    transition: filter $transition, height $transition;
+
+    @media (max-width: 768px) {
+      height: 44px;
+    }
   }
 
   &__toggle {

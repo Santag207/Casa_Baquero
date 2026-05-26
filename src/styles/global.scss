@@ -193,6 +193,20 @@ button {
     &:hover {
       background: $color-accent-soft;
       color: #fff;
+      transform: translateY(-1px);
+      box-shadow: $shadow;
+    }
+  }
+
+  &--warm {
+    background: $color-warm;
+    color: #fff;
+
+    &:hover {
+      background: $color-warm-soft;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: $shadow;
     }
   }
 
@@ -232,6 +246,11 @@ button {
   &--sm {
     padding: 0.625rem 1.125rem;
     font-size: 0.875rem;
+  }
+
+  &--lg {
+    padding: 1rem 2rem;
+    font-size: 1.0625rem;
   }
 
   // Legacy

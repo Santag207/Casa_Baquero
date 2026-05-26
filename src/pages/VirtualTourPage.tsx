@@ -7,11 +7,12 @@ export function VirtualTourPage() {
     <div className="virtual-tour">
       <header
         className="page-hero"
-        style={{ backgroundImage: `url(${media('/media/29466/a-hotel-villavicencio-casa-baquero-9bb.jpg', 1600)})`, minHeight: '35vh' }}
+        style={{ backgroundImage: `url(${media('/media/29466/a-hotel-villavicencio-casa-baquero-9bb.jpg', 1600)})`, minHeight: '40vh' }}
       >
         <div className="container">
+          <span className="section-header__eyebrow" style={{ color: 'rgba(255,255,255,0.85)' }}>Experiencia</span>
           <h1>Recorrido virtual 360°</h1>
-          <p>Navega la finca con puntos de interés — habitaciones, cocina, piscina</p>
+          <p>Explora nuestras instalaciones, habitaciones y zonas comunes desde la comodidad de tu hogar.</p>
         </div>
       </header>
 
