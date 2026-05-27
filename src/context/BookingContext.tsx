@@ -1,8 +1,8 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
-import type { Room } from '../data/rooms';
+import { useMemo, useState, type ReactNode } from 'react';
 import { getRoom } from '../data/rooms';
-import type { BookingState, BookingStep } from '../types/booking';
+import type { BookingState } from '../types/booking';
 import type { RoomSlug } from '../data/rooms';
+import { BookingContext, type BookingContextValue } from './BookingContextValue';
 
 const INITIAL_STATE: BookingState = {
   step: 1,
@@ -16,16 +16,6 @@ const INITIAL_STATE: BookingState = {
   guestPhone: '',
   notes: '',
 };
-
-interface BookingContextValue {
-  state: BookingState;
-  room: Room | undefined;
-  setStep: (s: BookingStep) => void;
-  update: (patch: Partial<BookingState>) => void;
-  reset: () => void;
-}
-
-const BookingContext = createContext<BookingContextValue | null>(null);
 
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<BookingState>(INITIAL_STATE);
@@ -42,13 +32,4 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   );
 
   return <BookingContext.Provider value={value}>{children}</BookingContext.Provider>;
-}
-
-/**
- * useBooking hook
- */
-export function useBooking() {
-  const ctx = useContext(BookingContext);
-  if (!ctx) throw new Error('useBooking debe usarse dentro de BookingProvider');
-  return ctx;
 }

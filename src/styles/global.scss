@@ -1,6 +1,6 @@
 @use 'variables' as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
   --header-height: #{$header-height};
@@ -29,7 +29,7 @@ body {
   font-weight: 400;
   color: $color-text-secondary;
   background: $color-bg;
-  line-height: 1.55;
+  line-height: 1.7; // Más aire para lectura premium
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
@@ -39,34 +39,33 @@ h2,
 h3,
 h4 {
   font-family: $font-display;
-  font-weight: 500;
+  font-weight: 400; // Look más ligero y elegante
   color: $color-text;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
   margin: 0 0 0.5em;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
-  font-weight: 500;
+  font-size: clamp(3rem, 7vw, 5rem);
 }
 
 h2 {
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
 }
 
 h3 {
-  font-size: 1.35rem;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 p {
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: color $transition, opacity $transition;
+  transition: all $transition;
 }
 
 img {
@@ -92,63 +91,60 @@ button {
 }
 
 .container {
-  width: min(100% - 2.5rem, $max-content);
+  width: min(100% - 3rem, $max-content);
   margin-inline: auto;
 }
 
 .container--narrow {
-  width: min(100% - 2.5rem, $max-narrow);
+  width: min(100% - 3rem, $max-narrow);
   margin-inline: auto;
 }
 
 .section-pad {
-  padding: clamp(4rem, 10vw, 7rem) 0;
+  padding: clamp(6rem, 15vw, 10rem) 0; // Mucho más aire (estilo Casa Castro)
 }
 
 .section-pad--tight {
-  padding: clamp(2.5rem, 6vw, 4rem) 0;
+  padding: clamp(3rem, 8vw, 5rem) 0;
 }
 
-// Encabezados de sección (Airbnb / Marriott)
+// Encabezados Editoriales
 .section-header {
-  margin-bottom: clamp(2rem, 5vw, 3rem);
-  max-width: 36rem;
+  margin-bottom: clamp(3rem, 8vw, 5rem);
 
   &--center {
     margin-inline: auto;
     text-align: center;
-    max-width: 42rem;
+    max-width: 50rem;
   }
 
   &__eyebrow {
     display: block;
     font-family: $font-body;
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    font-weight: 500;
+    letter-spacing: 0.25em; // Más tracking para look de lujo
     text-transform: uppercase;
-    color: $color-accent;
-    margin-bottom: 0.75rem;
+    color: $color-gold;
+    margin-bottom: 1.25rem;
   }
 
   &__title {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
   }
 
   &__subtitle {
     font-family: $font-body;
-    font-size: 1.0625rem;
-    font-weight: 400;
+    font-size: 1.125rem;
+    font-weight: 300;
     color: $color-text-muted;
-    line-height: 1.6;
+    line-height: 1.7;
+    max-width: 38rem;
     margin: 0;
-  }
 
-  &__note {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 0.875rem;
-    color: $color-text-muted;
+    &--center {
+      margin-inline: auto;
+    }
   }
 }
 
@@ -156,56 +152,29 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
+  gap: 0.75rem;
+  padding: 1.125rem 2.25rem;
   border-radius: $radius-sm;
   border: none;
   font-family: $font-body;
   font-weight: 500;
-  font-size: 0.9375rem;
-  letter-spacing: 0;
-  transition:
-    background $transition,
-    color $transition,
-    border-color $transition,
-    box-shadow $transition,
-    transform 0.2s $ease-out;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all $transition;
 
   &:focus-visible {
-    outline: 2px solid $color-accent;
-    outline-offset: 2px;
+    outline: 1px solid $color-accent;
+    outline-offset: 4px;
   }
 
   &--primary {
-    background: $color-text;
-    color: #fff;
-
-    &:hover {
-      background: #000;
-      color: #fff;
-    }
-  }
-
-  &--accent {
     background: $color-accent;
     color: #fff;
 
     &:hover {
-      background: $color-accent-soft;
-      color: #fff;
-      transform: translateY(-1px);
-      box-shadow: $shadow;
-    }
-  }
-
-  &--warm {
-    background: $color-warm;
-    color: #fff;
-
-    &:hover {
-      background: $color-warm-soft;
-      color: #fff;
-      transform: translateY(-1px);
+      background: $color-text;
+      transform: translateY(-2px);
       box-shadow: $shadow;
     }
   }
@@ -221,79 +190,61 @@ button {
     }
   }
 
-  &--outline-light {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    color: #fff;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: #fff;
-      color: #fff;
-    }
-  }
-
   &--ghost {
     background: transparent;
     color: $color-text;
-    padding-inline: 0.75rem;
+    padding-inline: 0;
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
 
     &:hover {
-      background: $color-bg-subtle;
+      border-bottom-color: currentColor;
     }
   }
 
-  &--sm {
-    padding: 0.625rem 1.125rem;
-    font-size: 0.875rem;
-  }
-
   &--lg {
-    padding: 1rem 2rem;
-    font-size: 1.0625rem;
-  }
-
-  // Legacy
-  &--gold {
-    @extend .btn--primary;
+    padding: 1.25rem 3rem;
+    font-size: 1rem;
   }
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: $radius-sm;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   font-family: $font-body;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   background: $color-bg-subtle;
-  color: $color-text-secondary;
+  color: $color-text-muted;
   border: 1px solid $color-border;
-
-  &--pet {
-    background: $color-bg-warm;
-    border-color: transparent;
-  }
-
-  &--accent {
-    background: $color-accent-muted;
-    color: $color-accent;
-    border-color: transparent;
-  }
 }
 
 .link-underline {
   font-weight: 500;
   color: $color-text;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: $color-border-strong;
+  position: relative;
 
-  &:hover {
-    text-decoration-color: $color-text;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform $transition;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 }
 
@@ -302,18 +253,13 @@ button {
   margin-left: calc(50% - 50vw);
 }
 
-.surface {
-  background: $color-bg;
-  border: 1px solid $color-border;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-sm;
-}
-
 .page-hero {
-  min-height: 48vh;
+  min-height: 80vh; // Más imponente
   display: flex;
-  align-items: flex-end;
-  padding: calc(var(--header-height) + 3rem) 0 3.5rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--header-height) 0;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -323,60 +269,36 @@ button {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.15) 0%,
-      rgba(0, 0, 0, 0.45) 55%,
-      rgba(0, 0, 0, 0.65) 100%
-    );
+    background: rgba(0, 0, 0, 0.3); // Overlay más sutil
   }
 
   .container {
     position: relative;
     z-index: 1;
+    max-width: 900px;
   }
 
   h1 {
     color: #fff;
-    font-size: clamp(2.25rem, 5vw, 3.25rem);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   p {
     font-family: $font-body;
-    font-size: 1.0625rem;
-    color: rgba(255, 255, 255, 0.88);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0 auto 2.5rem;
     max-width: 32rem;
-    margin: 0 0 1.5rem;
   }
 }
 
-// FullCalendar
+// FullCalendar Refinement
 .fc {
   --fc-border-color: #{$color-border};
   --fc-button-bg-color: #{$color-text};
   --fc-button-border-color: #{$color-text};
-  --fc-button-hover-bg-color: #000;
-  --fc-today-bg-color: #{$color-accent-muted};
+  --fc-button-hover-bg-color: #333;
+  --fc-today-bg-color: #{$color-bg-subtle};
   font-family: $font-body;
-}
-
-.fc-event-season-alta {
-  background: $season-alta !important;
-  border-color: $season-alta !important;
-}
-
-.fc-event-season-media {
-  background: $season-media !important;
-  border-color: $season-media !important;
-}
-
-.fc-event-season-baja {
-  background: $season-baja !important;
-  border-color: $season-baja !important;
-}
-
-.fc-event-occupied {
-  background: #b0b0b0 !important;
-  border-color: #999 !important;
 }
