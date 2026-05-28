@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { RoomSlug } from '../data/rooms';
-import { useBooking } from '../context/BookingContext';
+import { useBooking } from '../hooks/useBooking';
 import { BookingWizard } from '../components/booking/BookingWizard';
 import { media } from '../data/media';
 import './ReservePage.scss';

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useBooking } from '../../context/BookingContext';
+import { useBooking } from '../../hooks/useBooking';
 import { ROOMS } from '../../data/rooms';
 import { AvailabilityCalendar } from './AvailabilityCalendar';
 import { calculateStay, formatCOP } from '../../utils/pricing';

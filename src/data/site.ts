@@ -35,10 +35,9 @@ export const SITE = {
 } as const;
 
 export const HERO_SLIDES = [
-  '/media/29214/hotel-villavicencio-finca-casa-baquero-7c.jpg',
-  '/media/29215/hotel-villavicencio-finca-casa-baquero-7d.jpg',
-  '/media/29447/a-hotel-villavicencio-casa-baquero-1d.jpg',
-  '/media/29444/a-hotel-villavicencio-casa-baquero-1a.jpg',
+  '/images/hero/hero-1.jpg',
+  '/images/hero/hero-2.jpg',
+  '/images/hero/hero-3.jpg',
 ];
 
 export const HOME_BLOCKS = [
@@ -47,7 +46,7 @@ export const HOME_BLOCKS = [
     subtitle: 'Piedemonte Llanero',
     text: 'Deja que la montaña te cubra de brisa, tranquilidad y frescura mientras disfrutas del sol y la piscina.',
     cta: { label: 'Ver Habitaciones', to: '/habitaciones' },
-    image: '/media/28774/image-hotel-casa-baquero.png',
+    image: '/images/hotel/piscina.jpg',
   },
   {
     title: 'Mucho por descubrir en',

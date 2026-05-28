@@ -43,7 +43,20 @@
   &__content {
     position: relative;
     z-index: 1;
-    padding: calc(var(--header-height) + 4rem) 0 4rem;
+    padding: calc(var(--header-height) + 6rem) 0 8rem;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      padding-bottom: 12rem;
+    }
+  }
+
+  &__search-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    z-index: 10;
     width: 100%;
   }
 

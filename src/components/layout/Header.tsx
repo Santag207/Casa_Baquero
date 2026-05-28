@@ -33,11 +33,11 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
+  const closeAll = () => {
     setOpen(false);
     setRoomsOpen(false);
     setDiscoverOpen(false);
-  }, [location.pathname]);
+  };
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -51,7 +51,7 @@ export function Header() {
       className={`site-header ${transparent ? 'site-header--transparent' : 'site-header--solid'}`}
     >
       <nav className="site-header__inner container" aria-label="Principal">
-        <Link to="/" className="site-header__brand" onClick={() => setOpen(false)}>
+        <Link to="/" className="site-header__brand" onClick={closeAll}>
           <img
             src={media('/media/28995/logo-hotel-casa-baquero.png', 100)}
             alt={SITE.name}
@@ -78,13 +78,13 @@ export function Header() {
               onMouseEnter={() => setRoomsOpen(true)}
               onMouseLeave={() => setRoomsOpen(false)}
             >
-              <NavLink to="/habitaciones" className="site-header__link-nav">
+              <NavLink to="/habitaciones" className="site-header__link-nav" onClick={closeAll}>
                 Habitaciones
               </NavLink>
               <ul className="site-header__mobile-sub">
                 {ROOMS.map((r) => (
                   <li key={r.slug}>
-                    <Link to={`/habitaciones/${r.slug}`} onClick={() => setOpen(false)}>
+                    <Link to={`/habitaciones/${r.slug}`} onClick={closeAll}>
                       {r.shortName}
                     </Link>
                   </li>
@@ -126,7 +126,7 @@ export function Header() {
               <ul className="site-header__mobile-sub">
                 {discover.map((item) => (
                   <li key={item.to}>
-                    <Link to={item.to} onClick={() => setOpen(false)}>
+                    <Link to={item.to} onClick={closeAll}>
                       {item.label}
                     </Link>
                   </li>
@@ -144,7 +144,7 @@ export function Header() {
                     <ul>
                       {discover.map((item) => (
                         <li key={item.to}>
-                          <Link to={item.to}>{item.label}</Link>
+                          <Link to={item.to} onClick={closeAll}>{item.label}</Link>
                         </li>
                       ))}
                     </ul>
@@ -153,10 +153,10 @@ export function Header() {
               </AnimatePresence>
             </li>
             <li>
-              <NavLink to="/contacto">Contacto</NavLink>
+              <NavLink to="/contacto" onClick={closeAll}>Contacto</NavLink>
             </li>
           </ul>
-          <Link to="/reservar" className="btn btn--primary btn--sm site-header__cta">
+          <Link to="/reservar" className="btn btn--primary btn--sm site-header__cta" onClick={closeAll}>
             Reservar
           </Link>
         </div>

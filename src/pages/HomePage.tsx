@@ -54,14 +54,15 @@ export function HomePage() {
           >
             {SITE.tagline}
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-          >
-            <HeroSearch />
-          </motion.div>
         </div>
+        <motion.div
+          className="home-hero__search-container container"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <HeroSearch />
+        </motion.div>
       </section>
 
       <section className="home-intro section-pad--tight">

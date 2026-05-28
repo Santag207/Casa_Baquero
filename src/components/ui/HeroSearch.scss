@@ -76,8 +76,12 @@
 
   &__cta {
     border-radius: 0 !important;
-    padding: 1.125rem 2rem;
+    padding: 1.125rem 3rem;
     white-space: nowrap;
+    background: $color-warm !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 
     @media (min-width: 768px) {
       align-self: stretch;

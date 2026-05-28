@@ -1,50 +1,71 @@
 @use '../../styles/variables' as *;
 
 .site-footer {
-  background: $color-bg-subtle;
-  border-top: 1px solid $color-border;
-  margin-top: 0;
-  padding-top: clamp(3rem, 8vw, 4.5rem);
+  background: $color-accent;
+  color: rgba(255, 255, 255, 0.7);
+  padding-top: clamp(4rem, 10vw, 6rem);
+  border-top: none;
 
   h3 {
     font-family: $font-body;
     font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: $color-text-muted;
-    margin-bottom: 1rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
   }
 
-  &__top {
+  &__grid {
     display: grid;
-    gap: 2.5rem;
-    padding-bottom: 2.5rem;
+    gap: 3rem;
+    padding-bottom: clamp(3rem, 8vw, 4rem);
 
     @media (min-width: 768px) {
-      grid-template-columns: 1fr 1.5fr;
-      gap: 4rem;
+      grid-template-columns: 1.2fr 0.8fr 1fr 1.2fr;
     }
   }
 
   &__brand {
-    p {
-      margin: 1rem 0 0;
-      font-size: 0.9375rem;
-      color: $color-text-muted;
-      max-width: 22rem;
+    .site-footer__logo {
+      filter: brightness(0) invert(1);
+      height: 48px;
+      width: auto;
+      margin-bottom: 1.25rem;
     }
 
-    img {
-      opacity: 0.9;
+    .site-footer__tagline {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      max-width: 20rem;
     }
   }
 
-  &__nav {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(2, 1fr);
+  &__social {
+    display: flex;
+    gap: 1rem;
 
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #fff;
+      transition: all $transition;
+
+      &:hover {
+        background: $color-warm;
+        border-color: $color-warm;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__nav-col {
     ul {
       list-style: none;
       padding: 0;
@@ -52,48 +73,109 @@
     }
 
     li {
-      margin-bottom: 0.5rem;
-      font-size: 0.9375rem;
-      color: $color-text-secondary;
+      margin-bottom: 0.75rem;
     }
 
     a {
-      color: $color-text-secondary;
+      font-size: 0.9375rem;
+      transition: color $transition;
 
       &:hover {
-        color: $color-text;
-        text-decoration: underline;
-        text-underline-offset: 2px;
+        color: #fff;
+      }
+    }
+  }
+
+  &__contact-info {
+    li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+
+      svg {
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+        color: $color-warm;
+      }
+    }
+  }
+
+  &__newsletter {
+    p {
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  &__form {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.5rem;
+    transition: border-color $transition;
+
+    &:focus-within {
+      border-color: $color-warm;
+    }
+
+    input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #fff;
+      font-family: $font-body;
+      font-size: 0.875rem;
+      padding: 0.5rem 0;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: $color-warm;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform $transition;
+
+      &:hover {
+        transform: translateX(3px);
       }
     }
   }
 
   &__bottom {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 1.5rem 0;
+    font-size: 0.75rem;
+  }
+
+  &__bottom-inner {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
     justify-content: space-between;
+    gap: 1rem;
     align-items: center;
-    padding: 1.5rem 0 2rem;
-    border-top: 1px solid $color-border;
-    font-size: 0.8125rem;
-    color: $color-text-muted;
-
-    p {
-      margin: 0;
-    }
   }
 
   &__legal {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 1.5rem;
+    gap: 1.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
 
     a:hover {
-      color: $color-text;
+      color: #fff;
     }
   }
 }
