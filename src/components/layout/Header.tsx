@@ -33,11 +33,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const closeAll = () => {
-    setOpen(false);
-    setRoomsOpen(false);
-    setDiscoverOpen(false);
-  };
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -53,10 +48,10 @@ export function Header() {
       <nav className="site-header__inner container" aria-label="Principal">
         <Link to="/" className="site-header__brand" onClick={closeAll}>
           <img
-            src={media('/media/28995/logo-hotel-casa-baquero.png', 100)}
+            src={media('/media/28995/logo-hotel-casa-baquero.png', 140)}
             alt={SITE.name}
-            width={100}
-            height={40}
+            width={140}
+            height={56}
           />
         </Link>
 
@@ -78,7 +73,7 @@ export function Header() {
               onMouseEnter={() => setRoomsOpen(true)}
               onMouseLeave={() => setRoomsOpen(false)}
             >
-              <NavLink to="/habitaciones" className="site-header__link-nav" onClick={closeAll}>
+              <NavLink to="/habitaciones" className="site-header__link-nav" onClick={() => setOpen(false)}>
                 Habitaciones
               </NavLink>
               <ul className="site-header__mobile-sub">
@@ -153,11 +148,11 @@ export function Header() {
               </AnimatePresence>
             </li>
             <li>
-              <NavLink to="/contacto" onClick={closeAll}>Contacto</NavLink>
+              <NavLink to="/contacto" onClick={() => setOpen(false)}>Contacto</NavLink>
             </li>
           </ul>
-          <Link to="/reservar" className="btn btn--primary btn--sm site-header__cta" onClick={closeAll}>
-            Reservar
+          <Link to="/reservar" className="btn btn--accent btn--sm site-header__cta" onClick={() => setOpen(false)}>
+            Reservar ahora
           </Link>
         </div>
       </nav>

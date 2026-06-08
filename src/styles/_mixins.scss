@@ -3,6 +3,29 @@
 @mixin surface {
   background: $color-bg;
   border: 1px solid $color-border;
-  border-radius: $radius-lg;
+  border-radius: $radius;
   box-shadow: $shadow-sm;
+}
+
+@mixin heading-decoration {
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: $color-gold;
+    margin-top: 1.5rem;
+  }
+
+  &--center::after {
+    margin-inline: auto;
+  }
+}
+
+@mixin hover-lift {
+  transition: transform $transition, box-shadow $transition;
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-lg;
+  }
 }

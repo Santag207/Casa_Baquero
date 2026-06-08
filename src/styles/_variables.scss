@@ -1,51 +1,42 @@
-// Sistema elegante — neutros + acento llanero sutil
-$color-text: #1a1a1a;
-$color-text-secondary: #484848;
-$color-text-muted: #717171;
-$color-border: #e5e5e5;
-$color-border-strong: #d4d4d4;
+// Sistema editorial de lujo — inspirado en Casa Castro / Marriott
+$color-text: #111111;
+$color-text-secondary: #333333;
+$color-text-muted: #666666;
+$color-border: #eeeeee;
+$color-border-strong: #dddddd;
 $color-bg: #ffffff;
-$color-bg-subtle: #f7f7f7;
-$color-bg-warm: #faf9f7;
+$color-bg-subtle: #fafafa;
+$color-bg-warm: #fdfbf7;
 
-$color-accent: #1a3c34; // Emerald profundo (Estelar)
-$color-accent-soft: #24554a;
-$color-accent-muted: rgba(26, 60, 52, 0.08);
+// Identidad Casa Baquero (refinada)
+$color-accent: #0f3d2e; // Verde esmeralda profundo (Llanos)
+$color-accent-soft: #1b5e48;
+$color-accent-muted: rgba(15, 61, 46, 0.05);
 
-// Acento cálido (Oro llanero sofisticado)
-$color-warm: #b39359; // Gold (Estelar)
+$color-gold: #a68b5c; // Oro llanero sofisticado
+$color-gold-soft: #c4af8a;
+$color-sky: #1d353d; // Azul nocturno profundo
 
 // Temporadas (calendario)
-$season-alta: #c13515;
-$season-media: #e07912;
-$season-baja: #1e6f5c;
+$season-alta: #b22d12;
+$season-media: #cc6e0d;
+$season-baja: #0f3d2e;
 
-// Legacy aliases (compatibilidad SCSS existente)
-$llano-green-dark: $color-accent;
-$llano-green: $color-accent-soft;
-$llano-green-light: #3d8b6e;
-$llano-gold: $color-warm;
-$llano-gold-bright: #c4a574;
-$llano-sky-deep: $color-text;
-$llano-cream: $color-bg-warm;
-$llano-sand: $color-bg-subtle;
-$llano-red-alta: $season-alta;
-$llano-orange-media: $season-media;
-$llano-green-baja: $season-baja;
+$font-display: 'Cormorant Garamond', serif;
+$font-body: 'Inter', sans-serif;
 
-$font-display: 'Cormorant Garamond', 'Georgia', serif;
-$font-body: 'Inter', system-ui, -apple-system, sans-serif;
+$header-height: 88px;
+$radius-sm: 4px;
+$radius: 8px;
+$radius-lg: 12px;
+$radius-xl: 0; // Bordes rectos para un look más arquitectónico si se prefiere
 
-$header-height: 80px;
-$radius-sm: 0;
-$radius: 0;
-$radius-lg: 0;
-$radius-xl: 0;
-$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
-$shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.1);
-$transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
+$shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.08);
+
+$transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 $ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-$max-content: 1200px;
-$max-narrow: 720px;
+$max-content: 1320px;
+$max-narrow: 800px;

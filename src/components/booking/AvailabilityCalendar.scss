@@ -4,54 +4,63 @@
   background: #fff;
   border-radius: $radius;
   padding: 1.25rem;
-  box-shadow: $shadow;
+  border: 1px solid $color-border;
 
   &__legend {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1rem;
-    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: $color-bg-subtle;
+    border-radius: $radius-sm;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 
     .dot {
       display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-      margin-right: 0.35rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
       vertical-align: middle;
 
       &--alta {
-        background: $llano-red-alta;
+        background: $season-alta;
       }
       &--media {
-        background: $llano-orange-media;
+        background: $season-media;
       }
       &--baja {
-        background: $llano-green-baja;
+        background: $season-baja;
       }
       &--occupied {
-        background: #6c757d;
+        background: #999;
       }
     }
   }
 
   &__hint {
     font-size: 0.85rem;
-    background: $llano-sand;
-    padding: 0.75rem 1rem;
+    background: $color-bg-subtle;
+    padding: 1rem;
     border-radius: $radius;
     margin-bottom: 1rem;
+    border-left: 3px solid $color-gold;
   }
 
   &__selection {
     margin-top: 1rem;
     font-size: 0.95rem;
+    font-weight: 500;
   }
 
   &__subscribe {
     display: inline-block;
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: $color-text-muted;
+    text-decoration: underline;
   }
 }

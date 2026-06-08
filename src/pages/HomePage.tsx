@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { motion, type Variants } from 'framer-motion';
 import { SITE, HERO_SLIDES, HOME_BLOCKS, FACILITIES_TEXT } from '../data/site';
 import { media } from '../data/media';
 import { ROOMS } from '../data/rooms';
@@ -12,11 +11,21 @@ import { SectionHeader } from '../components/ui/SectionHeader';
 import { HeroSearch } from '../components/ui/HeroSearch';
 import './HomePage.scss';
 
+const fadeUp: Variants = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+};
+
+const fadeUpTransition = {
+  duration: 0.8,
+  ease: [0.16, 1, 0.3, 1] as [number, number, number, number]
+};
+
 export function HomePage() {
   const [slide, setSlide] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), 7000);
+    const t = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), 8000);
     return () => clearInterval(t);
   }, []);
 
@@ -33,27 +42,38 @@ export function HomePage() {
         <div className="home-hero__content container">
           <motion.span
             className="home-hero__eyebrow"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Villavicencio, Meta · Piedemonte llanero
-          </motion.span>
-          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
+            transition={{ duration: 1, delay: 0.2 }}
           >
-            {SITE.name}
+            Finca Hotel · Villavicencio
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+          >
+            El refugio perfecto en el corazón del Llano
           </motion.h1>
           <motion.p
             className="home-hero__tagline"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
           >
-            {SITE.tagline}
+            Naturaleza, confort y tradición se encuentran en Casa Baquero.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="home-hero__actions"
+          >
+            <HeroSearch />
+            <Link to="/habitaciones" className="btn btn--outline-light">
+              Descubrir habitaciones
+            </Link>
+          </motion.div>
         </div>
         <motion.div
           className="home-hero__search-container container"
@@ -65,13 +85,28 @@ export function HomePage() {
         </motion.div>
       </section>
 
-      <section className="home-intro section-pad--tight">
+      <section className="home-intro section-pad">
         <div className="container home-intro__grid">
-          {FACILITIES_TEXT.slice(0, 2).map((text) => (
-            <p key={text.slice(0, 30)} className="home-intro__text">
-              {text}
-            </p>
-          ))}
+          <motion.p
+            className="home-intro__text"
+            variants={fadeUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={fadeUpTransition}
+          >
+            "Ubicado a solo 10 minutos de Villavicencio, nuestro hotel ofrece la paz del campo con la comodidad que mereces."
+          </motion.p>
+          <motion.p
+            className="home-intro__text"
+            variants={fadeUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ ...fadeUpTransition, delay: 0.2 }}
+          >
+            {FACILITIES_TEXT[0]}
+          </motion.p>
         </div>
       </section>
 
@@ -80,28 +115,29 @@ export function HomePage() {
           key={block.subtitle}
           className={`home-editorial ${i % 2 ? 'home-editorial--reverse' : ''}`}
         >
-          <motion.div
-            className="home-editorial__media"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7 }}
-          >
-            <img src={media(block.image, 1000, 700)} alt="" loading="lazy" />
-          </motion.div>
+          <div className="home-editorial__media">
+            <motion.img
+              src={media(block.image, 1200, 1200)}
+              alt=""
+              loading="lazy"
+              initial={{ scale: 1.1, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.5 }}
+              viewport={{ once: true }}
+            />
+          </div>
           <motion.div
             className="home-editorial__copy"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: i % 2 ? -40 : 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           >
             <span className="section-header__eyebrow">{block.title}</span>
             <h2>{block.subtitle}</h2>
             <p>{block.text}</p>
             <Link to={block.cta.to} className="home-editorial__link">
-              {block.cta.label}
-              <ArrowRight size={18} aria-hidden />
+              Explorar más
             </Link>
           </motion.div>
         </section>
@@ -111,94 +147,114 @@ export function HomePage() {
         <div className="container">
           <SectionHeader
             eyebrow="Alojamiento"
-            title="Habitaciones pensadas para descansar"
-            subtitle="Nueve opciones con vista a jardines y piscina. Tarifas desde temporada baja."
-            note="Mejor tarifa garantizada al reservar directo"
+            title="Habitaciones & Suites"
+            subtitle="Espacios diseñados para fundirse con el paisaje llanero."
             align="center"
           />
           <div className="home-rooms__scroll">
-            {ROOMS.map((r, i) => (
-              <RoomCard key={r.slug} room={r} index={i} variant="compact" />
+            {ROOMS.slice(0, 3).map((r, i) => (
+              <RoomCard key={r.slug} room={r} index={i} />
             ))}
           </div>
-          <div className="home-rooms__footer">
+          <motion.div
+            className="home-rooms__footer"
+            variants={fadeUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={fadeUpTransition}
+          >
             <Link to="/habitaciones" className="btn btn--outline">
-              Ver todas las habitaciones
+              Ver todas las opciones
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="home-tour section-pad--tight">
-        <div className="container">
-          <SectionHeader
-            eyebrow="Experiencia"
-            title="Recorrido virtual 360°"
-            subtitle="Recorre habitaciones, piscina y zonas comunes antes de llegar."
-          />
-        </div>
+      <section className="home-tour">
         <div className="home-tour__frame">
           <iframe
-            title="Tour virtual Kuula Casa Baquero"
+            title="Tour virtual"
             src={SITE.kuulaTour}
             allow="xr-spatial-tracking; gyroscope; accelerometer"
             allowFullScreen
           />
         </div>
-        <div className="container home-tour__cta">
-          <Link to="/recorrido-virtual" className="link-underline">
-            Abrir en pantalla completa
-          </Link>
-        </div>
       </section>
 
       <section className="section-pad home-story">
         <div className="container home-story__grid">
-          <div className="home-story__copy">
+          <motion.div
+            className="home-story__copy"
+            variants={fadeUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={fadeUpTransition}
+          >
             <SectionHeader
-              eyebrow="La finca"
-              title="Vacaciones en pareja y en familia"
-              subtitle="Piscina, zonas verdes, BBQ y juegos al aire libre a 10 minutos de Villavicencio."
+              eyebrow="Nuestra Finca"
+              title="Tradición y Hospitalidad"
             />
-            {FACILITIES_TEXT.slice(2).map((t) => (
-              <p key={t.slice(0, 24)}>{t}</p>
-            ))}
-            <Link to="/eventos" className="btn btn--outline">
-              Celebraciones y eventos
+            <p>{FACILITIES_TEXT[1]}</p>
+            <p>{FACILITIES_TEXT[2]}</p>
+            <div style={{ marginTop: '3rem' }}>
+              <Link to="/eventos" className="btn btn--primary">
+                Eventos y Celebraciones
+              </Link>
+            </div>
+          </motion.div>
+          <motion.div
+            className="home-story__gallery"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <PhotoGallery photos={HOME_GALLERY.slice(0, 4)} columns={2} />
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="section-pad home-pet">
+        <div className="container home-pet__inner">
+          <motion.div
+            variants={fadeUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={fadeUpTransition}
+          >
+            <span className="badge">Pet Friendly</span>
+            <h2>Toda la familia es bienvenida</h2>
+            <p>Tus mascotas son parte esencial del viaje. Contamos con amplias zonas verdes para su disfrute.</p>
+            <Link to="/mascotas" className="btn btn--outline">
+              Ver reglamento de mascotas
             </Link>
-          </div>
-          <div className="home-story__gallery">
-            <PhotoGallery photos={HOME_GALLERY.slice(0, 6)} columns={2} />
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="home-pet">
-        <div className="container home-pet__inner surface">
-          <div>
-            <span className="badge badge--accent">Pet friendly</span>
-            <h2>Mascotas bienvenidas</h2>
-            <p>Consulta nuestras políticas y viaja con tu compañero.</p>
-          </div>
-          <Link to="/mascotas" className="btn btn--accent">
-            Ver política
-          </Link>
-        </div>
-      </section>
-
-      <section className="section-pad--tight home-social">
+      <section className="section-pad home-social">
         <div className="container section-header section-header--center">
-          <span className="section-header__eyebrow">Comunidad</span>
-          <h2 className="section-header__title">Comparte tu experiencia</h2>
-          <p className="section-header__subtitle">{SITE.hashtags.join(' · ')}</p>
-          <div className="home-social__links">
-            <a href={SITE.social.instagram} target="_blank" rel="noreferrer" className="btn btn--outline btn--sm">
-              Instagram
-            </a>
-            <a href={SITE.social.tripadvisor} target="_blank" rel="noreferrer" className="btn btn--outline btn--sm">
-              TripAdvisor
-            </a>
-          </div>
+          <motion.div
+            variants={fadeUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={fadeUpTransition}
+          >
+            <span className="section-header__eyebrow">Social</span>
+            <h2 className="section-header__title">Vive la experiencia Baquero</h2>
+            <div className="home-social__links">
+              <a href={SITE.social.instagram} target="_blank" rel="noreferrer" className="link-underline">
+                Instagram
+              </a>
+              <a href={SITE.social.tripadvisor} target="_blank" rel="noreferrer" className="link-underline">
+                TripAdvisor
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

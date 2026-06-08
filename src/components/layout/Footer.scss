@@ -1,44 +1,46 @@
 @use '../../styles/variables' as *;
 
 .site-footer {
-  background: $color-accent;
-  color: rgba(255, 255, 255, 0.7);
+  background: $color-text; // Fondo oscuro para look premium
+  color: #fff;
   padding-top: clamp(4rem, 10vw, 6rem);
-  border-top: none;
+  padding-bottom: 2rem;
 
   h3 {
     font-family: $font-body;
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    font-weight: 500;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: #fff;
+    color: $color-gold;
     margin-bottom: 1.5rem;
   }
 
   &__grid {
     display: grid;
     gap: 3rem;
-    padding-bottom: clamp(3rem, 8vw, 4rem);
+    padding-bottom: 4rem;
 
-    @media (min-width: 768px) {
-      grid-template-columns: 1.2fr 0.8fr 1fr 1.2fr;
+    @media (min-width: 1024px) {
+      grid-template-columns: 1.5fr 2fr;
+      gap: 6rem;
     }
   }
 
   &__brand {
-    .site-footer__logo {
+    p {
+      margin: 1.5rem 0 0;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 24rem;
+      line-height: 1.6;
+    }
+
+    img {
       filter: brightness(0) invert(1);
       height: 48px;
       width: auto;
-      margin-bottom: 1.25rem;
-    }
-
-    .site-footer__tagline {
-      font-size: 0.9375rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-      max-width: 20rem;
     }
   }
 
@@ -65,7 +67,10 @@
     }
   }
 
-  &__nav-col {
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     ul {
       list-style: none;
       padding: 0;
@@ -74,81 +79,16 @@
 
     li {
       margin-bottom: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
     }
 
     a {
-      font-size: 0.9375rem;
       transition: color $transition;
 
       &:hover {
         color: #fff;
-      }
-    }
-  }
-
-  &__contact-info {
-    li {
-      display: flex;
-      gap: 0.75rem;
-      align-items: flex-start;
-      font-size: 0.9375rem;
-      line-height: 1.5;
-
-      svg {
-        flex-shrink: 0;
-        margin-top: 0.2rem;
-        color: $color-warm;
-      }
-    }
-  }
-
-  &__newsletter {
-    p {
-      font-size: 0.875rem;
-      margin-bottom: 1.25rem;
-    }
-  }
-
-  &__form {
-    display: flex;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 0.5rem;
-    transition: border-color $transition;
-
-    &:focus-within {
-      border-color: $color-warm;
-    }
-
-    input {
-      flex: 1;
-      background: none;
-      border: none;
-      color: #fff;
-      font-family: $font-body;
-      font-size: 0.875rem;
-      padding: 0.5rem 0;
-
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-      }
-
-      &:focus {
-        outline: none;
-      }
-    }
-
-    button {
-      background: none;
-      border: none;
-      color: $color-warm;
-      padding: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform $transition;
-
-      &:hover {
-        transform: translateX(3px);
       }
     }
   }
@@ -162,20 +102,31 @@
   &__bottom-inner {
     display: flex;
     flex-wrap: wrap;
+    gap: 2rem;
     justify-content: space-between;
     gap: 1rem;
     align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+
+    p {
+      margin: 0;
+    }
   }
 
   &__legal {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
 
     a:hover {
-      color: #fff;
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 }

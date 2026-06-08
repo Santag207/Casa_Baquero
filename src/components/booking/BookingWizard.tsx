@@ -54,17 +54,18 @@ export function BookingWizard() {
             key={label}
             className={`booking-wizard__step ${state.step > i + 1 ? 'done' : ''} ${state.step === i + 1 ? 'active' : ''}`}
           >
-            <span>{i + 1}</span>
             <small>{label}</small>
+            <span>{i + 1}</span>
           </div>
         ))}
       </div>
 
       <AnimatePresence mode="wait">
         {state.step === 1 && (
-          <motion.div key="s1" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+          <motion.div key="s1" className="booking-wizard__panel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+            <span className="section-header__eyebrow">Paso 01</span>
             <h2>Selecciona tus fechas</h2>
-            <p>Elige entrada y salida en el calendario. Los colores indican temporada y disponibilidad.</p>
+            <p>El calendario muestra temporadas y disponibilidad en tiempo real.</p>
             <AvailabilityCalendar
               checkIn={state.checkIn}
               checkOut={state.checkOut}
@@ -72,7 +73,7 @@ export function BookingWizard() {
             />
             <div className="booking-wizard__row">
               <label>
-                Habitaciones
+                Número de habitaciones
                 <input
                   type="number"
                   min={1}
@@ -82,7 +83,7 @@ export function BookingWizard() {
                 />
               </label>
               <label>
-                Huéspedes
+                Total de huéspedes
                 <input
                   type="number"
                   min={1}
@@ -96,8 +97,10 @@ export function BookingWizard() {
         )}
 
         {state.step === 2 && (
-          <motion.div key="s2" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Elige tu habitación</h2>
+          <motion.div key="s2" className="booking-wizard__panel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+            <span className="section-header__eyebrow">Paso 02</span>
+            <h2>Elige tu alojamiento</h2>
+            <p>Contamos con opciones desde habitaciones estándar hasta cabañas familiares.</p>
             <div className="booking-wizard__rooms">
               {ROOMS.map((r) => (
                 <button
@@ -106,10 +109,10 @@ export function BookingWizard() {
                   className={`booking-wizard__room ${state.roomSlug === r.slug ? 'selected' : ''}`}
                   onClick={() => update({ roomSlug: r.slug })}
                 >
-                  <img src={media(r.heroImage, 200, 140)} alt="" />
-                  <div>
-                    <strong>{r.shortName}</strong>
+                  <img src={media(r.heroImage, 600, 400)} alt="" />
+                  <div className="room-info">
                     <span>Desde {formatCOP(r.basePrice)} + IVA</span>
+                    <strong>{r.shortName}</strong>
                   </div>
                 </button>
               ))}
@@ -118,52 +121,49 @@ export function BookingWizard() {
         )}
 
         {state.step === 3 && (
-          <motion.div key="s3" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Datos del huésped</h2>
+          <motion.div key="s3" className="booking-wizard__panel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+            <span className="section-header__eyebrow">Paso 03</span>
+            <h2>Detalles del huésped</h2>
+            <p>Por favor completa tu información de contacto para coordinar tu llegada.</p>
             <div className="booking-wizard__form">
               <label>
-                Nombre completo *
-                <input value={state.guestName} onChange={(e) => update({ guestName: e.target.value })} required />
+                Nombre y Apellido
+                <input value={state.guestName} onChange={(e) => update({ guestName: e.target.value })} required placeholder="Ej: Juan Pérez" />
               </label>
               <label>
-                Correo electrónico *
-                <input type="email" value={state.guestEmail} onChange={(e) => update({ guestEmail: e.target.value })} required />
+                Email
+                <input type="email" value={state.guestEmail} onChange={(e) => update({ guestEmail: e.target.value })} required placeholder="juan@ejemplo.com" />
               </label>
               <label>
-                Teléfono / WhatsApp *
-                <input type="tel" value={state.guestPhone} onChange={(e) => update({ guestPhone: e.target.value })} required />
+                WhatsApp
+                <input type="tel" value={state.guestPhone} onChange={(e) => update({ guestPhone: e.target.value })} required placeholder="+57 ..." />
               </label>
               <label>
-                Notas o solicitudes especiales
-                <textarea value={state.notes} onChange={(e) => update({ notes: e.target.value })} rows={4} placeholder="Plan romántico, mascota, horario de llegada..." />
+                Notas adicionales
+                <textarea value={state.notes} onChange={(e) => update({ notes: e.target.value })} rows={3} placeholder="Peticiones especiales, horario estimado..." />
               </label>
             </div>
           </motion.div>
         )}
 
         {state.step === 4 && room && price && (
-          <motion.div key="s4" className="booking-wizard__panel" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            <h2>Confirma tu reserva</h2>
+          <motion.div key="s4" className="booking-wizard__panel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+            <span className="section-header__eyebrow">Paso 04</span>
+            <h2>Revisión final</h2>
             <div className="booking-wizard__summary">
               <div>
                 <h3>{room.name}</h3>
-                <p>
-                  📅 {state.checkIn} → {state.checkOut} ({price.nights} noches)
-                </p>
-                <p>
-                  👤 {state.guests} huésped(es) · {state.roomsCount} habitación(es)
-                </p>
-                <p>{price.seasonLabel}</p>
+                <p><strong>Estancia:</strong> {state.checkIn} al {state.checkOut}</p>
+                <p><strong>Duración:</strong> {price.nights} noche(s)</p>
+                <p><strong>Ocupación:</strong> {state.guests} persona(s) · {state.roomsCount} hab.</p>
+                <p style={{ marginTop: '1rem', color: 'var(--color-accent)' }}>Temporada: {price.seasonLabel}</p>
               </div>
               <div className="booking-wizard__totals">
                 <p>
-                  <span>Tarifa/noche</span> {formatCOP(price.adjustedPerNight)} + IVA
+                  <span>Tarifa noche</span> {formatCOP(price.adjustedPerNight)}
                 </p>
                 <p>
-                  <span>Subtotal</span> {formatCOP(price.subtotal)}
-                </p>
-                <p>
-                  <span>IVA 19%</span> {formatCOP(price.iva)}
+                  <span>IVA (19%)</span> {formatCOP(price.iva)}
                 </p>
                 <p className="total">
                   <span>Total estimado</span> {formatCOP(price.total)}
@@ -171,10 +171,10 @@ export function BookingWizard() {
               </div>
             </div>
             <p className="booking-wizard__disclaimer">
-              No procesamos pagos en línea. Al enviar, abrirás WhatsApp con un mensaje listo para el hotel.
+              Este es un resumen de tu solicitud. Al hacer clic en el botón inferior, se abrirá WhatsApp para finalizar la reserva directamente con nuestro equipo.
             </p>
-            <button type="button" className="btn btn--accent booking-wizard__whatsapp" onClick={submitWhatsApp}>
-              Enviar reserva por WhatsApp
+            <button type="button" className="btn btn--primary btn--lg booking-wizard__whatsapp" onClick={submitWhatsApp}>
+              Confirmar vía WhatsApp
             </button>
           </motion.div>
         )}
@@ -183,7 +183,7 @@ export function BookingWizard() {
       <div className="booking-wizard__nav">
         {state.step > 1 && (
           <button type="button" className="btn btn--ghost" onClick={() => setStep((state.step - 1) as 1 | 2 | 3 | 4)}>
-            Atrás
+            Regresar
           </button>
         )}
         {state.step < 4 && (

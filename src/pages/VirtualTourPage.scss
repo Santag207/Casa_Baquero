@@ -1,6 +1,6 @@
 .virtual-tour__frame iframe {
   width: 100%;
-  height: min(85vh, 720px);
+  height: clamp(500px, 85vh, 800px);
   border: none;
   display: block;
 }
