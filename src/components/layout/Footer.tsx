@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Camera, Share2, Mail, Phone, MapPin, Send } from 'lucide-react';
 import { SITE } from '../../data/site';
 import { media } from '../../data/media';
 import './Footer.scss';
@@ -6,7 +7,7 @@ import './Footer.scss';
 export function Footer() {
   return (
     <footer className="site-footer">
-      <div className="container site-footer__top">
+      <div className="container site-footer__grid">
         <div className="site-footer__brand">
           <img src={media('/media/29039/logo-hotel-casa-baquero.png', 160)} alt={SITE.name} />
           <p>{SITE.tagline}</p>

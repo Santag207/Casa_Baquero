@@ -16,7 +16,7 @@
     margin-bottom: 1.5rem;
   }
 
-  &__top {
+  &__grid {
     display: grid;
     gap: 3rem;
     padding-bottom: 4rem;
@@ -44,10 +44,28 @@
     }
   }
 
-  &__nav {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(2, 1fr);
+  &__social {
+    display: flex;
+    gap: 1rem;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #fff;
+      transition: all $transition;
+
+      &:hover {
+        background: $color-warm;
+        border-color: $color-warm;
+        transform: translateY(-2px);
+      }
+    }
+  }
 
     @media (min-width: 640px) {
       grid-template-columns: repeat(3, 1fr);
@@ -76,10 +94,17 @@
   }
 
   &__bottom {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 1.5rem 0;
+    font-size: 0.75rem;
+  }
+
+  &__bottom-inner {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: space-between;
+    gap: 1rem;
     align-items: center;
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);

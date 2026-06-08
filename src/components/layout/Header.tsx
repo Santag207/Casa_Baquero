@@ -46,7 +46,7 @@ export function Header() {
       className={`site-header ${transparent ? 'site-header--transparent' : 'site-header--solid'}`}
     >
       <nav className="site-header__inner container" aria-label="Principal">
-        <Link to="/" className="site-header__brand" onClick={() => setOpen(false)}>
+        <Link to="/" className="site-header__brand" onClick={closeAll}>
           <img
             src={media('/media/28995/logo-hotel-casa-baquero.png', 140)}
             alt={SITE.name}
@@ -79,7 +79,7 @@ export function Header() {
               <ul className="site-header__mobile-sub">
                 {ROOMS.map((r) => (
                   <li key={r.slug}>
-                    <Link to={`/habitaciones/${r.slug}`} onClick={() => setOpen(false)}>
+                    <Link to={`/habitaciones/${r.slug}`} onClick={closeAll}>
                       {r.shortName}
                     </Link>
                   </li>
@@ -121,7 +121,7 @@ export function Header() {
               <ul className="site-header__mobile-sub">
                 {discover.map((item) => (
                   <li key={item.to}>
-                    <Link to={item.to} onClick={() => setOpen(false)}>
+                    <Link to={item.to} onClick={closeAll}>
                       {item.label}
                     </Link>
                   </li>
@@ -139,7 +139,7 @@ export function Header() {
                     <ul>
                       {discover.map((item) => (
                         <li key={item.to}>
-                          <Link to={item.to}>{item.label}</Link>
+                          <Link to={item.to} onClick={closeAll}>{item.label}</Link>
                         </li>
                       ))}
                     </ul>
