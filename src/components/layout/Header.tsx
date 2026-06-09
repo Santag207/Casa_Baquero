@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, SITE } from '../../data/site';
+import { media } from '../../data/media';
+import './Header.scss';
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -30,8 +32,15 @@ export function Header() {
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       >
         <Link to="/" className="header__brand">
-          <span className="header__name">{SITE.name}</span>
-          <span className="header__tag">{SITE.tagline}</span>
+          <img
+            src={media('/images/hero/logo-hotel-casa-baquero.png')}
+            alt={SITE.name}
+            className="header__logo"
+          />
+          <span className="header__brand-text">
+            <span className="header__name">{SITE.name}</span>
+            <span className="header__tag">{SITE.tagline}</span>
+          </span>
         </Link>
 
         <nav className="header__nav" aria-label="Principal">
@@ -51,7 +60,6 @@ export function Header() {
               <NavLink
                 key={link.to}
                 to={link.to}
-                end={false}
                 className={({ isActive }) =>
                   `header__link${isActive ? ' header__link--active' : ''}`
                 }
