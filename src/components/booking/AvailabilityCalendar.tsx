@@ -1,151 +1,84 @@
-import { useCallback, useMemo } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import interactionPlugin from '@fullcalendar/interaction';
-import type { DateSelectArg, EventClickArg, EventMountArg } from '@fullcalendar/core';
-import esLocale from '@fullcalendar/core/locales/es';
-import { seasonFromEventTitle } from '../../utils/seasons';
+import { useState, useEffect } from 'react';
+import { Calendar } from 'primereact/calendar';
+import type { FormEvent } from 'primereact/ts-helpers';
+import { addLocale } from 'primereact/api';
+import { formatCOP } from '../../utils/pricing';
 import './AvailabilityCalendar.scss';
 
-const API_KEY = import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY ?? '';
-const CALENDAR_ID = import.meta.env.VITE_GOOGLE_CALENDAR_ID ?? '';
+addLocale('es', {
+  firstDayOfWeek: 1,
+  dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+  dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+  dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+  monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+  monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+  today: 'Hoy',
+  clear: 'Limpiar',
+});
 
-interface AvailabilityCalendarProps {
+interface Props {
   checkIn?: string;
   checkOut?: string;
   onRangeSelect: (start: string, end: string) => void;
-  occupiedDates?: Set<string>;
 }
 
-function dateKey(d: Date): string {
-  return d.toISOString().slice(0, 10);
-}
+/* Precios referenciales por temporada (base hab. más económica) */
+const BASE_PRICE = 120000;
+const SEASONS = [
+  { id: 'baja' as const, label: 'Baja', multiplier: 1, color: '#0f3d2e' },
+  { id: 'media' as const, label: 'Media', multiplier: 1.2, color: '#cc6e0d' },
+  { id: 'alta' as const, label: 'Alta', multiplier: 1.35, color: '#b22d12' },
+];
 
-export function AvailabilityCalendar({
-  checkIn,
-  checkOut,
-  onRangeSelect,
-  occupiedDates = new Set(),
-}: AvailabilityCalendarProps) {
-  const eventSources = useMemo(() => {
-    if (API_KEY && CALENDAR_ID) {
-      return [
-        {
-          googleCalendarId: CALENDAR_ID,
-          className: 'gcal-feed',
-        },
-      ];
+export function AvailabilityCalendar({ checkIn, checkOut, onRangeSelect }: Props) {
+  const [dates, setDates] = useState<(Date | null)[] | null>(null);
+
+  useEffect(() => {
+    if (checkIn && checkOut) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDates([new Date(checkIn + 'T12:00:00'), new Date(checkOut + 'T12:00:00')]);
+    } else {
+      setDates(null);
     }
-    return [];
-  }, []);
+  }, [checkIn, checkOut]);
 
-  const eventDidMount = useCallback((info: EventMountArg) => {
-    const title = info.event.title ?? '';
-    const season = seasonFromEventTitle(title);
-    if (season) {
-      info.el.classList.add(`fc-event-season-${season}`);
-    } else if (/ocupad|reserv|bloque/i.test(title)) {
-      info.el.classList.add('fc-event-occupied');
+  const handleChange = (e: FormEvent<(Date | null)[]>) => {
+    const v = e.value;
+    setDates(v as (Date | null)[]);
+    if (v && Array.isArray(v) && v.length === 2 && v[0] && v[1]) {
+      onRangeSelect(
+        v[0].toISOString().slice(0, 10),
+        v[1].toISOString().slice(0, 10),
+      );
     }
-  }, []);
-
-  const selectAllow = useCallback(
-    (info: { start: Date; end: Date }) => {
-      const cur = new Date(info.start);
-      const end = new Date(info.end);
-      while (cur < end) {
-        if (occupiedDates.has(dateKey(cur))) return false;
-        cur.setDate(cur.getDate() + 1);
-      }
-      return true;
-    },
-    [occupiedDates],
-  );
-
-  const handleSelect = (arg: DateSelectArg) => {
-    const start = arg.startStr.slice(0, 10);
-    const endDate = new Date(arg.end);
-    endDate.setDate(endDate.getDate() - 1);
-    const end = endDate.toISOString().slice(0, 10);
-    onRangeSelect(start, end);
-  };
-
-  const handleEventClick = (arg: EventClickArg) => {
-    arg.jsEvent.preventDefault();
   };
 
   return (
     <div className="availability-calendar">
-      <div className="availability-calendar__legend">
-        <span>
-          <i className="dot dot--alta" /> Alta
-        </span>
-        <span>
-          <i className="dot dot--media" /> Media
-        </span>
-        <span>
-          <i className="dot dot--baja" /> Baja
-        </span>
-        <span>
-          <i className="dot dot--occupied" /> Ocupado
-        </span>
-      </div>
-      {!API_KEY && (
-        <p className="availability-calendar__hint">
-          Configure <code>VITE_GOOGLE_CALENDAR_API_KEY</code> y{' '}
-          <code>VITE_GOOGLE_CALENDAR_ID</code> en Vercel. Mientras tanto, las temporadas se calculan
-          automáticamente al elegir fechas.
-        </p>
-      )}
-      <FullCalendar
-        plugins={[dayGridPlugin, googleCalendarPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        locale={esLocale}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth',
-        }}
-        selectable
-        selectMirror
-        selectOverlap={false}
-        selectAllow={selectAllow}
-        select={handleSelect}
-        googleCalendarApiKey={API_KEY || undefined}
-        eventSources={eventSources}
-        eventDidMount={eventDidMount}
-        eventClick={handleEventClick}
-        height="auto"
-        validRange={{ start: new Date().toISOString().slice(0, 10) }}
-        events={!API_KEY ? generateDemoSeasonEvents() : undefined}
+      <Calendar
+        value={dates}
+        onChange={handleChange}
+        selectionMode="range"
+        readOnlyInput
+        hideOnRangeSelection
+        locale="es"
+        dateFormat="dd/mm/yy"
+        minDate={new Date()}
+        numberOfMonths={1}
       />
-      {(checkIn || checkOut) && (
-        <p className="availability-calendar__selection">
-          Selección: <strong>{checkIn || '—'}</strong> → <strong>{checkOut || '—'}</strong>
-        </p>
-      )}
-      {CALENDAR_ID && API_KEY && (
-        <a
-          className="availability-calendar__subscribe"
-          href={`https://calendar.google.com/calendar/embed?src=${encodeURIComponent(CALENDAR_ID)}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Ver calendario completo en Google
-        </a>
-      )}
+      <div className="bw-season-pricing">
+        {SEASONS.map((s) => (
+          <div key={s.id} className="bw-season-pricing__item">
+            <span className={`bw-season-pricing__dot bw-season-pricing__dot--${s.id}`} />
+            <span className="bw-season-pricing__label">
+              {s.label}
+              <span className="bw-season-pricing__price">
+                {formatCOP(Math.round(BASE_PRICE * s.multiplier))}
+              </span>
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
-
-/** Eventos demo de temporadas cuando no hay API (visualización local) */
-function generateDemoSeasonEvents() {
-  const year = new Date().getFullYear();
-  return [
-    { title: 'Temporada Alta', start: `${year}-12-01`, end: `${year + 1}-02-01`, display: 'background', classNames: ['fc-event-season-alta'] },
-    { title: 'Temporada Alta', start: `${year}-06-15`, end: `${year}-07-31`, display: 'background', classNames: ['fc-event-season-alta'] },
-    { title: 'Temporada Baja', start: `${year}-02-01`, end: `${year}-05-31`, display: 'background', classNames: ['fc-event-season-baja'] },
-    { title: 'Temporada Baja', start: `${year}-08-01`, end: `${year}-11-30`, display: 'background', classNames: ['fc-event-season-baja'] },
-  ];
 }

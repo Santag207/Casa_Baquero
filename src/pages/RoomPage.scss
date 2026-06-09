@@ -1,9 +1,28 @@
 @use '../styles/variables' as *;
 
 .room-page {
+  &__hero {
+    padding: 4rem 0 2.5rem;
+    background: linear-gradient(135deg, #f7efe3 0%, #efe0c9 100%);
+    border-bottom: 1px solid rgba(97, 77, 48, 0.12);
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      color: $color-text;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+    }
+  }
+
   &__detail {
     display: grid;
-    gap: 4rem;
+    gap: 3rem;
     align-items: start;
 
     @media (min-width: 1024px) {
@@ -12,80 +31,48 @@
   }
 
   &__info {
-    h2 {
-      margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__checkin {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $color-text-muted;
+  }
+
+  &__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__tour {
+    padding: 1.25rem;
+    border: 1px solid $color-border;
+    border-radius: 1.25rem;
+    background: rgba(248, 244, 235, 0.65);
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      color: $color-text;
     }
 
     p {
-      font-weight: 300;
-      line-height: 1.8;
+      margin: 0 0 1rem;
+      font-size: 0.92rem;
       color: $color-text-muted;
-      margin-bottom: 2rem;
-    }
-  }
-
-  &__promo {
-    display: inline-block;
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: $color-gold;
-    margin-bottom: 1rem !important;
-  }
-
-  &__amenities {
-    list-style: none;
-    padding: 0;
-    margin: 3rem 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1.5rem;
-
-    li {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: $color-text;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      &::before {
-        content: '—';
-        color: $color-gold;
-      }
-    }
-  }
-
-  &__price-box {
-    background: $color-bg-subtle;
-    padding: 3rem;
-    border: 1px solid $color-border;
-
-    .price {
-      font-family: $font-display;
-      font-size: 2.5rem;
-      color: $color-text;
-      margin-bottom: 0.5rem;
-
-      span {
-        font-family: $font-body;
-        font-size: 0.875rem;
-        font-weight: 400;
-        color: $color-text-muted;
-      }
+      line-height: 1.6;
     }
 
-    .note {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.25rem;
-    }
-
-    .btn {
+    iframe {
       width: 100%;
-      margin-top: 2rem;
+      min-height: 320px;
+      border: 0;
+      border-radius: 1rem;
+      background: #000;
     }
   }
 }

@@ -202,6 +202,17 @@ button {
     }
   }
 
+  &--outline-light {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+    }
+  }
+
   &--lg {
     padding: 1.25rem 3rem;
     font-size: 1rem;

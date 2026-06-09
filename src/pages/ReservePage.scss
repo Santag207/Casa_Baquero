@@ -1,3 +1,5 @@
-.reserve-page__hero {
-  margin-bottom: 0;
+@use '../styles/variables' as *;
+
+.reserve-page {
+  background: $color-bg;
 }

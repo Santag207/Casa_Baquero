@@ -1,66 +1,144 @@
 @use '../../styles/variables' as *;
 
 .availability-calendar {
-  background: #fff;
-  border-radius: $radius;
-  padding: 1.25rem;
-  border: 1px solid $color-border;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 
-  &__legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 0.75rem;
-    background: $color-bg-subtle;
-    border-radius: $radius-sm;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .p-calendar {
+    width: 100%;
+    min-width: 300px;
+    max-width: 500px;
+  }
 
-    .dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
+  .p-datepicker {
+    border: 1px solid $color-border;
+    border-radius: 10px;
+    box-shadow: none;
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .p-datepicker-title {
+    font-family: $font-display;
+    font-size: 1rem;
+    font-weight: 500;
+    color: $color-text;
+  }
+
+  .p-datepicker table td {
+    padding: 2px;
+  }
+
+  .p-datepicker table td > span {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 0.85rem;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .p-datepicker table td > span:hover {
+    background: $color-accent-muted;
+  }
+
+  /* ── Fix invisible numbers on selected dates (theme bug: same bg+text) ── */
+  .p-datepicker table td > span.p-highlight {
+    background: $color-accent !important;
+    color: #ffffff !important;
+  }
+
+  .p-datepicker table td.p-datepicker-today > span.p-highlight {
+    background: $color-accent !important;
+    color: #ffffff !important;
+    border-color: #ffffff;
+  }
+
+  /* Today indicator (not selected) */
+  .p-datepicker .p-datepicker-today > span {
+    border: 1px solid var(--primary-color);
+    font-weight: 600;
+  }
+
+  /* In-range dates */
+  .p-datepicker .p-datepicker-range {
+    background: rgba(15, 61, 46, 0.08);
+  }
+
+  .p-datepicker-header {
+    padding: 0.5rem 0.5rem 0.75rem;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: 0.5rem;
+  }
+
+  .p-datepicker-prev, .p-datepicker-next {
+    width: 2rem;
+    height: 2rem;
+    color: $color-text-muted;
+    &:hover {
+      color: var(--primary-color);
+      background: rgba(20, 184, 166, 0.1);
       border-radius: 50%;
-      margin-right: 0.5rem;
-      vertical-align: middle;
-
-      &--alta {
-        background: $season-alta;
-      }
-      &--media {
-        background: $season-media;
-      }
-      &--baja {
-        background: $season-baja;
-      }
-      &--occupied {
-        background: #999;
-      }
     }
   }
 
-  &__hint {
-    font-size: 0.85rem;
-    background: $color-bg-subtle;
-    padding: 1rem;
-    border-radius: $radius;
-    margin-bottom: 1rem;
-    border-left: 3px solid $color-gold;
-  }
-
-  &__selection {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-
-  &__subscribe {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 0.8rem;
+  .p-datepicker-calendar th {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: $color-text-muted;
-    text-decoration: underline;
+    padding: 0.25rem 0;
+  }
+
+  .p-datepicker-other-month > span {
+    color: #ccc !important;
+  }
+}
+
+/* ─── Season pricing bar ─── */
+.bw-season-pricing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 0.6rem 1rem;
+  background: $color-bg-warm;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 280px;
+  max-width: 500px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  &__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    &--baja { background: $season-baja; }
+    &--media { background: $season-media; }
+    &--alta { background: $season-alta; }
+  }
+
+  &__label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: $color-text-muted;
+  }
+
+  &__price {
+    font-family: $font-display;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $color-text;
+    margin-left: 0.2rem;
   }
 }

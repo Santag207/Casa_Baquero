@@ -1,232 +1,157 @@
 @use '../../styles/variables' as *;
 
-.site-header {
+/* ─── HEADER ─── */
+.header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: all $transition;
+  background: rgba(15, 46, 46, 0.92);
+  backdrop-filter: blur(10px);
+  transition: background 0.3s ease;
 
-  &--transparent {
-    background: transparent;
-    border-bottom: 1px solid transparent;
-
-    .site-header__links a,
-    .site-header__link-btn {
-      color: #fff;
-    }
-
-    .site-header__toggle {
-      color: #fff;
-    }
-
-    .site-header__brand img {
-      filter: brightness(0) invert(1);
-    }
-  }
-
-  &--solid {
-    background: rgba($color-bg, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba($color-border, 0.5);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-
-    .site-header__brand img {
-      height: 42px;
-    }
-
-    .site-header__links a,
-    .site-header__link-btn {
-      color: $color-text-secondary;
-
-      &:hover,
-      &.active {
-        color: $color-accent;
-      }
-    }
-
-    .site-header__toggle {
-      color: $color-text;
-    }
+  &--scrolled {
+    background: rgba(15, 46, 46, 0.97);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
   }
 
   &__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: var(--header-height);
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
-  &__brand img {
-    height: 52px;
-    width: auto;
-    transition: all $transition;
-
-    @media (max-width: 768px) {
-      height: 38px;
-    }
-  }
-
-  &__toggle {
+  &__brand {
     display: flex;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: 0.5rem;
-
-    @media (min-width: 1024px) {
-      display: none;
-    }
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+    flex-shrink: 0;
   }
 
-  &__menu {
-    @media (max-width: 1023px) {
-      position: fixed;
-      inset: var(--header-height) 0 0 0;
-      background: $color-bg;
-      padding: 2rem 1.5rem;
-      flex-direction: column;
-      gap: 2rem;
-      transform: translateX(100%);
-      transition: transform 0.5s $ease-out;
-      overflow-y: auto;
+  &__name {
+    font-family: $font-display;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.2;
+  }
 
-      &.is-open {
-        transform: translateX(0);
-        display: flex;
-      }
-    }
+  &__tag {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.03em;
+  }
+
+  /* ─── DESKTOP NAV ─── */
+  &__nav {
+    display: none;
 
     @media (min-width: 1024px) {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      flex: 1;
-      justify-content: flex-end;
-    }
-  }
-
-  &__links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-
-    @media (min-width: 1024px) {
-      flex-direction: row;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    > li > a,
-    .site-header__link-btn {
-      display: inline-flex;
-      align-items: center;
       gap: 0.25rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: color $transition;
     }
   }
 
-  &__link-btn {
-    background: none;
-    border: none;
-    font: inherit;
-    cursor: pointer;
-  }
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
 
-  .has-dropdown {
-    position: relative;
-  }
+    &:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
 
-  &__panel {
-    @media (min-width: 1024px) {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      min-width: 240px;
-      background: $color-bg;
-      border: 1px solid $color-border;
-      padding: 1rem 0;
-      box-shadow: $shadow-lg;
-
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      a {
-        display: block;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.75rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: $color-text-secondary !important;
-
-        &:hover {
-          background: $color-bg-subtle;
-          color: $color-accent !important;
-        }
-      }
+    &--active {
+      color: #fff;
     }
   }
 
+  /* ─── ACTIONS ─── */
   &__cta {
-    @media (max-width: 1023px) {
-      width: 100%;
-    }
-  }
-
-  &__link-btn--desktop {
-    @media (max-width: 1023px) {
-      display: none;
-    }
-  }
-
-  &__mobile-label {
     display: none;
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: $color-gold;
-    margin-bottom: 0.5rem;
 
-    @media (max-width: 1023px) {
-      display: block;
+    @media (min-width: 1024px) {
+      display: inline-flex;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.78rem;
     }
   }
 
-  &__mobile-sub {
-    list-style: none;
-    margin: 0;
-    padding: 0 0 1rem 0.5rem;
+  &__menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0;
+    cursor: pointer;
+    color: #fff;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
 
     @media (min-width: 1024px) {
       display: none;
     }
+  }
 
-    a {
-      display: block;
-      padding: 0.5rem 0;
-      font-size: 0.875rem;
-      color: $color-text-muted;
+  /* ─── MOBILE MENU ─── */
+  &__mobile {
+    overflow: hidden;
+    background: rgba(15, 46, 46, 0.98);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    @media (min-width: 1024px) {
+      display: none;
     }
   }
 
-  &__panel--desktop {
-    @media (max-width: 1023px) {
-      display: none !important;
+  &__mobile-link {
+    display: block;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.2s, color 0.2s;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+
+    &.header__link--active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  &__mobile-cta {
+    margin: 1rem 1.5rem;
+    justify-content: center;
+
+    @media (min-width: 1024px) {
+      display: none;
     }
   }
 }

@@ -42,10 +42,20 @@ export function buildWhatsAppMessage(data: ReservationPayload): string {
     `Tarifa/noche (${price.seasonLabel}): ${formatCOP(price.adjustedPerNight)} + IVA`,
     `Subtotal: ${formatCOP(price.subtotal)}`,
     `IVA (19%): ${formatCOP(price.iva)}`,
-    `*Total estimado: ${formatCOP(price.total)}*`,
-    '',
-    '📍 Villavicencio, Meta — Piedemonte llanero',
+    `*Total alojamiento: ${formatCOP(price.total)}*`,
   ];
+
+  if (price.extras.length > 0) {
+    lines.push('', '🎁 *Extras solicitados*');
+    for (const ex of price.extras) {
+      lines.push(`• ${ex.name} ×${ex.quantity} — ${formatCOP(ex.total)}`);
+    }
+    lines.push(`*Total extras: ${formatCOP(price.extrasTotal)}*`);
+  }
+
+  lines.push('', `*Gran total estimado: ${formatCOP(price.grandTotal)}*`);
+
+  lines.push('', '📍 Villavicencio, Meta — Piedemonte llanero');
 
   if (notes?.trim()) {
     lines.push('', '📝 *Notas*', notes.trim());

@@ -34,6 +34,20 @@ export const SITE = {
   extraGuestLowSeason: 20000,
 } as const;
 
+export interface NavLink {
+  label: string;
+  to: string;
+}
+
+export const NAV_LINKS: NavLink[] = [
+  { label: 'Inicio', to: '/' },
+  { label: 'Habitaciones', to: '/habitaciones' },
+  { label: 'Actividades', to: '/actividades' },
+  { label: 'Nosotros', to: '/nosotros' },
+  { label: 'Contacto', to: '/contacto' },
+  { label: 'FAQ', to: '/faq' },
+];
+
 export const HERO_SLIDES = [
   '/images/hero/hero-1.jpg',
   '/images/hero/hero-2.jpg',

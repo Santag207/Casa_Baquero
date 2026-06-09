@@ -1,0 +1,228 @@
+@use '../../styles/variables' as *;
+
+.booking-extras {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 1.25rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Categories ── */
+.extras-category {
+  margin-bottom: 1.5rem;
+
+  &__title {
+    font-family: $font-body;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: $color-text-muted;
+    margin: 0 0 0.65rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.6rem;
+  }
+}
+
+/* ── Card ── */
+.extras-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.25s, box-shadow 0.25s;
+
+  &:hover { border-color: $color-border-strong; }
+
+  &.is-selected {
+    border-color: $color-accent;
+    box-shadow: 0 0 0 1px $color-accent;
+  }
+
+  h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $color-text;
+    margin: 0 0 0.25rem;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 0.72rem;
+    color: $color-text-muted;
+    line-height: 1.4;
+    margin: 0 0 0.5rem;
+  }
+
+  &__price {
+    display: inline-block;
+    font-family: $font-display;
+    font-size: 1rem;
+    font-weight: 500;
+    color: $color-accent;
+    small {
+      font-family: $font-body;
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: $color-text-muted;
+      margin-left: 0.2rem;
+    }
+  }
+
+  &__actions { margin-top: 0.65rem; }
+
+  &__add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid $color-accent;
+    border-radius: 999px;
+    background: transparent;
+    color: $color-accent;
+    font-size: 0.72rem;
+    font-weight: 500;
+    transition: all 0.25s;
+    &:hover { background: $color-accent; color: #fff; }
+  }
+
+  &__qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem;
+    border: 1px solid $color-accent;
+    border-radius: 999px;
+
+    span {
+      min-width: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: $color-text;
+    }
+  }
+
+  &__qty-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    border: none;
+    border-radius: 50%;
+    background: $color-accent-muted;
+    color: $color-accent;
+    transition: all 0.2s;
+    &:hover { background: $color-accent; color: #fff; }
+  }
+}
+
+/* ── Cart Sidebar ── */
+.booking-extras__cart {
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+
+  @media (max-width: 900px) { position: static; }
+}
+
+.extras-cart {
+  background: $color-bg-warm;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 1rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-text;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid $color-border;
+
+    svg { color: $color-accent; }
+  }
+
+  &__count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: $color-accent;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 600;
+    margin-left: auto;
+  }
+
+  &__empty {
+    font-size: 0.75rem;
+    color: $color-text-muted;
+    line-height: 1.5;
+    margin: 0;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.5rem;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid $color-border;
+
+    &-info { flex: 1; display: flex; flex-direction: column; gap: 0.05rem; }
+    &-name { font-size: 0.75rem; font-weight: 500; color: $color-text; line-height: 1.2; }
+    &-qty { font-size: 0.62rem; color: $color-text-muted; }
+    &-price { font-family: $font-display; font-size: 0.85rem; font-weight: 500; color: $color-accent; white-space: nowrap; }
+
+    &-remove {
+      display: flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border: none; border-radius: 50%;
+      background: transparent; color: $color-text-muted;
+      transition: all 0.2s;
+      &:hover { background: #fee2e2; color: #dc2626; }
+    }
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid $color-border;
+
+    span { font-size: 0.75rem; font-weight: 500; color: $color-text-muted; }
+    strong { font-family: $font-display; font-size: 1.1rem; font-weight: 500; color: $color-accent; }
+  }
+}

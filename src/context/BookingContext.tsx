@@ -15,6 +15,7 @@ const INITIAL_STATE: BookingState = {
   guestEmail: '',
   guestPhone: '',
   notes: '',
+  extras: [],
 };
 
 export function BookingProvider({ children }: { children: ReactNode }) {

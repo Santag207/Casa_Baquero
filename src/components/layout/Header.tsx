@@ -1,161 +1,115 @@
+import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown, Menu, X } from 'lucide-react';
-import { SITE } from '../../data/site';
-import { ROOMS } from '../../data/rooms';
-import { media } from '../../data/media';
-import './Header.scss';
-
-const discover = [
-  { to: '/plan-romantico', label: 'Plan romántico' },
-  { to: '/eventos', label: 'Eventos' },
-  { to: '/el-llano', label: 'El llano' },
-  { to: '/mascotas', label: 'Mascotas' },
-  { to: '/galerias', label: 'Galerías' },
-  { to: '/recorrido-virtual', label: 'Tour 360°' },
-];
+import { motion, AnimatePresence } from 'framer-motion';
+import { NAV_LINKS, SITE } from '../../data/site';
 
 export function Header() {
-  const location = useLocation();
   const [open, setOpen] = useState(false);
-  const [roomsOpen, setRoomsOpen] = useState(false);
-  const [discoverOpen, setDiscoverOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const isHome = location.pathname === '/';
-  const transparent = isHome && !scrolled;
+  const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
   return (
-    <header
-      className={`site-header ${transparent ? 'site-header--transparent' : 'site-header--solid'}`}
-    >
-      <nav className="site-header__inner container" aria-label="Principal">
-        <Link to="/" className="site-header__brand" onClick={closeAll}>
-          <img
-            src={media('/media/28995/logo-hotel-casa-baquero.png', 140)}
-            alt={SITE.name}
-            width={140}
-            height={56}
-          />
+    <header className={`header ${scrolled ? 'header--scrolled' : ''}`}>
+      <motion.div
+        className="header__inner container"
+        initial={false}
+        animate={{ paddingBlock: scrolled ? '0.75rem' : '1.25rem' }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Link to="/" className="header__brand">
+          <span className="header__name">{SITE.name}</span>
+          <span className="header__tag">{SITE.tagline}</span>
+        </Link>
+
+        <nav className="header__nav" aria-label="Principal">
+          {NAV_LINKS.map((link) =>
+            link.to === '/' ? (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end
+                className={({ isActive }) =>
+                  `header__link${isActive ? ' header__link--active' : ''}`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ) : (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={false}
+                className={({ isActive }) =>
+                  `header__link${isActive ? ' header__link--active' : ''}`
+                }
+              >
+                {link.label}
+              </NavLink>
+            )
+          )}
+        </nav>
+
+        <Link to="/reservar" className="btn btn--primary header__cta">
+          Reservar
         </Link>
 
         <button
           type="button"
-          className="site-header__toggle"
-          aria-expanded={open}
-          aria-controls="main-menu"
-          onClick={() => setOpen(!open)}
+          className="header__menu-btn"
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          onClick={() => setOpen((v) => !v)}
         >
-          {open ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-          <span className="sr-only">Menú</span>
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
+      </motion.div>
 
-        <div id="main-menu" className={`site-header__menu ${open ? 'is-open' : ''}`}>
-          <ul className="site-header__links">
-            <li
-              className="has-dropdown has-dropdown--rooms"
-              onMouseEnter={() => setRoomsOpen(true)}
-              onMouseLeave={() => setRoomsOpen(false)}
-            >
-              <NavLink to="/habitaciones" className="site-header__link-nav" onClick={() => setOpen(false)}>
-                Habitaciones
-              </NavLink>
-              <ul className="site-header__mobile-sub">
-                {ROOMS.map((r) => (
-                  <li key={r.slug}>
-                    <Link to={`/habitaciones/${r.slug}`} onClick={closeAll}>
-                      {r.shortName}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <AnimatePresence>
-                {roomsOpen && (
-                  <motion.div
-                    className="site-header__panel site-header__panel--desktop"
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    <ul>
-                      {ROOMS.map((r) => (
-                        <li key={r.slug}>
-                          <Link to={`/habitaciones/${r.slug}`}>{r.shortName}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </li>
-            <li
-              className="has-dropdown has-dropdown--discover"
-              onMouseEnter={() => setDiscoverOpen(true)}
-              onMouseLeave={() => setDiscoverOpen(false)}
-            >
-              <button
-                type="button"
-                className="site-header__link-btn site-header__link-btn--desktop"
-                aria-expanded={discoverOpen}
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            className="header__mobile"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            aria-label="Menú móvil"
+          >
+            {NAV_LINKS.map((link, i) => (
+              <motion.div
+                key={link.to}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.04 }}
               >
-                Descubre <ChevronDown size={14} aria-hidden />
-              </button>
-              <span className="site-header__mobile-label">Descubre</span>
-              <ul className="site-header__mobile-sub">
-                {discover.map((item) => (
-                  <li key={item.to}>
-                    <Link to={item.to} onClick={closeAll}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <AnimatePresence>
-                {discoverOpen && (
-                  <motion.div
-                    className="site-header__panel site-header__panel--desktop"
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    <ul>
-                      {discover.map((item) => (
-                        <li key={item.to}>
-                          <Link to={item.to} onClick={closeAll}>{item.label}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </li>
-            <li>
-              <NavLink to="/contacto" onClick={() => setOpen(false)}>Contacto</NavLink>
-            </li>
-          </ul>
-          <Link to="/reservar" className="btn btn--accent btn--sm site-header__cta" onClick={() => setOpen(false)}>
-            Reservar ahora
-          </Link>
-        </div>
-      </nav>
+                <NavLink
+                  to={link.to}
+                  end={link.to === '/'}
+                  className={({ isActive }) =>
+                    `header__mobile-link${isActive ? ' header__link--active' : ''}`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              </motion.div>
+            ))}
+            <Link to="/reservar" className="btn btn--primary header__mobile-cta">
+              Reservar
+            </Link>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

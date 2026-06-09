@@ -1,0 +1,115 @@
+@use '../styles/variables' as *;
+
+.rooms-hero {
+  min-height: clamp(42vh, 46vw, 52vh);
+  padding: 4rem 0 2.5rem;
+  align-items: center;
+  justify-content: center;
+
+  &::after {
+    background: rgba(0, 0, 0, 0.38);
+  }
+
+  &__content {
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.room-filter {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.3rem;
+  border-radius: 1.25rem;
+  align-items: center;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $color-text-muted;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+  }
+
+  &__chip {
+    border: 1px solid rgba(97, 77, 48, 0.16);
+    background: #fff;
+    color: $color-text;
+    padding: 0.55rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      border-color: $color-accent;
+      color: $color-accent;
+      transform: translateY(-1px);
+    }
+
+    &.is-active {
+      background: $color-accent;
+      border-color: $color-accent;
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(165, 120, 58, 0.22);
+    }
+  }
+}
+
+.room-grid {
+  display: grid;
+  gap: 1.15rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.room-empty {
+  padding: 2rem;
+  border: 1px dashed rgba(97, 77, 48, 0.22);
+  border-radius: 1.25rem;
+  text-align: center;
+  color: $color-text-muted;
+  background: rgba(248, 244, 235, 0.45);
+}
+
+@media (max-width: 640px) {
+  .room-filter {
+    padding: 1rem;
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .room-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}

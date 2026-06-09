@@ -12,16 +12,18 @@ interface Photo {
 
 interface PhotoGalleryProps {
   photos: Photo[];
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
 }
 
-export function PhotoGallery({ photos, columns = 3 }: PhotoGalleryProps) {
+export function PhotoGallery({ photos, columns }: PhotoGalleryProps) {
   const [index, setIndex] = useState(-1);
   const slides = photos.map((p) => ({ src: media(p.src, 1400), alt: p.alt }));
+  const resolvedColumns = columns ?? (photos.length <= 1 ? 1 : photos.length === 2 ? 2 : photos.length <= 4 ? 2 : 3);
+  const galleryClassName = `photo-gallery photo-gallery--cols-${resolvedColumns}`;
 
   return (
     <>
-      <div className={`photo-gallery photo-gallery--cols-${columns}`}>
+      <div className={galleryClassName}>
         {photos.map((photo, i) => (
           <motion.button
             key={photo.src + i}
