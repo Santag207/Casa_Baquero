@@ -8,28 +8,28 @@ $color-bg: #ffffff;
 $color-bg-subtle: #fafafa;
 $color-bg-warm: #fdfbf7;
 
-// Identidad Casa Baquero (refinada)
-$color-accent: #0f3d2e; // Verde esmeralda profundo (Llanos)
-$color-accent-soft: #1b5e48;
-$color-accent-muted: rgba(15, 61, 46, 0.05);
+// Identidad Minimalista (inspirada en Costeño Beach)
+$color-accent: #1a1a1a;
+$color-accent-soft: #404040;
+$color-accent-muted: rgba(0, 0, 0, 0.05);
 
-$color-gold: #a68b5c; // Oro llanero sofisticado
-$color-gold-soft: #c4af8a;
-$color-sky: #1d353d; // Azul nocturno profundo
+$color-gold: #1a1a1a;
+$color-gold-soft: #404040;
+$color-sky: #1a1a1a;
 
 // Temporadas (calendario)
-$season-alta: #b22d12;
-$season-media: #cc6e0d;
-$season-baja: #0f3d2e;
+$season-alta: #1a1a1a;
+$season-media: #404040;
+$season-baja: #707070;
 
-$font-display: 'Cormorant Garamond', serif;
-$font-body: 'Inter', sans-serif;
+$font-display: 'Montserrat', sans-serif;
+$font-body: 'Montserrat', sans-serif;
 
-$header-height: 88px;
-$radius-sm: 4px;
-$radius: 8px;
-$radius-lg: 12px;
-$radius-xl: 0; // Bordes rectos para un look más arquitectónico si se prefiere
+$header-height: 80px;
+$radius-sm: 0;
+$radius: 0;
+$radius-lg: 0;
+$radius-xl: 0;
 
 $shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
 $shadow: 0 4px 24px rgba(0, 0, 0, 0.06);

@@ -33,7 +33,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -41,9 +40,15 @@ export function Header() {
     };
   }, [open]);
 
+  const closeAll = () => {
+    setOpen(false);
+    setRoomsOpen(false);
+    setDiscoverOpen(false);
+  };
+
   return (
     <header
-      className={`site-header ${transparent ? 'site-header--transparent' : 'site-header--solid'}`}
+      className={`site-header ${transparent ? 'site-header--transparent' : 'site-header--solid'} ${scrolled ? 'site-header--scrolled' : ''}`}
     >
       <nav className="site-header__inner container" aria-label="Principal">
         <Link to="/" className="site-header__brand" onClick={closeAll}>
@@ -62,18 +67,21 @@ export function Header() {
           aria-controls="main-menu"
           onClick={() => setOpen(!open)}
         >
-          {open ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
+          {open ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
           <span className="sr-only">Menú</span>
         </button>
 
         <div id="main-menu" className={`site-header__menu ${open ? 'is-open' : ''}`}>
           <ul className="site-header__links">
+            <li>
+              <NavLink to="/" onClick={closeAll}>Inicio</NavLink>
+            </li>
             <li
               className="has-dropdown has-dropdown--rooms"
               onMouseEnter={() => setRoomsOpen(true)}
               onMouseLeave={() => setRoomsOpen(false)}
             >
-              <NavLink to="/habitaciones" className="site-header__link-nav" onClick={() => setOpen(false)}>
+              <NavLink to="/habitaciones" className="site-header__link-nav" onClick={closeAll}>
                 Habitaciones
               </NavLink>
               <ul className="site-header__mobile-sub">
@@ -148,10 +156,10 @@ export function Header() {
               </AnimatePresence>
             </li>
             <li>
-              <NavLink to="/contacto" onClick={() => setOpen(false)}>Contacto</NavLink>
+              <NavLink to="/contacto" onClick={closeAll}>Contacto</NavLink>
             </li>
           </ul>
-          <Link to="/reservar" className="btn btn--accent btn--sm site-header__cta" onClick={() => setOpen(false)}>
+          <Link to="/reservar" className="btn btn--accent btn--sm site-header__cta" onClick={closeAll}>
             Reservar ahora
           </Link>
         </div>

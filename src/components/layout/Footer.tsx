@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { Camera, Share2, Mail, Phone, MapPin, Send } from 'lucide-react';
 import { SITE } from '../../data/site';
 import { media } from '../../data/media';
 import './Footer.scss';
@@ -11,10 +10,14 @@ export function Footer() {
         <div className="site-footer__brand">
           <img src={media('/media/29039/logo-hotel-casa-baquero.png', 160)} alt={SITE.name} />
           <p>{SITE.tagline}</p>
+          <div className="site-footer__social">
+            <a href={SITE.social.instagram} target="_blank" rel="noreferrer">Instagram</a>
+            <a href={SITE.social.facebook} target="_blank" rel="noreferrer">Facebook</a>
+          </div>
         </div>
         <nav className="site-footer__nav" aria-label="Pie de página">
           <div>
-            <h3>Explorar</h3>
+            <h4>Explorar</h4>
             <ul>
               <li><Link to="/habitaciones">Habitaciones</Link></li>
               <li><Link to="/plan-romantico">Plan Romántico</Link></li>
@@ -23,15 +26,15 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3>Experiencias</h3>
+            <h4>Experiencias</h4>
             <ul>
               <li><Link to="/el-llano">El Llano</Link></li>
               <li><Link to="/recorrido-virtual">Recorrido Virtual</Link></li>
-              <li><Link to="/galerias">Galerías de Fotos</Link></li>
+              <li><Link to="/galerias">Galerías</Link></li>
             </ul>
           </div>
           <div>
-            <h3>Contacto</h3>
+            <h4>Contacto</h4>
             <ul>
               <li>{SITE.phones.landline}</li>
               <li>
@@ -42,6 +45,7 @@ export function Footer() {
               <li>
                 <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
               </li>
+              <li>{SITE.locationShort}</li>
             </ul>
           </div>
         </nav>
