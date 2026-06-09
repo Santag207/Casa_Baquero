@@ -26,6 +26,12 @@ export function Header() {
   const isHome = location.pathname === '/';
   const transparent = isHome && !scrolled;
 
+  const closeAll = () => {
+    setOpen(false);
+    setRoomsOpen(false);
+    setDiscoverOpen(false);
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();

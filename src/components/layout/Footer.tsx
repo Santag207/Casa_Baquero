@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { Camera, Share2, Mail, Phone, MapPin, Send } from 'lucide-react';
 import { SITE } from '../../data/site';
 import { media } from '../../data/media';
 import './Footer.scss';

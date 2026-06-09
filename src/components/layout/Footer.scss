@@ -1,7 +1,7 @@
 @use '../../styles/variables' as *;
 
 .site-footer {
-  background: $color-text; // Fondo oscuro para look premium
+  background: $color-text;
   color: #fff;
   padding-top: clamp(4rem, 10vw, 6rem);
   padding-bottom: 2rem;
@@ -44,28 +44,9 @@
     }
   }
 
-  &__social {
-    display: flex;
-    gap: 1rem;
-
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      color: #fff;
-      transition: all $transition;
-
-      &:hover {
-        background: $color-warm;
-        border-color: $color-warm;
-        transform: translateY(-2px);
-      }
-    }
-  }
+  &__nav {
+    display: grid;
+    gap: 2rem;
 
     @media (min-width: 640px) {
       grid-template-columns: repeat(3, 1fr);
@@ -86,6 +67,8 @@
 
     a {
       transition: color $transition;
+      color: inherit;
+      text-decoration: none;
 
       &:hover {
         color: #fff;
@@ -94,23 +77,20 @@
   }
 
   &__bottom {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 1.5rem 0;
-    font-size: 0.75rem;
-  }
-
-  &__bottom-inner {
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: space-between;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 1.5rem;
     align-items: center;
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.75rem;
     font-weight: 300;
     color: rgba(255, 255, 255, 0.4);
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
 
     p {
       margin: 0;
@@ -125,8 +105,14 @@
     padding: 0;
     margin: 0;
 
-    a:hover {
-      color: rgba(255, 255, 255, 0.8);
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color $transition;
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
     }
   }
 }
