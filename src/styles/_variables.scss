@@ -1,21 +1,22 @@
 // Sistema editorial de lujo — inspirado en Casa Castro / Marriott
-$color-text: #111111;
-$color-text-secondary: #333333;
-$color-text-muted: #666666;
-$color-border: #eeeeee;
-$color-border-strong: #dddddd;
-$color-bg: #ffffff;
-$color-bg-subtle: #fafafa;
-$color-bg-warm: #fdfbf7;
+// Now uses CSS custom properties for runtime theme switching
+$color-text: var(--cb-text);
+$color-text-secondary: var(--cb-text-secondary);
+$color-text-muted: var(--cb-text-muted);
+$color-border: var(--cb-border);
+$color-border-strong: var(--cb-border-strong);
+$color-bg: var(--cb-bg);
+$color-bg-subtle: var(--cb-bg-subtle);
+$color-bg-warm: var(--cb-bg-warm);
 
 // Identidad Casa Baquero (refinada)
-$color-accent: #0f3d2e; // Verde esmeralda profundo (Llanos)
-$color-accent-soft: #1b5e48;
-$color-accent-muted: rgba(15, 61, 46, 0.05);
+$color-accent: var(--cb-accent);
+$color-accent-soft: var(--cb-accent-soft);
+$color-accent-muted: var(--cb-accent-muted);
 
-$color-gold: #a68b5c; // Oro llanero sofisticado
-$color-gold-soft: #c4af8a;
-$color-sky: #1d353d; // Azul nocturno profundo
+$color-gold: var(--cb-gold);
+$color-gold-soft: var(--cb-gold-soft);
+$color-sky: var(--cb-sky);
 
 // Temporadas (calendario)
 $season-alta: #b22d12;
@@ -29,7 +30,7 @@ $header-height: 80px;
 $radius-sm: 4px;
 $radius: 8px;
 $radius-lg: 12px;
-$radius-xl: 0; // Bordes rectos para un look más arquitectónico si se prefiere
+$radius-xl: 0;
 
 $shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
 $shadow: 0 4px 24px rgba(0, 0, 0, 0.06);

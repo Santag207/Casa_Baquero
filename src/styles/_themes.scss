@@ -1,0 +1,54 @@
+// ─── CSS Custom Properties for theming ───
+// Light theme (default)
+:root {
+  --cb-text: #111111;
+  --cb-text-secondary: #333333;
+  --cb-text-muted: #666666;
+  --cb-border: #eeeeee;
+  --cb-border-strong: #dddddd;
+  --cb-bg: #ffffff;
+  --cb-bg-subtle: #fafafa;
+  --cb-bg-warm: #fdfbf7;
+  --cb-accent: #0f3d2e;
+  --cb-accent-soft: #1b5e48;
+  --cb-accent-muted: rgba(15, 61, 46, 0.05);
+  --cb-gold: #a68b5c;
+  --cb-gold-soft: #c4af8a;
+  --cb-sky: #1d353d;
+
+  --cb-header-bg: rgba(15, 46, 46, 0.92);
+  --cb-header-bg-scrolled: rgba(15, 46, 46, 0.97);
+  --cb-footer-bg: #0f2e2e;
+
+  --cb-surface: #ffffff;
+  --cb-surface-hover: #f5f5f5;
+  --cb-overlay: rgba(0, 0, 0, 0.3);
+  --cb-card-bg: #ffffff;
+}
+
+// Dark theme
+[data-theme='dark'] {
+  --cb-text: #e8e8e8;
+  --cb-text-secondary: #cccccc;
+  --cb-text-muted: #999999;
+  --cb-border: #2a2a2a;
+  --cb-border-strong: #3a3a3a;
+  --cb-bg: #0f0f0f;
+  --cb-bg-subtle: #1a1a1a;
+  --cb-bg-warm: #141414;
+  --cb-accent: #1b8a6a;
+  --cb-accent-soft: #2aa07c;
+  --cb-accent-muted: rgba(27, 138, 106, 0.15);
+  --cb-gold: #c4a86a;
+  --cb-gold-soft: #d4b88a;
+  --cb-sky: #2a4a55;
+
+  --cb-header-bg: rgba(0, 0, 0, 0.92);
+  --cb-header-bg-scrolled: rgba(0, 0, 0, 0.97);
+  --cb-footer-bg: #050505;
+
+  --cb-surface: #1a1a1a;
+  --cb-surface-hover: #252525;
+  --cb-overlay: rgba(0, 0, 0, 0.5);
+  --cb-card-bg: #1a1a1a;
+}

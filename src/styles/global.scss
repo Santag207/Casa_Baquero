@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'themes';
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
@@ -29,9 +30,10 @@ body {
   font-weight: 400;
   color: $color-text-secondary;
   background: $color-bg;
-  line-height: 1.7; // Más aire para lectura premium
+  line-height: 1.7;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 h1,
@@ -39,11 +41,12 @@ h2,
 h3,
 h4 {
   font-family: $font-display;
-  font-weight: 400; // Look más ligero y elegante
+  font-weight: 400;
   color: $color-text;
   line-height: 1.1;
   letter-spacing: -0.01em;
   margin: 0 0 0.5em;
+  transition: color 0.3s ease;
 }
 
 h1 {
@@ -101,7 +104,7 @@ button {
 }
 
 .section-pad {
-  padding: clamp(6rem, 15vw, 10rem) 0; // Mucho más aire (estilo Casa Castro)
+  padding: clamp(6rem, 15vw, 10rem) 0;
 }
 
 .section-pad--tight {
@@ -123,10 +126,11 @@ button {
     font-family: $font-body;
     font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.25em; // Más tracking para look de lujo
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: $color-gold;
     margin-bottom: 1.25rem;
+    transition: color 0.3s ease;
   }
 
   &__title {
@@ -265,7 +269,7 @@ button {
 }
 
 .page-hero {
-  min-height: 80vh; // Más imponente
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -280,7 +284,7 @@ button {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3); // Overlay más sutil
+    background: var(--cb-overlay, rgba(0, 0, 0, 0.3));
   }
 
   .container {
@@ -312,4 +316,377 @@ button {
   --fc-button-hover-bg-color: #333;
   --fc-today-bg-color: #{$color-bg-subtle};
   font-family: $font-body;
+}
+
+// ─── Dark mode overrides ───
+[data-theme='dark'] {
+  body {
+    background: var(--cb-bg);
+    color: var(--cb-text-secondary);
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--cb-text);
+  }
+
+  .section-header__eyebrow {
+    color: var(--cb-gold);
+  }
+
+  .section-header__subtitle {
+    color: var(--cb-text-muted);
+  }
+
+  .badge {
+    background: var(--cb-bg-subtle);
+    color: var(--cb-text-muted);
+    border-color: var(--cb-border);
+  }
+
+  .btn--primary {
+    background: var(--cb-accent);
+    &:hover {
+      background: var(--cb-text);
+    }
+  }
+
+  .btn--outline {
+    border-color: var(--cb-border-strong);
+    color: var(--cb-text);
+    &:hover {
+      border-color: var(--cb-text);
+      background: var(--cb-bg-subtle);
+    }
+  }
+
+  .btn--ghost {
+    color: var(--cb-text);
+  }
+
+  .fc {
+    --fc-border-color: var(--cb-border);
+    --fc-button-bg-color: var(--cb-text);
+    --fc-button-border-color: var(--cb-text);
+    --fc-today-bg-color: var(--cb-bg-subtle);
+  }
+
+  .link-underline {
+    color: var(--cb-text);
+  }
+
+  ::placeholder {
+    color: var(--cb-text-muted);
+  }
+
+  // ══════════════════════════════════════════════
+  // SECTION BACKGROUNDS (pages with white bg)
+  // ══════════════════════════════════════════════
+  :where(
+    .home-rooms,
+    .home-experiences,
+    .about-intro,
+    .about-timeline,
+    .about-gallery,
+    .faq-main,
+    .rules-gallery,
+    .activities-grid-section,
+    .activities-nearby,
+    .home-instagram__posts
+  ) {
+    background: var(--cb-bg);
+  }
+
+  // ══════════════════════════════════════════════
+  // CARDS (white bg → card bg)
+  // ══════════════════════════════════════════════
+  .room-card__badge span {
+    background: rgba(20, 20, 30, 0.92);
+    backdrop-filter: blur(8px);
+    color: var(--cb-text);
+  }
+
+  :where(
+    .room-card,
+    .service-card,
+    .value-card,
+    .team-card,
+    .rule-card,
+    .activity-card,
+    .highlight-card,
+    .extras-card,
+    .extras-cart__item,
+    .bw-room,
+    .bw-receipt,
+    .map-overlay-card,
+    .schedule-card,
+    .faq-chip,
+    .faq-accordion__trigger,
+    .milestone-card,
+    .attraction-chip,
+    .room-filter__chip,
+    .room-filter__chip.is-active
+  ) {
+    background: var(--cb-card-bg);
+    color: var(--cb-text-secondary);
+    border-color: var(--cb-border);
+  }
+
+  // ══════════════════════════════════════════════
+  // SUBTLE BACKGROUNDS (#f9f9f9, #f5f5f5, #eee)
+  // ══════════════════════════════════════════════
+  :where(
+    .home-about__content,
+    .home-activities__dots,
+    .home-services__dots,
+    .about-cta__content,
+    .about-stats,
+    .activities-split-cta__content,
+    .faq-cta__content,
+    .faq-contact-card,
+    .faq-stats,
+    .rules-cta__content,
+    .rules-summary,
+    .room-empty,
+    .room-page__tour
+  ) {
+    background: var(--cb-bg-subtle);
+  }
+
+  // ══════════════════════════════════════════════
+  // DOTS & INDICATORS
+  // ══════════════════════════════════════════════
+  .home-experiences__dot,
+  .activities-mosaic__dot,
+  .home-services__dots .dot {
+    background: var(--cb-text-muted);
+    &.is-active, &--active { background: var(--cb-accent-soft); }
+  }
+  .home-services__dots .dot.active { background: var(--cb-accent-soft); }
+
+  // ══════════════════════════════════════════════
+  // TEXT COLORS (hardcoded #000, #111, #333, #555, #666, #0f2e2e)
+  // ══════════════════════════════════════════════
+  :where(
+    .service-card__icon,
+    .service-card__label,
+    .highlight-card__label,
+    .highlight-card__icon,
+    .rule-card__title,
+    .rule-card__icon,
+    .faq-accordion__question,
+    .faq-accordion__answer,
+    .value-card__title,
+    .value-card__desc,
+    .team-card__name,
+    .team-card__role,
+    .team-card__quote,
+    .room-card__name,
+    .room-card__summary,
+    .room-card__price,
+    .extras-card__name,
+    .extras-card__desc,
+    .extras-card__price,
+    .bw-room__name,
+    .bw-room__price,
+    .milestone-card__year,
+    .milestone-card__desc,
+    .map-overlay-card__title,
+    .map-overlay-card__text,
+    .faq-content__title,
+    .faq-contact-card h4,
+    .faq-cta__title,
+    .activities-nearby__title,
+    .activities-grid-section__title,
+    .activities-mosaic__title,
+    .activities-split-cta__title,
+    .home-experiences__eyebrow,
+    .home-experiences__title,
+    .home-rooms__eyebrow,
+    .home-rooms__title,
+    .home-rooms__more,
+    .home-about__eyebrow,
+    .home-about__title,
+    .home-about__more,
+    .activity-card__title
+  ) {
+    color: var(--cb-text-secondary);
+  }
+
+  // ══════════════════════════════════════════════
+  // INVERTED SECTIONS (dark teal → white bg, cards inverted)
+  // ══════════════════════════════════════════════
+  .home-services {
+    background: var(--cb-bg);
+
+    &__eyebrow { color: var(--cb-text-muted); }
+    &__title { color: var(--cb-text); }
+
+    .service-card {
+      background: var(--cb-card-bg);
+      &__icon { color: var(--cb-text-secondary); }
+      &__label { color: var(--cb-text-secondary); }
+    }
+
+    &__dots .dot {
+      background: var(--cb-text-muted);
+      &.active { background: var(--cb-accent-soft); }
+    }
+  }
+
+  .activities-highlights {
+    background: var(--cb-bg);
+
+    &__eyebrow { color: var(--cb-text-muted); }
+    &__title { color: var(--cb-text); }
+
+    .highlight-card {
+      background: var(--cb-card-bg);
+      &__icon { color: var(--cb-text-secondary); }
+      &__label { color: var(--cb-text-secondary); }
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  // HERO WAVES (invert SVG color in dark mode)
+  // ══════════════════════════════════════════════
+  :where(
+    .home-hero__wave,
+    .activities-hero__wave,
+    .about-hero__wave,
+    .faq-hero__wave,
+    .rules-hero__wave
+  ) svg {
+    filter: invert(1);
+  }
+
+  // ══════════════════════════════════════════════
+  // HOMEPAGE SPECIFIC
+  // ══════════════════════════════════════════════
+  .home-rooms__more .icon-circle,
+  .home-about__more .icon-circle {
+    border-color: var(--cb-border-strong);
+  }
+  .home-rooms__more:hover .icon-circle,
+  .home-about__more:hover .icon-circle {
+    background: var(--cb-bg-subtle);
+    border-color: var(--cb-text-muted);
+  }
+  .home-rooms__more:hover,
+  .home-about__more:hover { color: var(--cb-text); }
+
+  .home-rooms__icon { color: var(--cb-accent-soft); }
+  .map-container { background: var(--cb-bg-subtle); }
+  .map-overlay-card p { color: var(--cb-text-muted); }
+
+  .instagram-container {
+    background: var(--cb-card-bg);
+    border-color: var(--cb-border);
+    box-shadow: none;
+  }
+  .instagram-header {
+    border-bottom-color: var(--cb-border);
+  }
+  .instagram-handle { color: var(--cb-text); }
+  .instagram-caption { color: var(--cb-text-muted); }
+
+  // ══════════════════════════════════════════════
+  // ROOMS PAGE
+  // ══════════════════════════════════════════════
+  .room-page__hero {
+    background: var(--cb-bg-subtle);
+    border-bottom-color: var(--cb-border);
+  }
+  .room-page__tour {
+    border-color: var(--cb-border);
+  }
+
+  // ══════════════════════════════════════════════
+  // ACTIVITIES PAGE
+  // ══════════════════════════════════════════════
+  .activities-mosaic__cta .btn--outline .icon-circle {
+    border-color: var(--cb-border-strong);
+  }
+
+  // ══════════════════════════════════════════════
+  // FAQ PAGE
+  // ══════════════════════════════════════════════
+  .faq-accordion__item {
+    border-color: var(--cb-border);
+    &.is-open {
+      border-color: var(--cb-accent);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+  .faq-accordion__trigger:hover {
+    background: var(--cb-bg-subtle);
+  }
+  .faq-accordion__answer {
+    border-top-color: var(--cb-border);
+  }
+  .faq-content__header {
+    border-bottom-color: var(--cb-border);
+  }
+  .faq-category-chips {
+    border-top-color: var(--cb-border);
+  }
+
+  // ══════════════════════════════════════════════
+  // CONTACT PAGE (mostly uses variables already)
+  // ══════════════════════════════════════════════
+  .contact-page__form {
+    border-color: var(--cb-border);
+  }
+  .contact-page__form input,
+  .contact-page__form textarea {
+    background: var(--cb-bg);
+    color: var(--cb-text-secondary);
+    border-color: var(--cb-border);
+  }
+  .contact-page__form label {
+    color: var(--cb-text);
+  }
+
+  // ══════════════════════════════════════════════
+  // FORM INPUTS (booking)
+  // ══════════════════════════════════════════════
+  .bw-field__input {
+    background: var(--cb-bg);
+    color: var(--cb-text-secondary);
+    border-color: var(--cb-border);
+  }
+
+  // ══════════════════════════════════════════════
+  // PRIMEREACT COMPONENTS
+  // ══════════════════════════════════════════════
+  :where(
+    .p-calendar, .p-datepicker, .p-datepicker-header,
+    .p-datepicker-calendar, .p-datepicker-table,
+    .p-inputtext, .p-dropdown, .p-dropdown-panel,
+    .p-dropdown-items, .p-dropdown-item,
+    .p-multiselect, .p-multiselect-panel,
+    .p-multiselect-items, .p-multiselect-item,
+    .p-inputnumber, .p-inputnumber-input,
+    .p-carousel, .p-carousel-content,
+    .p-carousel-indicators, .p-carousel-indicator
+  ) {
+    background: var(--cb-bg);
+    color: var(--cb-text-secondary);
+  }
+
+  .p-inputtext, .p-dropdown-label,
+  .p-multiselect-label, .p-dropdown-trigger,
+  .p-datepicker-trigger, .p-carousel .p-carousel-indicator button {
+    color: var(--cb-text-secondary);
+  }
+
+  .p-dropdown:not(.p-disabled).p-focus,
+  .p-inputtext:enabled:focus {
+    border-color: var(--cb-accent);
+    box-shadow: 0 0 0 0.2rem var(--cb-accent-muted);
+  }
+
+  .photo-gallery__btn {
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+  }
 }

@@ -2,54 +2,57 @@ import { Link } from 'react-router-dom';
 import { HelpCircle, AlertCircle, Clock, Utensils, MessageCircle } from 'lucide-react';
 import { SITE } from '../../data/site';
 import { media } from '../../data/media';
+import { useLanguage } from '../../context/LanguageContext';
 import './Footer.scss';
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="site-footer">
       <div className="container site-footer__top">
         <div className="site-footer__col">
           <img src={media('/images/hero/logo-hotel-casa-baquero.png')} alt={SITE.name} className="site-footer__logo" />
-          <h3>Acerca de nosotros</h3>
-          <p>El refugio perfecto en el corazón del Llano, combinando la paz del campo con la comodidad que mereces.</p>
+          <h3>{t.footer.aboutTitle}</h3>
+          <p>{t.footer.aboutText}</p>
         </div>
         
         <div className="site-footer__col">
-          <h3>Contacto</h3>
-          <p className="site-footer__label">Línea de atención WhatsApp</p>
+          <h3>{t.footer.contactTitle}</h3>
+          <p className="site-footer__label">{t.footer.whatsappLabel}</p>
           <a href={`https://wa.me/${SITE.phones.whatsappDigits}`} className="site-footer__link">
             {SITE.phones.whatsapp}
           </a>
           <br /><br />
-          <p className="site-footer__label">Correo electrónico</p>
+          <p className="site-footer__label">{t.footer.emailLabel}</p>
           <a href={`mailto:${SITE.email}`} className="site-footer__link">
             {SITE.email}
           </a>
         </div>
         
         <div className="site-footer__col">
-          <h3>Menú rápido</h3>
+          <h3>{t.footer.quickMenu}</h3>
           <ul className="site-footer__nav-list">
-            <li><Link to="/">Inicio</Link></li>
-            <li><Link to="/habitaciones">Habitaciones</Link></li>
-            <li><Link to="/actividades">Actividades</Link></li>
-            <li><Link to="/nosotros">Nosotros</Link></li>
+            <li><Link to="/">{t.nav.home}</Link></li>
+            <li><Link to="/habitaciones">{t.nav.rooms}</Link></li>
+            <li><Link to="/actividades">{t.nav.activities}</Link></li>
+            <li><Link to="/nosotros">{t.nav.about}</Link></li>
           </ul>
         </div>
         
         <div className="site-footer__col">
-          <h3>Más información</h3>
+          <h3>{t.footer.moreInfo}</h3>
           <ul className="site-footer__nav-list">
-            <li><a href="#">Tratamiento de datos personales</a></li>
-            <li><a href="#">Política de privacidad</a></li>
+            <li><a href="#">{t.footer.dataTreatment}</a></li>
+            <li><a href="#">{t.footer.privacyPolicy}</a></li>
           </ul>
           
           <div className="site-footer__buttons">
             <Link to="/faq" className="btn btn--white btn--sm">
-              <HelpCircle size={16} /> Preguntas Frecuentes
+              <HelpCircle size={16} /> {t.footer.faqBtn}
             </Link>
             <Link to="/reglas" className="btn btn--white btn--sm">
-              <AlertCircle size={16} /> Reglas del lugar
+              <AlertCircle size={16} /> {t.footer.rulesBtn}
             </Link>
           </div>
         </div>
@@ -59,32 +62,30 @@ export function Footer() {
         <div className="schedule-card">
           <div className="schedule-card__icon"><Clock size={32} strokeWidth={1.5} /></div>
           <div className="schedule-card__info">
-            <h4>Atención en recepción</h4>
-            <p>7:00 am a 10:00 pm</p>
+            <h4>{t.footer.receptionTitle}</h4>
+            <p>{t.footer.receptionHours}</p>
           </div>
         </div>
         <div className="schedule-card">
           <div className="schedule-card__icon"><Utensils size={32} strokeWidth={1.5} /></div>
           <div className="schedule-card__info">
-            <h4>Horario de desayuno</h4>
-            <p>Desayuno 7:30 a.m. a 10:00 a.m.</p>
+            <h4>{t.footer.breakfastTitle}</h4>
+            <p>{t.footer.breakfastHours}</p>
           </div>
         </div>
         <div className="schedule-card">
           <div className="schedule-card__icon"><Utensils size={32} strokeWidth={1.5} /></div>
           <div className="schedule-card__info">
-            <h4>Horario de Restaurante</h4>
-            <p>Almuerzo y Cena 12:30 p.m. a 9:00 p.m.</p>
+            <h4>{t.footer.restaurantTitle}</h4>
+            <p>{t.footer.restaurantHours}</p>
           </div>
         </div>
       </div>
       
       <div className="container site-footer__bottom">
-        <p className="site-footer__legal-text">
-          Casa Baquero con RNT del Ministerio de Comercio, Industria y Turismo, rechaza la explotación sexual y otras formas de abuso infantil de conformidad con las leyes colombianas 679 de 2001, 1336 de 2009, 1098 de 2006 y 1329 de 2009. En el mismo también es contra el trabajo infantil. Advertimos a nuestros clientes que estas formas de comportamiento están sujetas a sanciones penales y administrativas, de conformidad con las leyes vigentes en Colombia.
-        </p>
+        <p className="site-footer__legal-text">{t.footer.legal}</p>
         <div className="site-footer__copyright">
-          <p>© {new Date().getFullYear()} Todos los derechos reservados</p>
+          <p>{t.footer.copyright.replace('{year}', String(new Date().getFullYear()))}</p>
         </div>
       </div>
       
@@ -93,7 +94,7 @@ export function Footer() {
         className="whatsapp-float"
         target="_blank" 
         rel="noreferrer"
-        aria-label="Contactar por WhatsApp"
+        aria-label={t.footer.whatsappAria}
       >
         <MessageCircle size={32} />
       </a>

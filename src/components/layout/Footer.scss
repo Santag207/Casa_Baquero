@@ -1,7 +1,7 @@
 @use '../../styles/variables' as *;
 
 .site-footer {
-  background: #0f2e2e; // Dark green background
+  background: var(--cb-footer-bg, #0f2e2e);
   color: #fff;
   padding-top: 4rem;
   padding-bottom: 2rem;
@@ -229,5 +229,36 @@
   &:hover {
     transform: scale(1.1);
     color: #fff;
+  }
+}
+
+// ─── Dark mode overrides ───
+[data-theme='dark'] {
+  .schedule-card {
+    background: var(--cb-card-bg);
+    color: var(--cb-text);
+
+    &__icon {
+      color: var(--cb-text);
+    }
+
+    &__info {
+      h4 {
+        color: var(--cb-text);
+      }
+      p {
+        color: var(--cb-text-muted);
+      }
+    }
+  }
+
+  .site-footer__buttons .btn--white {
+    background: var(--cb-surface);
+    color: var(--cb-text);
+    border: 1px solid var(--cb-border);
+
+    &:hover {
+      background: var(--cb-surface-hover);
+    }
   }
 }

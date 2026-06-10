@@ -1,19 +1,30 @@
-import { Menu, ShoppingBag, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Menu, X, Sun, Moon, Globe } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, SITE } from '../../data/site';
 import { media } from '../../data/media';
 import { useCart } from '../../hooks/useCart';
+import { useTheme } from '../../context/ThemeContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { LANGUAGE_NAMES } from '../../i18n';
+import type { Language } from '../../i18n/types';
 import './Header.scss';
+
+const LANGUAGES: Language[] = ['es', 'en', 'it', 'fr'];
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const location = useLocation();
-  const { itemCount, openCart } = useCart();
+  useCart();
+  const { theme, toggleTheme } = useTheme();
+  const { lang, setLang, t } = useLanguage();
+  const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [location.pathname]);
 
@@ -22,6 +33,16 @@ export function Header() {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -51,7 +72,7 @@ export function Header() {
           </span>
         </a>
 
-        <nav className="header__nav" aria-label="Principal">
+        <nav className="header__nav" aria-label={t.header.navAria}>
           {NAV_LINKS.map((link) =>
             link.to === '/' ? (
               <a
@@ -81,37 +102,62 @@ export function Header() {
         </nav>
 
         <div className="header__actions">
+          {/* Theme toggle */}
           <button
             type="button"
-            className="header__cart-btn"
-            onClick={openCart}
-            aria-label={`Carrito, ${itemCount} artículos`}
+            className="header__icon-btn"
+            onClick={toggleTheme}
+            aria-label={theme === 'light' ? t.header.themeDark : t.header.themeLight}
+            title={theme === 'light' ? t.header.themeDark : t.header.themeLight}
           >
-            <ShoppingBag size={20} strokeWidth={1.5} />
-            <AnimatePresence>
-              {itemCount > 0 && (
-                <motion.span
-                  className="header__cart-badge"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  exit={{ scale: 0 }}
-                  key={itemCount}
-                >
-                  {itemCount > 9 ? '9+' : itemCount}
-                </motion.span>
-              )}
-            </AnimatePresence>
+            {theme === 'light' ? <Moon size={18} strokeWidth={1.5} /> : <Sun size={18} strokeWidth={1.5} />}
           </button>
 
+          {/* Language selector */}
+          <div className="header__lang" ref={langRef}>
+            <button
+              type="button"
+              className="header__icon-btn header__lang-btn"
+              onClick={() => setLangOpen((v) => !v)}
+              aria-label={t.header.languageLabel}
+              title={t.header.languageLabel}
+            >
+              <Globe size={18} strokeWidth={1.5} />
+              <span className="header__lang-code">{lang.toUpperCase()}</span>
+            </button>
+            <AnimatePresence>
+              {langOpen && (
+                <motion.div
+                  className="header__lang-dropdown"
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {LANGUAGES.map((l) => (
+                    <button
+                      key={l}
+                      type="button"
+                      className={`header__lang-option${l === lang ? ' header__lang-option--active' : ''}`}
+                      onClick={() => { setLang(l); setLangOpen(false); }}
+                    >
+                      {LANGUAGE_NAMES[l]}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <Link to="/reservar" className="btn btn--primary header__cta">
-            Reservar
+            {t.header.book}
           </Link>
         </div>
 
         <button
           type="button"
           className="header__menu-btn"
-          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-label={open ? t.header.closeMenu : t.header.openMenu}
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -126,7 +172,7 @@ export function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            aria-label="Menú móvil"
+            aria-label={t.header.mobileNavAria}
           >
             {NAV_LINKS.map((link, i) => (
               <motion.div
@@ -146,19 +192,31 @@ export function Header() {
                 </NavLink>
               </motion.div>
             ))}
-            <button
-              type="button"
-              className="header__mobile-cart"
-              onClick={() => {
-                openCart();
-                setOpen(false);
-              }}
-            >
-              <ShoppingBag size={18} />
-              Carrito ({itemCount})
-            </button>
-            <Link to="/reservar" className="btn btn--primary header__mobile-cta">
-              Reservar
+
+            {/* Mobile theme & language */}
+            <div className="header__mobile-actions">
+              <button
+                type="button"
+                className="header__mobile-action-btn"
+                onClick={toggleTheme}
+              >
+                {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+                {theme === 'light' ? t.header.themeDark : t.header.themeLight}
+              </button>
+              {LANGUAGES.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  className={`header__mobile-action-btn${l === lang ? ' header__mobile-action-btn--active' : ''}`}
+                  onClick={() => { setLang(l); setOpen(false); }}
+                >
+                  {LANGUAGE_NAMES[l]}
+                </button>
+              ))}
+            </div>
+
+            <Link to="/reservar" className="btn btn--primary header__mobile-cta" onClick={() => setOpen(false)}>
+            {t.header.book}
             </Link>
           </motion.nav>
         )}
