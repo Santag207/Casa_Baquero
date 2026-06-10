@@ -35,6 +35,27 @@ export function GalleriesPage() {
           <PhotoGallery photos={group.images} columns={3} />
         </motion.section>
       ))}
+
+      {/* VIRTUAL TOUR */}
+      <section className="home-virtual-tour">
+        <div className="container">
+          <div id="informacion" className="informacion-block">
+            <p>
+              <iframe
+                className="paniframe"
+                name="_pano"
+                src="https://webmastersac.com/Tour360fincahotelbaquero/index.html?tour_soundson=false&tour_soundsvolume=0"
+                frameBorder="0"
+                scrolling="no"
+                height="500"
+                width="100%"
+                allowFullScreen
+                allow="autoplay 'none'; microphone 'none'"
+              />
+            </p>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
