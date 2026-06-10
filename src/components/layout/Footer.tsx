@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { HelpCircle, AlertCircle, Clock, Utensils, MessageCircle } from 'lucide-react';
+import { HelpCircle, AlertCircle, Clock, Utensils } from 'lucide-react';
 import { SITE } from '../../data/site';
 import { media } from '../../data/media';
 import { useLanguage } from '../../context/LanguageContext';
@@ -89,15 +89,6 @@ export function Footer() {
         </div>
       </div>
       
-      <a 
-        href={`https://wa.me/${SITE.phones.whatsappDigits}`} 
-        className="whatsapp-float"
-        target="_blank" 
-        rel="noreferrer"
-        aria-label={t.footer.whatsappAria}
-      >
-        <MessageCircle size={32} />
-      </a>
     </footer>
   );
 }

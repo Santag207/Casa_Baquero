@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 import { SITE } from '../data/site';
 import { media } from '../data/media';
 import { openWhatsAppReservation } from '../utils/whatsapp';
 import './ContactPage.scss';
 
 export function ContactPage() {
+  const { t } = useLanguage();
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [sent, setSent] = useState(false);
 
@@ -31,38 +33,38 @@ export function ContactPage() {
         style={{ backgroundImage: `url(${media('/media/29214/hotel-villavicencio-finca-casa-baquero-7c.jpg', 1600)})` }}
       >
         <div className="container">
-          <h1>Contáctanos</h1>
-          <p>Reserva con la mejor tarifa garantizada</p>
+          <h1>{t.contact.pageTitle}</h1>
+          <p>{t.contact.pageSubtitle}</p>
         </div>
       </header>
 
       <section className="section-pad container contact-page__grid">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-          <h2>Pregúntanos</h2>
+          <h2>{t.contact.askTitle}</h2>
           {sent ? (
             <p className="contact-page__success">
-              Gracias por contactarnos. Tu mensaje se abrió en WhatsApp; responderemos lo antes posible.
+              {t.contact.successMsg}
             </p>
           ) : (
             <form className="contact-page__form" onSubmit={handleSubmit}>
               <label>
-                Nombre
+                {t.contact.nameLabel}
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
               </label>
               <label>
-                E-mail
+                {t.contact.emailLabel}
                 <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
               </label>
               <label>
-                Teléfono
+                {t.contact.phoneLabel}
                 <input required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
               </label>
               <label>
-                Mensaje
-                <textarea required rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="¿Cuál es tu mensaje?" />
+                {t.contact.messageLabel}
+                <textarea required rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder={t.contact.messagePlaceholder} />
               </label>
               <button type="submit" className="btn btn--primary">
-                Enviar por WhatsApp
+                {t.contact.sendBtn}
               </button>
             </form>
           )}
@@ -70,7 +72,7 @@ export function ContactPage() {
 
         <div className="contact-page__info">
           <img src={media('/images/hero/logo-hotel-casa-baquero.png')} alt="" width={160} style={{ borderRadius: 6 }} />
-          <h2>Teléfonos</h2>
+          <h2>{t.contact.phonesTitle}</h2>
           <p>
             Contacto: {SITE.phones.landline}
             <br />
@@ -79,22 +81,22 @@ export function ContactPage() {
               {SITE.phones.whatsapp}
             </a>
           </p>
-          <h2>E-mail</h2>
+          <h2>{t.contact.emailTitle}</h2>
           <p>
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
           </p>
-          <h2>Cómo llegar</h2>
+          <h2>{t.contact.howToGet}</h2>
           <p>
             {SITE.location}{' '}
             <a href={`https://maps.google.com/maps?q=${SITE.mapCoords.lat},${SITE.mapCoords.lng}`} target="_blank" rel="noreferrer">
-              Ver mapa
+              {t.contact.viewMap}
             </a>
           </p>
         </div>
       </section>
 
       <div className="contact-page__map container">
-        <iframe title="Ubicación Casa Baquero" src={SITE.mapEmbed} loading="lazy" allowFullScreen />
+        <iframe title={t.contact.mapTitle} src={SITE.mapEmbed} loading="lazy" allowFullScreen />
       </div>
     </div>
   );

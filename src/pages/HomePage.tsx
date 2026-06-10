@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Play, Pause, MapPin, Search, Calendar, Wifi, Utensils, Music, Wine, ArrowRight, Video, Image as ImageIcon } from 'lucide-react';
@@ -6,6 +6,7 @@ import { SITE, HERO_SLIDES } from '../data/site';
 import { media } from '../data/media';
 import { ROOMS } from '../data/rooms';
 import { HOME_GALLERY } from '../data/galleries';
+import { useLanguage } from '../context/LanguageContext';
 import './HomePage.scss';
 
 const EXPERIENCES = [
@@ -17,30 +18,33 @@ const EXPERIENCES = [
 ];
 
 export function HomePage() {
+  const { t } = useLanguage();
   const [slide, setSlide] = useState(0);
   const [expIndex, setExpIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
   const featuredRoomTypes = [
     {
-      label: 'Individual',
-      title: 'Habitaciónes individuales',
-      description: 'Ideal para viajes de negocios o relajación en solitario.',
+      label: t.home.featuredCategory1,
+      title: t.home.featuredTitle1,
+      description: t.home.featuredDesc1,
       room: ROOMS[0],
     },
     {
-      label: 'Pareja',
-      title: 'Habitaciónes para parejas',
-      description: 'Espacio íntimo con mayor comodidad y vistas al jardín.',
+      label: t.home.featuredCategory2,
+      title: t.home.featuredTitle2,
+      description: t.home.featuredDesc2,
       room: ROOMS[1],
     },
     {
-      label: 'Superior',
-      title: 'Habitaciónes Familiares',
-      description: 'Mayor amplitud, mejores detalles y una experiencia más exclusiva.',
+      label: t.home.featuredCategory3,
+      title: t.home.featuredTitle3,
+      description: t.home.featuredDesc3,
       room: ROOMS[2],
     },
   ];
+
+  const heroLines = t.home.heroTitle.split('\n');
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -71,9 +75,14 @@ export function HomePage() {
         </div>
 
         <div className="home-hero__content container">
-          <span className="home-hero__eyebrow">BIENVENIDO A {SITE.name.toUpperCase()}</span>
+          <span className="home-hero__eyebrow">{t.home.welcome.replace(/\{name\}/g, SITE.name.toUpperCase())}</span>
           <h1 className="home-hero__title">
-            UN PARAÍSO ESCONDIDO<br />ENTRE LA BRISA Y EL LLANO
+            {heroLines.map((line, i, arr) => (
+              <Fragment key={i}>
+                {line}
+                {i < arr.length - 1 && <br />}
+              </Fragment>
+            ))}
           </h1>
           <button 
             className="home-hero__play-pause"
@@ -88,17 +97,17 @@ export function HomePage() {
           <div className="booking-tabs">
             <Link to="/reservar" className="booking-tab">
               <Calendar size={18} />
-              <span>Reservar Ahora</span>
+              <span>{t.home.bookNow}</span>
             </Link>
             <div className="booking-divider"></div>
-            <a href="https://maps.google.com/?q=Casa+Baquero" target="_blank" rel="noreferrer" className="booking-tab">
+            <a href="https://maps.app.goo.gl/8fEbNjr9zU2dLRAYA" target="_blank" rel="noreferrer" className="booking-tab">
               <MapPin size={18} />
-              <span>¿Cómo llegar a Casa Baquero?</span>
+              <span>{t.home.howToGet}</span>
             </a>
             <div className="booking-divider"></div>
             <Link to="/actividades" className="booking-tab">
               <Search size={18} />
-              <span>¿Qué hay para hacer?</span>
+              <span>{t.home.whatToDo}</span>
             </Link>
           </div>
         </div>
@@ -126,12 +135,12 @@ export function HomePage() {
                 </svg>
               </div>
               <div>
-                <span className="home-rooms__eyebrow">Conoce nuestras</span>
-                <h2 className="home-rooms__title">Habitaciones</h2>
+                <span className="home-rooms__eyebrow">{t.home.roomsEyebrow}</span>
+                <h2 className="home-rooms__title">{t.home.roomsTitle}</h2>
               </div>
             </div>
             <Link to="/habitaciones" className="home-rooms__more">
-              <span className="icon-circle"><ArrowRight size={14} /></span> Saber más
+              <span className="icon-circle"><ArrowRight size={14} /></span> {t.home.knowMore}
             </Link>
           </div>
 
@@ -156,8 +165,8 @@ export function HomePage() {
       {/* SERVICES SECTION */}
       <section className="home-services">
         <div className="container">
-          <span className="home-services__eyebrow">Servicios diseñados para</span>
-          <h2 className="home-services__title">Tu Comodidad y Disfrute</h2>
+          <span className="home-services__eyebrow">{t.home.servicesEyebrow}</span>
+          <h2 className="home-services__title">{t.home.servicesTitle}</h2>
           
           <div className="home-services__carousel">
             {/* CARDS */}
@@ -195,8 +204,8 @@ export function HomePage() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <span className="home-experiences__eyebrow">¿Qué hay para hacer?</span>
-            <h2 className="home-experiences__title">Experiencias Inolvidables</h2>
+            <span className="home-experiences__eyebrow">{t.home.experiencesEyebrow}</span>
+            <h2 className="home-experiences__title">{t.home.experiencesTitle}</h2>
           </motion.div>
 
           <div className="home-experiences__carousel">
@@ -219,7 +228,7 @@ export function HomePage() {
             <button
               type="button"
               className="home-experiences__btn home-experiences__btn--prev"
-              aria-label="Anterior"
+              aria-label={t.common.previous}
               onClick={() => setExpIndex((i) => (i === 0 ? EXPERIENCES.length - 1 : i - 1))}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
@@ -227,7 +236,7 @@ export function HomePage() {
             <button
               type="button"
               className="home-experiences__btn home-experiences__btn--next"
-              aria-label="Siguiente"
+              aria-label={t.common.next}
               onClick={() => setExpIndex((i) => (i === EXPERIENCES.length - 1 ? 0 : i + 1))}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
@@ -239,7 +248,7 @@ export function HomePage() {
                   key={i}
                   type="button"
                   className={`home-experiences__dot${i === expIndex ? ' home-experiences__dot--active' : ''}`}
-                  aria-label={`Ir a experiencia ${i + 1}`}
+                  aria-label={t.common.goTo.replace('{n}', String(i + 1))}
                   onClick={() => setExpIndex(i)}
                 />
               ))}
@@ -251,19 +260,19 @@ export function HomePage() {
       {/* ABOUT SPLIT SECTION */}
       <section className="home-about">
         <div className="home-about__image">
-          <img src={media(HOME_GALLERY[2]?.src || '/images/hero/hero-1.jpg', 600, 800)} alt="Casa Baquero de noche" loading="lazy" />
+          <img src={media(HOME_GALLERY[2]?.src || '/images/hero/hero-1.jpg', 600, 800)} alt={SITE.name} loading="lazy" />
         </div>
         <div className="home-about__content">
-          <span className="home-about__eyebrow">Sobre nosotros</span>
+          <span className="home-about__eyebrow">{t.home.aboutEyebrow}</span>
           <h2 className="home-about__title">
-            Descubre cómo nació este rincón llanero entre familia y tradición
+            {t.home.aboutTitle}
           </h2>
           <Link to="/nosotros" className="home-about__more">
-            <span className="icon-circle"><ArrowRight size={14} /></span> Saber más
+            <span className="icon-circle"><ArrowRight size={14} /></span> {t.home.aboutLink}
           </Link>
         </div>
         <div className="home-about__image">
-          <img src={media(HOME_GALLERY[5]?.src || '/images/hotel/piscina.jpg', 600, 800)} alt="Restaurante Casa Baquero" loading="lazy" />
+          <img src={media(HOME_GALLERY[5]?.src || '/images/hotel/piscina.jpg', 600, 800)} alt={SITE.name} loading="lazy" />
         </div>
       </section>
 
@@ -279,25 +288,25 @@ export function HomePage() {
               allowFullScreen={true} 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              title="Ubicación Casa Baquero"
+              title={t.home.mapTitle}
             ></iframe>
             <div className="map-overlay-card">
-              <h3>Finca Hotel Casa Baquero</h3>
-              <p>Villavicencio, Meta, Colombia</p>
+              <h3>{t.home.mapTitle}</h3>
+              <p>{t.home.mapLocation}</p>
             </div>
           </div>
           
           <div className="instagram-container">
             <div className="instagram-header">
               <div className="instagram-profile">
-                <img src={media('/media/28995/logo-hotel-casa-baquero.png', 80)} alt="Casa Baquero" className="instagram-avatar" />
+                <img src={media('/media/28995/logo-hotel-casa-baquero.png', 80)} alt={SITE.name} className="instagram-avatar" />
                 <div className="instagram-profile__info">
-                  <span className="instagram-handle">@CASABAQUERO</span>
-                  <p className="instagram-caption">Sigue el viaje y descubre el Llano desde Casa Baquero.</p>
+                  <span className="instagram-handle">{t.home.instagramHandle}</span>
+                  <p className="instagram-caption">{t.home.instagramCaption}</p>
                 </div>
               </div>
               <a href={SITE.social.instagram} target="_blank" rel="noreferrer" className="instagram-follow">
-                <ArrowRight size={16} /> SEGUIR
+                <ArrowRight size={16} /> {t.home.instagramFollow}
               </a>
             </div>
             <div className="instagram-grid">

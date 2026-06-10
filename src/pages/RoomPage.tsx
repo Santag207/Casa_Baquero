@@ -1,5 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 import { getRoom } from '../data/rooms';
 import { SITE } from '../data/site';
 import { PhotoGallery } from '../components/gallery/PhotoGallery';
@@ -7,6 +8,7 @@ import { RoomDetailPanel } from '../components/rooms/RoomDetailPanel';
 import './RoomPage.scss';
 
 export function RoomPage() {
+  const { t } = useLanguage();
   const { slug } = useParams();
   const room = slug ? getRoom(slug) : undefined;
 
@@ -26,7 +28,7 @@ export function RoomPage() {
         >
           <RoomDetailPanel room={room} />
           <p className="room-page__checkin">
-            <strong>Entrada:</strong> {SITE.checkIn} · <strong>Salida:</strong> {SITE.checkOut}
+            {t.rooms.checkInOut.replace('{checkIn}', SITE.checkIn).replace('{checkOut}', SITE.checkOut)}
           </p>
         </motion.div>
 
@@ -40,8 +42,8 @@ export function RoomPage() {
           <PhotoGallery photos={photos} />
 
           <div className="room-page__tour">
-            <h3>Tour virtual 360°</h3>
-            <p>Explora la habitación y el entorno con una vista inmersiva de la finca.</p>
+            <h3>{t.rooms.virtualTour}</h3>
+            <p>{t.rooms.virtualTourDesc}</p>
             <iframe
               title={`Tour virtual ${room.name}`}
               src={SITE.kuulaTour}

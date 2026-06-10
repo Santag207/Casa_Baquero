@@ -3,6 +3,7 @@ import { Calendar } from 'primereact/calendar';
 import type { FormEvent } from 'primereact/ts-helpers';
 import { addLocale } from 'primereact/api';
 import { formatCOP } from '../../utils/pricing';
+import { useLanguage } from '../../context/LanguageContext';
 import './AvailabilityCalendar.scss';
 
 addLocale('es', {
@@ -24,14 +25,16 @@ interface Props {
 
 /* Precios referenciales por temporada (base hab. más económica) */
 const BASE_PRICE = 120000;
-const SEASONS = [
-  { id: 'baja' as const, label: 'Baja', multiplier: 1, color: '#0f3d2e' },
-  { id: 'media' as const, label: 'Media', multiplier: 1.2, color: '#cc6e0d' },
-  { id: 'alta' as const, label: 'Alta', multiplier: 1.35, color: '#b22d12' },
-];
 
 export function AvailabilityCalendar({ checkIn, checkOut, onRangeSelect }: Props) {
+  const { t } = useLanguage();
   const [dates, setDates] = useState<(Date | null)[] | null>(null);
+
+  const SEASONS = [
+    { id: 'baja' as const, label: t.calendar.lowSeason, multiplier: 1, color: '#0f3d2e' },
+    { id: 'media' as const, label: t.calendar.midSeason, multiplier: 1.2, color: '#cc6e0d' },
+    { id: 'alta' as const, label: t.calendar.highSeason, multiplier: 1.35, color: '#b22d12' },
+  ];
 
   useEffect(() => {
     if (checkIn && checkOut) {

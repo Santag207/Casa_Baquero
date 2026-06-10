@@ -21,4 +21,14 @@
     background: #000;
     color: #fff;
   }
+
+  [data-theme='dark'] & {
+    background: var(--cb-text);
+    color: var(--cb-bg);
+    &:hover {
+      background: var(--cb-bg);
+      color: var(--cb-text);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    }
+  }
 }

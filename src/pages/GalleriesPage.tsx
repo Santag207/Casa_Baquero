@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 import { GALLERY_GROUPS } from '../data/galleries';
 import { PhotoGallery } from '../components/gallery/PhotoGallery';
 import { media } from '../data/media';
 
 export function GalleriesPage() {
+  const { t } = useLanguage();
   return (
     <>
       <header
@@ -13,8 +15,8 @@ export function GalleriesPage() {
         }}
       >
         <div className="container">
-          <h1>Galerías</h1>
-          <p>La finca, el llano y momentos inolvidables</p>
+          <h1>{t.galleries.pageTitle}</h1>
+          <p>{t.galleries.pageSubtitle}</p>
         </div>
       </header>
       {GALLERY_GROUPS.map((group, i) => (

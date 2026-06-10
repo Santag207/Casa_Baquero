@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { media } from '../../data/media';
+import { useLanguage } from '../../context/LanguageContext';
 import './PhotoGallery.scss';
 
 interface Photo {
@@ -16,6 +17,7 @@ interface PhotoGalleryProps {
 }
 
 export function PhotoGallery({ photos, columns }: PhotoGalleryProps) {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(-1);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const slides = photos.map((p) => ({ src: media(p.src, 1400), alt: p.alt }));
@@ -54,7 +56,7 @@ export function PhotoGallery({ photos, columns }: PhotoGalleryProps) {
         <button
           type="button"
           className="photo-gallery__btn photo-gallery__btn--prev"
-          aria-label="Anterior"
+          aria-label={t.common.previous}
           onClick={() => setCarouselIndex((i) => (i === 0 ? photos.length - 1 : i - 1))}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
@@ -62,7 +64,7 @@ export function PhotoGallery({ photos, columns }: PhotoGalleryProps) {
         <button
           type="button"
           className="photo-gallery__btn photo-gallery__btn--next"
-          aria-label="Siguiente"
+          aria-label={t.common.next}
           onClick={() => setCarouselIndex((i) => (i === photos.length - 1 ? 0 : i + 1))}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
@@ -74,7 +76,7 @@ export function PhotoGallery({ photos, columns }: PhotoGalleryProps) {
               key={i}
               type="button"
               className={`photo-gallery__dot${i === carouselIndex ? ' photo-gallery__dot--active' : ''}`}
-              aria-label={`Ir a imagen ${i + 1}`}
+              aria-label={t.common.goTo.replace('{n}', String(i + 1))}
               onClick={() => setCarouselIndex(i)}
             />
           ))}

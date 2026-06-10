@@ -1,8 +1,10 @@
+import { useLanguage } from '../context/LanguageContext';
 import { SITE } from '../data/site';
 import { media } from '../data/media';
 import './VirtualTourPage.scss';
 
 export function VirtualTourPage() {
+  const { t } = useLanguage();
   return (
     <div className="virtual-tour">
       <header
@@ -10,9 +12,9 @@ export function VirtualTourPage() {
         style={{ backgroundImage: `url(${media('/media/29466/a-hotel-villavicencio-casa-baquero-9bb.jpg', 1600)})`, minHeight: '40vh' }}
       >
         <div className="container">
-          <span className="section-header__eyebrow" style={{ color: 'rgba(255,255,255,0.85)' }}>Experiencia</span>
-          <h1>Recorrido virtual 360°</h1>
-          <p>Explora nuestras instalaciones, habitaciones y zonas comunes desde la comodidad de tu hogar.</p>
+          <span className="section-header__eyebrow" style={{ color: 'rgba(255,255,255,0.85)' }}>{t.virtualTour.eyebrow}</span>
+          <h1>{t.virtualTour.title}</h1>
+          <p>{t.virtualTour.desc}</p>
         </div>
       </header>
 
@@ -26,24 +28,10 @@ export function VirtualTourPage() {
       </section>
 
       <section className="section-pad container virtual-tour__help">
-        <h2>Personalizar el tour</h2>
-        <p>
-          El recorrido se incrusta desde <strong>Kuula</strong>. Para cambiar panoramas o hotspots, edita la
-          colección en tu panel de Kuula y actualiza la URL en <code>src/data/site.ts</code> (
-          <code>kuulaTour</code>).
-        </p>
-        <p>
-          URL actual:{' '}
-          <a href={SITE.kuulaTour} target="_blank" rel="noreferrer">
-            {SITE.kuulaTour}
-          </a>
-        </p>
-        <p>
-          Tour anterior (legacy):{' '}
-          <a href={SITE.legacyTour} target="_blank" rel="noreferrer">
-            webmastersac.com
-          </a>
-        </p>
+        <h2>{t.virtualTour.customizeTitle}</h2>
+        {t.virtualTour.paragraphs.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
       </section>
     </div>
   );

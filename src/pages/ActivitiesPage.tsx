@@ -15,82 +15,45 @@ import {
 } from 'lucide-react';
 import { media } from '../data/media';
 import { HOME_GALLERY, GALLERY_GROUPS } from '../data/galleries';
+import { useLanguage } from '../context/LanguageContext';
 import './ActivitiesPage.scss';
-
-/* ─── DATOS DE ACTIVIDADES ─── */
-const activities = [
-  {
-    icon: <Waves size={32} strokeWidth={1.5} />,
-    title: 'Piscina & Relax',
-    description:
-      'Sumérgete en nuestra piscina rodeada de zonas verdes. El lugar perfecto para refrescarte y descansar bajo el sol del piedemonte llanero.',
-    image: '/media/23214/finca-hotel-casa-baquero-villavicencio-piscina-2.jpeg',
-    tag: 'Acuático',
-  },
-  {
-    icon: <Flame size={32} strokeWidth={1.5} />,
-    title: 'Zona BBQ',
-    description:
-      'Disfruta de asados y parrilladas en nuestras zonas BBQ equipadas. Una experiencia gastronómica al aire libre con sabores auténticos del llano.',
-    image: '/media/29466/a-hotel-villavicencio-casa-baquero-9bb.jpg',
-    tag: 'Gastronomía',
-  },
-  {
-    icon: <Dumbbell size={32} strokeWidth={1.5} />,
-    title: 'Deportes & Juegos',
-    description:
-      'Billar, ping-pong, mini-tejo, voleibol y mucho más. Actividades para todas las edades que llenan de alegría las reuniones familiares y grupales.',
-    image: '/media/29464/a-hotel-villavicencio-casa-baquero-7bb.jpg',
-    tag: 'Deporte',
-  },
-  {
-    icon: <TreePine size={32} strokeWidth={1.5} />,
-    title: 'Naturaleza & Senderos',
-    description:
-      'Explora los jardines y zonas verdes de la finca. La fauna y flora del piedemonte llanero te sorprenderán a cada paso.',
-    image: '/media/29243/finca-hotel-casa-baquero-villavicencio-b2.jpg',
-    tag: 'Naturaleza',
-  },
-  {
-    icon: <Fish size={32} strokeWidth={1.5} />,
-    title: 'Turismo en el Llano',
-    description:
-      'Visita cascadas, llanuras y ríos cristalinos. Los paisajes del Meta y los Llanos Orientales son únicos en el mundo.',
-    image: '/media/29245/finca-hotel-casa-baquero-cascadas-villavicencio-b1.jpg',
-    tag: 'Turismo',
-  },
-  {
-    icon: <Bike size={32} strokeWidth={1.5} />,
-    title: 'Aventura & Ecorrutas',
-    description:
-      'Desde Casa Baquero accede a rutas ecológicas, avistamiento de aves y recorridos por el fascinante ecosistema del piedemonte.',
-    image: '/media/29247/finca-hotel-casa-baquero-villavicencio-b5.jpg',
-    tag: 'Aventura',
-  },
-];
-
-const nearbyAttractions = [
-  { name: 'Bioparque Los Ocarros', distance: '5 min', icon: '🦜' },
-  { name: 'Cascadas de Villavicencio', distance: '20 min', icon: '💧' },
-  { name: 'Centro de Villavicencio', distance: '10 min', icon: '🏙️' },
-  { name: 'Aeropuerto La Vanguardia', distance: '8 min', icon: '✈️' },
-  { name: 'Piscinas Naturales', distance: '15 min', icon: '🏊' },
-  { name: 'Estadero El Llano', distance: '12 min', icon: '🌅' },
-];
 
 /* ─── COMPONENTE ─── */
 export function ActivitiesPage() {
+  const { t } = useLanguage();
   const [mosaicIndex, setMosaicIndex] = useState(0);
   const galleryImages = [
     ...HOME_GALLERY.slice(0, 4),
     ...GALLERY_GROUPS[1].images.slice(0, 4),
   ];
 
+  const activityMeta = [
+    { icon: <Waves size={32} strokeWidth={1.5} />, image: '/media/23214/finca-hotel-casa-baquero-villavicencio-piscina-2.jpeg' },
+    { icon: <Flame size={32} strokeWidth={1.5} />, image: '/media/29466/a-hotel-villavicencio-casa-baquero-9bb.jpg' },
+    { icon: <Dumbbell size={32} strokeWidth={1.5} />, image: '/media/29464/a-hotel-villavicencio-casa-baquero-7bb.jpg' },
+    { icon: <TreePine size={32} strokeWidth={1.5} />, image: '/media/29243/finca-hotel-casa-baquero-villavicencio-b2.jpg' },
+    { icon: <Fish size={32} strokeWidth={1.5} />, image: '/media/29245/finca-hotel-casa-baquero-villavicencio-cascadas-b1.jpg' },
+    { icon: <Bike size={32} strokeWidth={1.5} />, image: '/media/29247/finca-hotel-casa-baquero-villavicencio-b5.jpg' },
+  ];
+
+  const activities = t.activities.activities.map((act, i) => ({
+    ...act,
+    icon: activityMeta[i].icon,
+    image: activityMeta[i].image,
+  }));
+
+  const attractionEmojis = ['🦜', '💧', '🏙️', '✈️', '🏊', '🌅'];
+
+  const nearbyAttractions = t.activities.attractions.map((attr, i) => ({
+    ...attr,
+    icon: attractionEmojis[i],
+  }));
+
   useEffect(() => {
     const isMobile = window.innerWidth < 1024;
     if (!isMobile) return;
-    const t = setInterval(() => setMosaicIndex((i) => (i + 1) % galleryImages.slice(0, 6).length), 4500);
-    return () => clearInterval(t);
+    const timer = setInterval(() => setMosaicIndex((i) => (i + 1) % galleryImages.slice(0, 6).length), 4500);
+    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -114,22 +77,21 @@ export function ActivitiesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            ¿Qué hay para hacer?
+            {t.activities.heroEyebrow}
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
           >
-            Actividades &amp; Experiencias
+            {t.activities.heroTitle}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
           >
-            En Casa Baquero cada momento se convierte en un recuerdo. Piscina,
-            deportes, BBQ, naturaleza y los mejores paisajes del Llano colombiano.
+            {t.activities.heroText}
           </motion.p>
           <motion.div
             className="activities-hero__ctas"
@@ -138,10 +100,10 @@ export function ActivitiesPage() {
             transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
           >
             <Link to="/reservar" className="btn btn--primary btn--lg">
-              Reservar Ahora
+              {t.activities.bookBtn}
             </Link>
             <Link to="/contacto" className="btn btn--outline-light btn--lg">
-              Consultar
+              {t.activities.consultBtn}
             </Link>
           </motion.div>
         </div>
@@ -166,10 +128,10 @@ export function ActivitiesPage() {
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
             <span className="activities-grid-section__eyebrow">
-              Descubre todo lo que puedes hacer
+              {t.activities.experiencesEyebrow}
             </span>
             <h2 className="activities-grid-section__title">
-              Experiencias Inolvidables
+              {t.activities.experiencesTitle}
             </h2>
           </motion.div>
 
@@ -207,7 +169,7 @@ export function ActivitiesPage() {
                 <div className="activity-card__body">
                   <div className="activity-card__icon">{act.icon}</div>
                   <h3 className="activity-card__title">{act.title}</h3>
-                  <p className="activity-card__desc">{act.description}</p>
+                  <p className="activity-card__desc">{act.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -219,10 +181,10 @@ export function ActivitiesPage() {
       <section className="activities-highlights">
         <div className="container">
           <span className="activities-highlights__eyebrow">
-            Todo incluido en tu estadía
+            {t.activities.highlightsEyebrow}
           </span>
           <h2 className="activities-highlights__title">
-            Tu Descanso, Nuestro Compromiso
+            {t.activities.highlightsTitle}
           </h2>
           <div className="activities-highlights__grid">
             {[
@@ -244,8 +206,12 @@ export function ActivitiesPage() {
       {/* ── PHOTO MOSAIC ── */}
       <section className="activities-mosaic">
         <div className="activities-mosaic__header container">
-          <span className="activities-mosaic__eyebrow">Galería</span>
-          <h2 className="activities-mosaic__title">Momentos en Casa Baquero</h2>
+          <span className="activities-mosaic__eyebrow">
+            {t.activities.galleryEyebrow}
+          </span>
+          <h2 className="activities-mosaic__title">
+            {t.activities.galleryTitle}
+          </h2>
         </div>
         <div className="activities-mosaic__carousel container">
           <div className="activities-mosaic__viewport">
@@ -267,7 +233,7 @@ export function ActivitiesPage() {
           <button
             type="button"
             className="activities-mosaic__btn activities-mosaic__btn--prev"
-            aria-label="Anterior"
+            aria-label={t.common.previous}
             onClick={() => setMosaicIndex((i) => (i === 0 ? galleryImages.slice(0, 6).length - 1 : i - 1))}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
@@ -275,7 +241,7 @@ export function ActivitiesPage() {
           <button
             type="button"
             className="activities-mosaic__btn activities-mosaic__btn--next"
-            aria-label="Siguiente"
+            aria-label={t.common.next}
             onClick={() => setMosaicIndex((i) => (i === galleryImages.slice(0, 6).length - 1 ? 0 : i + 1))}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
@@ -287,7 +253,7 @@ export function ActivitiesPage() {
                 key={i}
                 type="button"
                 className={`activities-mosaic__dot${i === mosaicIndex ? ' activities-mosaic__dot--active' : ''}`}
-                aria-label={`Ir a imagen ${i + 1}`}
+                aria-label={t.common.goTo.replace('{n}', String(i + 1))}
                 onClick={() => setMosaicIndex(i)}
               />
             ))}
@@ -298,7 +264,7 @@ export function ActivitiesPage() {
             <span className="icon-circle">
               <ArrowRight size={14} />
             </span>
-            Ver galería completa
+            {t.activities.galleryLink}
           </Link>
         </div>
       </section>
@@ -309,16 +275,13 @@ export function ActivitiesPage() {
           <div className="activities-nearby__inner">
             <div className="activities-nearby__text">
               <span className="activities-nearby__eyebrow">
-                <MapPin size={14} /> Ubicación privilegiada
+                <MapPin size={14} /> {t.activities.locationEyebrow}
               </span>
               <h2 className="activities-nearby__title">
-                Lo mejor del Llano, a pocos minutos
+                {t.activities.locationTitle}
               </h2>
               <p className="activities-nearby__desc">
-                Casa Baquero está ubicado en la antigua vía a Restrepo, a tan
-                solo 10 minutos de Villavicencio, cerca del Aeropuerto La
-                Vanguardia y el Bioparque Los Ocarros. El punto de partida ideal
-                para explorar todo lo que el Meta tiene para ofrecer.
+                {t.activities.locationText}
               </p>
               <a
                 href="https://maps.google.com/?q=Casa+Baquero+Villavicencio"
@@ -326,7 +289,7 @@ export function ActivitiesPage() {
                 rel="noreferrer"
                 className="btn btn--primary"
               >
-                Cómo llegar
+                {t.activities.locationBtn}
               </a>
             </div>
             <div className="activities-nearby__attractions">
@@ -358,21 +321,20 @@ export function ActivitiesPage() {
         />
         <div className="activities-split-cta__content">
           <span className="activities-split-cta__eyebrow">
-            <Star size={14} /> Experiencia premium
+            <Star size={14} /> {t.activities.ctaEyebrow}
           </span>
           <h2 className="activities-split-cta__title">
-            ¿Listo para vivir el Llano?
+            {t.activities.ctaTitle}
           </h2>
           <p className="activities-split-cta__desc">
-            Reserva ahora y disfruta de todas las actividades incluidas en tu
-            estadía. Piscina, deportes, BBQ y la naturaleza llanera te esperan.
+            {t.activities.ctaText}
           </p>
           <div className="activities-split-cta__actions">
             <Link to="/reservar" className="btn btn--primary btn--lg">
-              Reservar Habitación
+              {t.activities.reserveBtn}
             </Link>
             <Link to="/plan-romantico" className="activities-split-cta__link">
-              Ver Plan Romántico <ArrowRight size={16} />
+              {t.activities.romanticLink} <ArrowRight size={16} />
             </Link>
           </div>
         </div>

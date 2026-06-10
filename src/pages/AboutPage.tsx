@@ -15,64 +15,8 @@ import {
 import { SITE } from '../data/site';
 import { media } from '../data/media';
 import { HOME_GALLERY, GALLERY_GROUPS } from '../data/galleries';
+import { useLanguage } from '../hooks/useLanguage';
 import './AboutPage.scss';
-
-/* ─── DATOS ─── */
-const values = [
-  {
-    icon: <Heart size={32} strokeWidth={1.5} />,
-    title: 'Hospitalidad Genuina',
-    description:
-      'Cada huésped es tratado como parte de la familia Baquero. Nuestra calidez llanera es el sello que nos define.',
-  },
-  {
-    icon: <Leaf size={32} strokeWidth={1.5} />,
-    title: 'Amor por la Naturaleza',
-    description:
-      'Cuidamos y preservamos el entorno del piedemonte llanero. Nuestros jardines, piscina y zonas verdes son el resultado de ese compromiso.',
-  },
-  {
-    icon: <Users size={32} strokeWidth={1.5} />,
-    title: 'Experiencia Familiar',
-    description:
-      'Fundado como proyecto de familia, Casa Baquero nació del deseo de compartir lo mejor del Meta con quienes nos visitan.',
-  },
-  {
-    icon: <Star size={32} strokeWidth={1.5} />,
-    title: 'Excelencia en Servicio',
-    description:
-      'Cada detalle importa. Desde la limpieza impecable hasta la atención personalizada, buscamos superar las expectativas.',
-  },
-];
-
-const milestones = [
-  { year: '1995', label: 'Fundación', desc: 'La familia Baquero adquiere la finca y comienza el sueño de un hotel.' },
-  { year: '2002', label: 'Primera expansión', desc: 'Se construyen las primeras habitaciones y la piscina principal.' },
-  { year: '2010', label: 'Reconocimiento', desc: 'Primeros premios de turismo en el Meta por calidad y servicio.' },
-  { year: '2018', label: 'Renovación total', desc: 'Se remodelaron todas las habitaciones y se amplió la zona de eventos.' },
-  { year: '2024', label: 'Hoy', desc: 'Más de 25 años siendo el hogar favorito de visitantes del Llano colombiano.' },
-];
-
-const team = [
-  {
-    name: 'Familia Baquero',
-    role: 'Fundadores',
-    image: '/media/2273/tranquilidad-finca-hotel-casa-baquero-villavicencio.jpg',
-    quote: 'Abrimos las puertas con el corazón para que el Llano te enamore.',
-  },
-  {
-    name: 'Equipo de Servicio',
-    role: 'Atención al huésped',
-    image: '/media/2248/celebracion-finca-hotel-casa-baquero-villavicencio.jpg',
-    quote: 'Cada sonrisa de nuestros huéspedes es nuestra mayor recompensa.',
-  },
-  {
-    name: 'Cocina & Gastronomía',
-    role: 'Experiencias culinarias',
-    image: '/media/29226/finca-hotel-casa-baquero-villavicencio-eventos-7.jpg',
-    quote: 'Los sabores del Llano en cada plato, preparados con amor.',
-  },
-];
 
 /* ─── COMPONENTE ─── */
 const galleryImages = [
@@ -81,13 +25,59 @@ const galleryImages = [
 ];
 
 export function AboutPage() {
+  const { t } = useLanguage();
   const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const values = [
+    {
+      icon: <Heart size={32} strokeWidth={1.5} />,
+      title: t.about.values[0]?.title ?? '',
+      description: t.about.values[0]?.desc ?? '',
+    },
+    {
+      icon: <Leaf size={32} strokeWidth={1.5} />,
+      title: t.about.values[1]?.title ?? '',
+      description: t.about.values[1]?.desc ?? '',
+    },
+    {
+      icon: <Users size={32} strokeWidth={1.5} />,
+      title: t.about.values[2]?.title ?? '',
+      description: t.about.values[2]?.desc ?? '',
+    },
+    {
+      icon: <Star size={32} strokeWidth={1.5} />,
+      title: t.about.values[3]?.title ?? '',
+      description: t.about.values[3]?.desc ?? '',
+    },
+  ];
+
+  const milestones = t.about.milestones.map((m) => {
+    const parts = m.year.split(' — ');
+    return {
+      year: parts[0],
+      label: parts[1] || m.year,
+      desc: m.desc,
+    };
+  });
+
+  const teamImages = [
+    '/media/2273/tranquilidad-finca-hotel-casa-baquero-villavicencio.jpg',
+    '/media/2248/celebracion-finca-hotel-casa-baquero-villavicencio.jpg',
+    '/media/29226/finca-hotel-casa-baquero-villavicencio-eventos-7.jpg',
+  ];
+
+  const team = t.about.team.map((m, i) => ({
+    name: m.name,
+    role: m.role,
+    quote: m.quote,
+    image: teamImages[i] || teamImages[0],
+  }));
 
   useEffect(() => {
     const isMobile = window.innerWidth < 1024;
     if (!isMobile) return;
-    const t = setInterval(() => setGalleryIndex((i) => (i + 1) % galleryImages.length), 4500);
-    return () => clearInterval(t);
+    const interval = setInterval(() => setGalleryIndex((i) => (i + 1) % galleryImages.length), 4500);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -110,22 +100,21 @@ export function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            Nuestra Historia
+            {t.about.heroEyebrow}
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
           >
-            Sobre Nosotros
+            {t.about.heroTitle}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
           >
-            Un rincón llanero nacido del amor familiar, la tradición y el deseo
-            de compartir la magia del Meta con el mundo.
+            {t.about.heroText}
           </motion.p>
         </div>
         <div className="about-hero__wave">
@@ -178,24 +167,13 @@ export function AboutPage() {
           >
             <span className="about-intro__eyebrow">Quiénes somos</span>
             <h2 className="about-intro__title">
-              Un paraíso escondido entre la brisa y el Llano
+              {t.about.story.title}
             </h2>
-            <p className="about-intro__desc">
-              Finca Hotel Casa Baquero nació de un sueño familiar: crear un
-              espacio donde los visitantes pudieran conectar con la auténtica
-              esencia del Llano colombiano. Desde 1995, hemos abierto nuestras
-              puertas a miles de familias, parejas y grupos que han encontrado en
-              esta finca su segundo hogar.
-            </p>
-            <p className="about-intro__desc">
-              Ubicados a tan solo 10 minutos de Villavicencio, en la antigua vía
-              a Restrepo, ofrecemos 9 habitaciones cómodas, piscina, zonas BBQ,
-              deportes y los paisajes más hermosos del piedemonte llanero. Cada
-              rincón de Casa Baquero está diseñado con amor y dedicación para que
-              tu descanso sea perfecto.
-            </p>
+            {t.about.story.paragraphs.map((p, i) => (
+              <p key={i} className="about-intro__desc">{p}</p>
+            ))}
             <Link to="/reservar" className="btn btn--primary">
-              <span>Reservar mi estadía</span>
+              <span>{t.about.bookBtn}</span>
               <ArrowRight size={16} />
             </Link>
           </motion.div>
@@ -206,10 +184,10 @@ export function AboutPage() {
       <section className="about-stats">
         <div className="container about-stats__grid">
           {[
-            { value: '+25', label: 'Años de experiencia' },
-            { value: '9', label: 'Habitaciones únicas' },
-            { value: '+10K', label: 'Huéspedes felices' },
-            { value: '4.8★', label: 'Calificación promedio' },
+            { value: t.about.stats.years, label: t.about.stats.yearsLabel },
+            { value: t.about.stats.rooms, label: t.about.stats.roomsLabel },
+            { value: t.about.stats.guests, label: t.about.stats.guestsLabel },
+            { value: t.about.stats.rating, label: t.about.stats.ratingLabel },
           ].map((stat) => (
             <div key={stat.label} className="about-stat">
               <span className="about-stat__value">{stat.value}</span>
@@ -229,8 +207,8 @@ export function AboutPage() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <span className="about-values__eyebrow">Lo que nos mueve</span>
-            <h2 className="about-values__title">Nuestros Valores</h2>
+            <span className="about-values__eyebrow">{t.about.valuesEyebrow}</span>
+            <h2 className="about-values__title">{t.about.valuesTitle}</h2>
           </motion.div>
 
           <motion.div
@@ -269,8 +247,8 @@ export function AboutPage() {
       <section className="about-timeline">
         <div className="container">
           <div className="about-timeline__header">
-            <span className="about-timeline__eyebrow">Nuestra trayectoria</span>
-            <h2 className="about-timeline__title">Historia de Casa Baquero</h2>
+            <span className="about-timeline__eyebrow">{t.about.historyEyebrow}</span>
+            <h2 className="about-timeline__title">{t.about.historyTitle}</h2>
           </div>
           <div className="about-timeline__track">
             {milestones.map((m, i) => (
@@ -299,8 +277,8 @@ export function AboutPage() {
       <section className="about-team">
         <div className="container">
           <div className="about-team__header">
-            <span className="about-team__eyebrow">Las personas detrás</span>
-            <h2 className="about-team__title">La Familia Casa Baquero</h2>
+            <span className="about-team__eyebrow">{t.about.teamEyebrow}</span>
+            <h2 className="about-team__title">{t.about.teamTitle}</h2>
           </div>
           <div className="about-team__grid">
             {team.map((member, i) => (
@@ -337,8 +315,8 @@ export function AboutPage() {
       <section className="about-gallery">
         <div className="container">
           <div className="about-gallery__header">
-            <span className="about-gallery__eyebrow">Galería</span>
-            <h2 className="about-gallery__title">Imágenes de nuestra finca</h2>
+            <span className="about-gallery__eyebrow">{t.about.galleryEyebrow}</span>
+            <h2 className="about-gallery__title">{t.about.galleryTitle}</h2>
           </div>
           <div className="about-gallery__carousel">
             <div className="about-gallery__viewport">
@@ -357,7 +335,7 @@ export function AboutPage() {
             <button
               type="button"
               className="about-gallery__btn about-gallery__btn--prev"
-              aria-label="Anterior"
+              aria-label={t.common.previous}
               onClick={() =>
                 setGalleryIndex((i) => (i === 0 ? galleryImages.length - 1 : i - 1))
               }
@@ -367,7 +345,7 @@ export function AboutPage() {
             <button
               type="button"
               className="about-gallery__btn about-gallery__btn--next"
-              aria-label="Siguiente"
+              aria-label={t.common.next}
               onClick={() =>
                 setGalleryIndex((i) => (i === galleryImages.length - 1 ? 0 : i + 1))
               }
@@ -381,7 +359,7 @@ export function AboutPage() {
                   key={i}
                   type="button"
                   className={`about-gallery__dot${i === galleryIndex ? ' about-gallery__dot--active' : ''}`}
-                  aria-label={`Ir a imagen ${i + 1}`}
+                  aria-label={t.common.goTo.replace('{n}', String(i + 1))}
                   onClick={() => setGalleryIndex(i)}
                 />
               ))}
@@ -392,7 +370,7 @@ export function AboutPage() {
               <span className="icon-circle">
                 <ArrowRight size={14} />
               </span>
-              Ver galería completa
+              {t.about.galleryLink}
             </Link>
           </div>
         </div>
@@ -408,11 +386,10 @@ export function AboutPage() {
           />
         </div>
         <div className="about-contact__content">
-          <span className="about-contact__eyebrow">Estamos para servirte</span>
-          <h2 className="about-contact__title">¿Tienes alguna pregunta?</h2>
+          <span className="about-contact__eyebrow">{t.about.ctaEyebrow}</span>
+          <h2 className="about-contact__title">{t.about.ctaTitle}</h2>
           <p className="about-contact__desc">
-            Nuestro equipo está listo para ayudarte a planear la estadía perfecta.
-            Contáctanos por cualquiera de estos medios.
+            {t.about.ctaText}
           </p>
           <div className="about-contact__info">
             <a
@@ -445,10 +422,10 @@ export function AboutPage() {
           </div>
           <div className="about-contact__ctas">
             <Link to="/contacto" className="btn btn--primary">
-              Contactar ahora
+              {t.about.contactBtn}
             </Link>
             <Link to="/reservar" className="btn btn--outline">
-              Reservar estadía
+              {t.about.bookBtn}
             </Link>
           </div>
         </div>

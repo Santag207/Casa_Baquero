@@ -9,6 +9,7 @@ import { AvailabilityCalendar } from './AvailabilityCalendar';
 import { BookingExtras } from './BookingExtras';
 import { calculateStay, formatCOP } from '../../utils/pricing';
 import { buildWhatsAppMessage } from '../../utils/whatsapp';
+import { useLanguage } from '../../context/LanguageContext';
 import './BookingWizard.scss';
 
 function fmtDate(iso: string): string {
@@ -26,6 +27,7 @@ function formatTime(iso: string): string {
 }
 
 export function BookingWizard() {
+  const { t } = useLanguage();
   const { state, room, update } = useBooking();
   const [showReceipt, setShowReceipt] = useState(false);
   const [sending, setSending] = useState(false);
@@ -86,11 +88,10 @@ export function BookingWizard() {
     <div className="booking-wizard">
       <header className="bw-hero">
         <div className="container">
-          <span className="bw-hero__label">Reserva directa</span>
-          <h1 className="bw-hero__title">Reservar estadía</h1>
+          <span className="bw-hero__label">{t.booking.eyebrow}</span>
+          <h1 className="bw-hero__title">{t.booking.title}</h1>
           <p className="bw-hero__sub">
-            Completa el formulario y enviaremos tu solicitud por WhatsApp.
-            Confirmamos disponibilidad y precio en pocos minutos.
+            {t.booking.subtitle}
           </p>
         </div>
       </header>
@@ -104,11 +105,11 @@ export function BookingWizard() {
 
               <fieldset className="bw-fieldset">
                 <legend className="bw-fieldset__legend">
-                  <User size={16} /> Tus datos
+                  <User size={16} /> {t.booking.yourData}
                 </legend>
                 <div className="bw-form-row">
                   <label className="bw-field">
-                    <span className="bw-field__label">Nombre completo</span>
+                    <span className="bw-field__label">{t.booking.fullName}</span>
                     <input
                       type="text"
                       autoComplete="name"
@@ -132,7 +133,7 @@ export function BookingWizard() {
                   </label>
                 </div>
                 <label className="bw-field">
-                  <span className="bw-field__label">Correo electrónico</span>
+                  <span className="bw-field__label">{t.booking.email}</span>
                   <input
                     type="email"
                     autoComplete="email"
@@ -146,7 +147,7 @@ export function BookingWizard() {
 
               <fieldset className="bw-fieldset">
                 <legend className="bw-fieldset__legend">
-                  <CalendarDays size={16} /> Fechas
+                  <CalendarDays size={16} /> {t.booking.dates}
                 </legend>
                 <AvailabilityCalendar
                   checkIn={state.checkIn}
@@ -155,7 +156,7 @@ export function BookingWizard() {
                 />
                 <div className="bw-form-row">
                   <label className="bw-field">
-                    <span className="bw-field__label">Habitaciones</span>
+                    <span className="bw-field__label">{t.booking.rooms}</span>
                     <input
                       type="number"
                       min={1}
@@ -168,7 +169,7 @@ export function BookingWizard() {
                     />
                   </label>
                   <label className="bw-field">
-                    <span className="bw-field__label">Huéspedes</span>
+                    <span className="bw-field__label">{t.booking.guests}</span>
                     <input
                       type="number"
                       min={1}
@@ -185,7 +186,7 @@ export function BookingWizard() {
 
               <fieldset className="bw-fieldset">
                 <legend className="bw-fieldset__legend">
-                  <Sun size={16} /> Habitación
+                  <Sun size={16} /> {t.booking.room}
                 </legend>
                 <div className="bw-rooms">
                   {ROOMS.map((r) => (
@@ -206,7 +207,7 @@ export function BookingWizard() {
               </fieldset>
 
               <fieldset className="bw-fieldset">
-                <legend className="bw-fieldset__legend">Extras</legend>
+                <legend className="bw-fieldset__legend">{t.booking.extras}</legend>
                 <BookingExtras
                   extras={state.extras}
                   onChange={(extras) => update({ extras })}
@@ -214,9 +215,9 @@ export function BookingWizard() {
               </fieldset>
 
               <fieldset className="bw-fieldset">
-                <legend className="bw-fieldset__legend">Notas (opcional)</legend>
+                <legend className="bw-fieldset__legend">{t.booking.notes}</legend>
                 <label className="bw-field">
-                  <span className="bw-field__label">Cuéntanos cualquier detalle especial</span>
+                  <span className="bw-field__label">{t.booking.notesPlaceholder}</span>
                   <textarea
                     rows={3}
                     maxLength={500}
@@ -238,7 +239,7 @@ export function BookingWizard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 }}
             >
-              <h3 className="bw-summary__title">Resumen</h3>
+              <h3 className="bw-summary__title">{t.booking.summary}</h3>
 
               <div className="bw-summary__card">
                 <p className="bw-summary__property">{SITE.name}</p>
@@ -246,26 +247,26 @@ export function BookingWizard() {
 
                 <dl className="bw-summary__list">
                   <div>
-                    <dt>Check-in</dt>
+                    <dt>{t.booking.checkIn}</dt>
                     <dd>{fmtDate(state.checkIn)}</dd>
                   </div>
                   <div>
-                    <dt>Check-out</dt>
+                    <dt>{t.booking.checkOut}</dt>
                     <dd>{fmtDate(state.checkOut)}</dd>
                   </div>
                   {nights > 0 && (
                     <div>
-                      <dt>Noches</dt>
+                      <dt>{t.booking.nights}</dt>
                       <dd>{nights}</dd>
                     </div>
                   )}
                   <div>
-                    <dt>Huéspedes</dt>
-                    <dd>{state.guests} · {state.roomsCount} habitacione{state.roomsCount !== 1 ? 's' : ''}</dd>
+                    <dt>{t.booking.guests}</dt>
+                    <dd>{state.guests} · {state.roomsCount} {state.roomsCount !== 1 ? t.booking.rooms.toLowerCase() : t.booking.room.toLowerCase()}</dd>
                   </div>
                   {state.roomSlug && (
                     <div>
-                      <dt>Habitación</dt>
+                      <dt>{t.booking.room}</dt>
                       <dd>{roomLabel}</dd>
                     </div>
                   )}
@@ -273,28 +274,28 @@ export function BookingWizard() {
 
                 {price && (
                   <div className="bw-summary__pricing">
-                    <h4 className="bw-summary__pricing-title">Desglose de reserva</h4>
+                    <h4 className="bw-summary__pricing-title">{t.booking.priceBreakdown}</h4>
                     <ul className="bw-summary__breakdown">
                       <li>
-                        <span>Tarifa/noche ({price.seasonLabel})</span>
+                        <span>{t.booking.ratePerNight.replace('{season}', price.seasonLabel)}</span>
                         <span>{formatCOP(price.adjustedPerNight)}</span>
                       </li>
                       <li>
-                        <span>Subtotal ({nights} noche{nights !== 1 ? 's' : ''})</span>
+                        <span>{t.booking.subtotal} ({nights} {t.booking.nights.toLowerCase()})</span>
                         <span>{formatCOP(price.subtotal)}</span>
                       </li>
                       <li>
-                        <span>IVA (19%)</span>
+                        <span>{t.booking.iva}</span>
                         <span>{formatCOP(price.iva)}</span>
                       </li>
                       <li className="bw-summary__line--total">
-                        <span>Alojamiento</span>
+                        <span>{t.booking.lodging}</span>
                         <span>{formatCOP(price.total)}</span>
                       </li>
                       {price.extras.length > 0 && (
                         <>
                           <li className="bw-summary__line--extras-head">
-                            <span>Extras</span>
+                            <span>{t.booking.extrasHeader}</span>
                             <span>{formatCOP(price.extrasTotal)}</span>
                           </li>
                           {price.extras.map((ex) => (
@@ -306,7 +307,7 @@ export function BookingWizard() {
                         </>
                       )}
                       <li className="bw-summary__grand">
-                        <span>Total</span>
+                        <span>{t.booking.total}</span>
                         <strong>{formatCOP(price.grandTotal)}</strong>
                       </li>
                     </ul>
@@ -314,13 +315,13 @@ export function BookingWizard() {
                 )}
 
                 {!price && (state.checkIn || state.checkOut) && (
-                  <p className="bw-summary__empty">Selecciona fechas y una habitación para ver el desglose de precios.</p>
+                  <p className="bw-summary__empty">{t.booking.emptySummary}</p>
                 )}
               </div>
 
               <div className="bw-summary__call">
-                <h4 className="bw-summary__call-title">¿Prefieres llamarnos?</h4>
-                <p className="bw-summary__call-text">Estamos disponibles todos los días.</p>
+                <h4 className="bw-summary__call-title">{t.booking.callTitle}</h4>
+                <p className="bw-summary__call-text">{t.booking.callText}</p>
                 <a href={`tel:${SITE.phones.landline.replace(/[^\d]/g, '')}`} className="bw-summary__phone">
                   <Phone size={18} />
                   {SITE.phones.landline}
@@ -338,11 +339,10 @@ export function BookingWizard() {
               onClick={openReceipt}
             >
               <MessageCircle size={20} />
-              Ver recibo final
+              {t.booking.viewReceipt}
             </button>
             <p className="bw-form__footnote">
-              Al enviar se abrirá WhatsApp con todos los datos prellenados.
-              La reserva se confirma una vez recibamos tu mensaje.
+              {t.booking.footnote}
             </p>
           </div>
 
@@ -373,20 +373,20 @@ export function BookingWizard() {
               </button>
 
               <div className="bw-receipt__header">
-                <h2>Reserva — {SITE.name}</h2>
-                <p className="bw-receipt__subtitle">Recibo de solicitud</p>
+                <h2>{t.booking.receiptTitle.replace('{name}', SITE.name)}</h2>
+                <p className="bw-receipt__subtitle">{t.booking.receiptSubtitle}</p>
               </div>
 
               <div className="bw-receipt__body">
                 {/* Guest info */}
                 <section className="bw-receipt__section">
-                  <h3>Datos del huésped</h3>
+                  <h3>{t.booking.guestData}</h3>
                   <div className="bw-receipt__row">
-                    <span>Nombre</span>
+                    <span>{t.booking.fullName}</span>
                     <strong>{state.guestName}</strong>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Email</span>
+                    <span>{t.booking.email}</span>
                     <strong>{state.guestEmail}</strong>
                   </div>
                   <div className="bw-receipt__row">
@@ -397,38 +397,38 @@ export function BookingWizard() {
 
                 {/* Stay details */}
                 <section className="bw-receipt__section">
-                  <h3>Estadía</h3>
+                  <h3>{t.booking.stay}</h3>
                   <div className="bw-receipt__row">
-                    <span>Entrada</span>
+                    <span>{t.booking.checkIn}</span>
                     <strong>{formatTime(state.checkIn)} — 3:00 p.m.</strong>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Salida</span>
+                    <span>{t.booking.checkOut}</span>
                     <strong>{formatTime(state.checkOut)} — 1:00 p.m.</strong>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Noches</span>
+                    <span>{t.booking.nights}</span>
                     <strong>{nights}</strong>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Huéspedes</span>
+                    <span>{t.booking.guests}</span>
                     <strong>{state.guests}</strong>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Habitaciones</span>
+                    <span>{t.booking.rooms}</span>
                     <strong>{state.roomsCount}</strong>
                   </div>
                 </section>
 
                 {/* Room */}
                 <section className="bw-receipt__section">
-                  <h3>Alojamiento</h3>
+                  <h3>{t.booking.lodging}</h3>
                   <div className="bw-receipt__row">
-                    <span>Habitación</span>
+                    <span>{t.booking.bookingRoom}</span>
                     <strong>{room.name}</strong>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Temporada</span>
+                    <span>{t.booking.season}</span>
                     <strong>{price.seasonLabel}</strong>
                   </div>
                 </section>
@@ -436,7 +436,7 @@ export function BookingWizard() {
                 {/* Extras */}
                 {price.extras.length > 0 && (
                   <section className="bw-receipt__section">
-                    <h3>Extras</h3>
+                    <h3>{t.booking.extrasHeader}</h3>
                     {price.extras.map((ex) => (
                       <div key={ex.name} className="bw-receipt__row">
                         <span>{ex.name} × {ex.quantity}</span>
@@ -444,7 +444,7 @@ export function BookingWizard() {
                       </div>
                     ))}
                     <div className="bw-receipt__row bw-receipt__row--total">
-                      <span>Total extras</span>
+                      <span>{t.booking.totalExtras}</span>
                       <strong>{formatCOP(price.extrasTotal)}</strong>
                     </div>
                   </section>
@@ -453,7 +453,7 @@ export function BookingWizard() {
                 {/* Notes */}
                 {state.notes && (
                   <section className="bw-receipt__section">
-                    <h3>Notas</h3>
+                    <h3>{t.booking.notes}</h3>
                     <p className="bw-receipt__notes">{state.notes}</p>
                   </section>
                 )}
@@ -461,29 +461,29 @@ export function BookingWizard() {
                 {/* Pricing */}
                 <div className="bw-receipt__totals">
                   <div className="bw-receipt__row">
-                    <span>Tarifa/noche ({price.seasonLabel})</span>
+                    <span>{t.booking.ratePerNight.replace('{season}', price.seasonLabel)}</span>
                     <span>{formatCOP(price.adjustedPerNight)}</span>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>Subtotal ({nights} noche{nights !== 1 ? 's' : ''})</span>
+                    <span>{t.booking.subtotal} ({nights} {t.booking.nights.toLowerCase()})</span>
                     <span>{formatCOP(price.subtotal)}</span>
                   </div>
                   <div className="bw-receipt__row">
-                    <span>IVA (19%)</span>
+                    <span>{t.booking.iva}</span>
                     <span>{formatCOP(price.iva)}</span>
                   </div>
                   <div className="bw-receipt__row bw-receipt__row--divider">
-                    <span>Alojamiento</span>
+                    <span>{t.booking.lodging}</span>
                     <strong>{formatCOP(price.total)}</strong>
                   </div>
                   {price.extrasTotal > 0 && (
                     <div className="bw-receipt__row">
-                      <span>Extras</span>
+                      <span>{t.booking.extrasHeader}</span>
                       <strong>{formatCOP(price.extrasTotal)}</strong>
                     </div>
                   )}
                   <div className="bw-receipt__grand">
-                    <span>Total estimado</span>
+                    <span>{t.booking.total}</span>
                     <strong>{formatCOP(price.grandTotal)}</strong>
                   </div>
                 </div>
@@ -497,14 +497,14 @@ export function BookingWizard() {
                   onClick={sendToWhatsApp}
                 >
                   <MessageCircle size={20} />
-                  {sending ? 'Abriendo WhatsApp...' : 'Enviar a WhatsApp'}
+                  {sending ? t.booking.openingWhatsapp : t.booking.sendWhatsapp}
                 </button>
                 <button
                   type="button"
                   className="btn btn--outline bw-receipt__btn bw-receipt__btn--outline"
                   onClick={closeReceipt}
                 >
-                  Volver al formulario
+                  {t.booking.backToForm}
                 </button>
               </div>
             </motion.div>

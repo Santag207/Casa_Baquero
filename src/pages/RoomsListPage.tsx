@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 import { ROOMS } from '../data/rooms';
 import { RoomCard } from '../components/rooms/RoomCard';
 import { media } from '../data/media';
@@ -16,29 +17,29 @@ const containerVariants = {
   },
 };
 
-const capacityOptions = [
-  { value: 'all', label: 'Todas' },
-  { value: 2, label: '2 personas' },
-  { value: 3, label: '3 personas' },
-  { value: 4, label: '4 personas' },
-  { value: 5, label: '5 personas' },
-  { value: 6, label: '6 personas' },
-] as const;
-
-type CapacityOption = (typeof capacityOptions)[number]['value'];
+type CapacityOption = 'all' | 2 | 3 | 4 | 5 | 6;
 
 export function RoomsListPage() {
+  const { t } = useLanguage();
   const [selectedCapacity, setSelectedCapacity] = useState<CapacityOption>('all');
 
-  const filteredRooms = useMemo(() => {
-    if (selectedCapacity === 'all') return ROOMS;
-    return ROOMS.filter((room) => room.maxGuests === selectedCapacity);
-  }, [selectedCapacity]);
+  const capacityOptions = [
+    { value: 'all' as const, label: t.roomsPage.all },
+    { value: 2 as const, label: t.rooms.persons.replace('{n}', '2') },
+    { value: 3 as const, label: t.rooms.persons.replace('{n}', '3') },
+    { value: 4 as const, label: t.rooms.persons.replace('{n}', '4') },
+    { value: 5 as const, label: t.rooms.persons.replace('{n}', '5') },
+    { value: 6 as const, label: t.rooms.persons.replace('{n}', '6') },
+  ];
+
+  const filteredRooms = selectedCapacity === 'all'
+    ? ROOMS
+    : ROOMS.filter((room) => room.maxGuests === selectedCapacity);
 
   const activeLabel =
     selectedCapacity === 'all'
-      ? 'Mostrando todas las habitaciones'
-      : `Mostrando habitaciones para ${selectedCapacity} personas`;
+      ? t.roomsPage.all
+      : t.rooms.persons.replace('{n}', String(selectedCapacity));
 
   return (
     <>
@@ -55,17 +56,17 @@ export function RoomsListPage() {
           transition={{ duration: 0.7, ease: 'easeOut' }}
         >
           <span className="section-header__eyebrow" style={{ color: 'rgba(255,255,255,0.8)' }}>
-            Alojamiento
+            {t.roomsPage.pageEyebrow}
           </span>
-          <h1>Habitaciones</h1>
-          <p>Espacios pensados para descansar con comodidad, privacidad y vistas al jardín y la piscina.</p>
+          <h1>{t.roomsPage.pageTitle}</h1>
+          <p>{t.roomsPage.pageSubtitle}</p>
         </motion.div>
       </header>
       <section className="section-pad">
         <div className="container">
           <div className="room-filter">
             <div className="room-filter__header">
-              <p className="room-filter__title">Filtra por capacidad</p>
+              <p className="room-filter__title">{t.roomsPage.filterTitle}</p>
               <p className="room-filter__subtitle">{activeLabel}</p>
             </div>
             <div className="room-filter__chips">
@@ -99,7 +100,7 @@ export function RoomsListPage() {
               ))}
             </motion.div>
           ) : (
-            <div className="room-empty">No hay habitaciones disponibles para esa capacidad en este momento.</div>
+            <div className="room-empty">{t.roomsPage.emptyState}</div>
           )}
         </div>
       </section>

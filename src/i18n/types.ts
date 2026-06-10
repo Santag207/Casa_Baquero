@@ -7,6 +7,16 @@ export const LANGUAGE_NAMES: Record<Language, string> = {
   fr: 'Français',
 };
 
+export interface RoomTranslation {
+  name: string;
+  shortName: string;
+  tagline: string;
+  summary: string;
+  description: string;
+  amenities: string[];
+  extraGuestNote?: string;
+}
+
 export const DEFAULT_LANGUAGE: Language = 'es';
 
 export interface Translations {
@@ -75,6 +85,15 @@ export interface Translations {
     instagramCaption: string;
     instagramFollow: string;
     facilities: string[];
+    featuredCategory1: string;
+    featuredTitle1: string;
+    featuredDesc1: string;
+    featuredCategory2: string;
+    featuredTitle2: string;
+    featuredDesc2: string;
+    featuredCategory3: string;
+    featuredTitle3: string;
+    featuredDesc3: string;
   };
   rooms: {
     pageEyebrow: string;
@@ -324,6 +343,15 @@ export interface Translations {
     book: string;
     details: string;
     emptyState: string;
+  };
+  roomsData: {
+    dobleEstandar: RoomTranslation;
+    doblePremium: RoomTranslation;
+    dobleDeluxe: RoomTranslation;
+    triple: RoomTranslation;
+    cuadruple: RoomTranslation;
+    familiar: RoomTranslation;
+    cabana6: RoomTranslation;
   };
   common: {
     previous: string;

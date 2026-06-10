@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ShoppingCart, Plus, Minus, Trash2 } from 'lucide-react';
 import { EXTRAS, CATEGORY_LABELS, type ExtraCategory, type ExtraSelection } from '../../data/extras';
 import { formatCOP } from '../../utils/pricing';
+import { useLanguage } from '../../context/LanguageContext';
 import './BookingExtras.scss';
 
 const CATEGORIES: ExtraCategory[] = ['gastronomia', 'decoracion', 'servicios'];
@@ -13,6 +14,7 @@ interface BookingExtrasProps {
 }
 
 export function BookingExtras({ extras, onChange }: BookingExtrasProps) {
+  const { t } = useLanguage();
   const cartMap = useMemo(() => {
     const map = new Map<string, number>();
     for (const e of extras) map.set(e.itemId, e.quantity);
@@ -73,7 +75,7 @@ export function BookingExtras({ extras, onChange }: BookingExtrasProps) {
                             className="extras-card__add"
                             onClick={() => setQty(item.id, 1)}
                           >
-                            <Plus size={16} /> Agregar
+                            <Plus size={16} /> {t.booking.add}
                           </button>
                         ) : (
                           <div className="extras-card__qty">
@@ -108,12 +110,12 @@ export function BookingExtras({ extras, onChange }: BookingExtrasProps) {
         <div className="extras-cart">
           <div className="extras-cart__header">
             <ShoppingCart size={20} />
-            <span>Tu carrito</span>
+            <span>{t.booking.cartTitle}</span>
             {extras.length > 0 && <span className="extras-cart__count">{extras.length}</span>}
           </div>
           {extras.length === 0 ? (
             <p className="extras-cart__empty">
-              Aún no has agregado ningún extra. Explora las categorías y elige los que más te gusten.
+              {t.booking.emptyCart}
             </p>
           ) : (
             <ul className="extras-cart__list">
@@ -143,7 +145,7 @@ export function BookingExtras({ extras, onChange }: BookingExtrasProps) {
           )}
           {extras.length > 0 && (
             <div className="extras-cart__total">
-              <span>Total extras</span>
+              <span>{t.booking.totalExtras}</span>
               <strong>{formatCOP(cartTotal)}</strong>
             </div>
           )}
