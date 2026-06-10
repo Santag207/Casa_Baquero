@@ -69,7 +69,7 @@ export function ContactPage() {
         </motion.div>
 
         <div className="contact-page__info">
-          <img src={media('/media/29039/logo-hotel-casa-baquero.png', 160)} alt="" width={160} />
+          <img src={media('/images/hero/logo-hotel-casa-baquero.png')} alt="" width={160} style={{ borderRadius: 6 }} />
           <h2>Teléfonos</h2>
           <p>
             Contacto: {SITE.phones.landline}
@@ -93,7 +93,7 @@ export function ContactPage() {
         </div>
       </section>
 
-      <div className="contact-page__map full-bleed">
+      <div className="contact-page__map container">
         <iframe title="Ubicación Casa Baquero" src={SITE.mapEmbed} loading="lazy" allowFullScreen />
       </div>
     </div>

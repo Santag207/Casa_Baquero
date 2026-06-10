@@ -54,7 +54,7 @@
     font-weight: 500;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: #14b8a6;
+    color: #ffffff;
     margin-bottom: 1rem;
   }
 
@@ -218,7 +218,7 @@
 
 /* ── SCHEDULES BAR ── */
 .rules-schedules {
-  background: #00b4d8;
+  background: rgba(15, 46, 46, 0.92);
   padding: 2.5rem 0;
 
   &__grid {
@@ -248,7 +248,7 @@
   }
 
   &__icon {
-    color: #0f2e2e;
+    color: #ffffff;
     flex-shrink: 0;
   }
 
@@ -258,7 +258,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #0f2e2e;
+    color: #ffffff;
     margin: 0 0 0.2rem;
     line-height: 1.2;
   }
@@ -267,7 +267,7 @@
     font-family: $font-display;
     font-size: 1.15rem;
     font-weight: 400;
-    color: #0f2e2e;
+    color: #ffffff;
     margin: 0;
     line-height: 1.2;
   }
@@ -314,7 +314,8 @@
 .rules-cta {
   display: flex;
   min-height: 440px;
-  border-top: 4px solid #14b8a6;
+  border-top: 4px solid rgba(15, 46, 46, 0.92);
+
 
   @media (max-width: 768px) { flex-direction: column; }
 

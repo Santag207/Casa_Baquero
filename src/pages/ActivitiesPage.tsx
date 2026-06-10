@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -79,10 +80,18 @@ const nearbyAttractions = [
 
 /* ─── COMPONENTE ─── */
 export function ActivitiesPage() {
+  const [mosaicIndex, setMosaicIndex] = useState(0);
   const galleryImages = [
     ...HOME_GALLERY.slice(0, 4),
     ...GALLERY_GROUPS[1].images.slice(0, 4),
   ];
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024;
+    if (!isMobile) return;
+    const t = setInterval(() => setMosaicIndex((i) => (i + 1) % galleryImages.slice(0, 6).length), 4500);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <div className="activities-page">
@@ -238,19 +247,51 @@ export function ActivitiesPage() {
           <span className="activities-mosaic__eyebrow">Galería</span>
           <h2 className="activities-mosaic__title">Momentos en Casa Baquero</h2>
         </div>
-        <div className="activities-mosaic__grid container">
-          {galleryImages.slice(0, 6).map((img, i) => (
-            <motion.div
-              key={img.src}
-              className={`mosaic-item mosaic-item--${i + 1}`}
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
+        <div className="activities-mosaic__carousel container">
+          <div className="activities-mosaic__viewport">
+            <div
+              className="activities-mosaic__track"
+              style={{ transform: `translateX(-${mosaicIndex * 100}%)` }}
             >
-              <img src={media(img.src, 800, 600)} alt={img.alt} loading="lazy" />
-            </motion.div>
-          ))}
+              {galleryImages.slice(0, 6).map((img, i) => (
+                <div
+                  key={img.src}
+                  className={`mosaic-item mosaic-item--${i + 1}`}
+                >
+                  <img src={media(img.src, 800, 600)} alt={img.alt} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="activities-mosaic__btn activities-mosaic__btn--prev"
+            aria-label="Anterior"
+            onClick={() => setMosaicIndex((i) => (i === 0 ? galleryImages.slice(0, 6).length - 1 : i - 1))}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          <button
+            type="button"
+            className="activities-mosaic__btn activities-mosaic__btn--next"
+            aria-label="Siguiente"
+            onClick={() => setMosaicIndex((i) => (i === galleryImages.slice(0, 6).length - 1 ? 0 : i + 1))}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
+          </button>
+
+          <div className="activities-mosaic__dots">
+            {galleryImages.slice(0, 6).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`activities-mosaic__dot${i === mosaicIndex ? ' activities-mosaic__dot--active' : ''}`}
+                aria-label={`Ir a imagen ${i + 1}`}
+                onClick={() => setMosaicIndex(i)}
+              />
+            ))}
+          </div>
         </div>
         <div className="activities-mosaic__cta container">
           <Link to="/galerias" className="btn btn--outline">

@@ -1,18 +1,19 @@
-import { Menu, X } from 'lucide-react';
+import { Menu, ShoppingBag, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, SITE } from '../../data/site';
 import { media } from '../../data/media';
+import { useCart } from '../../hooks/useCart';
 import './Header.scss';
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { itemCount, openCart } = useCart();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [location.pathname]);
 
@@ -31,7 +32,14 @@ export function Header() {
         animate={{ paddingBlock: scrolled ? '0.75rem' : '1.25rem' }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Link to="/" className="header__brand">
+        <a
+          href="/"
+          className="header__brand"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = '/';
+          }}
+        >
           <img
             src={media('/images/hero/logo-hotel-casa-baquero.png')}
             alt={SITE.name}
@@ -41,38 +49,64 @@ export function Header() {
             <span className="header__name">{SITE.name}</span>
             <span className="header__tag">{SITE.tagline}</span>
           </span>
-        </Link>
+        </a>
 
         <nav className="header__nav" aria-label="Principal">
           {NAV_LINKS.map((link) =>
             link.to === '/' ? (
-              <NavLink
+              <a
                 key={link.to}
-                to={link.to}
-                end
-                className={({ isActive }) =>
-                  `header__link${isActive ? ' header__link--active' : ''}`
-                }
+                href="/"
+                className="header__link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/';
+                }}
               >
                 {link.label}
-              </NavLink>
+              </a>
             ) : (
               <NavLink
                 key={link.to}
                 to={link.to}
+                end={false}
                 className={({ isActive }) =>
                   `header__link${isActive ? ' header__link--active' : ''}`
                 }
               >
                 {link.label}
               </NavLink>
-            )
+            ),
           )}
         </nav>
 
-        <Link to="/reservar" className="btn btn--primary header__cta">
-          Reservar
-        </Link>
+        <div className="header__actions">
+          <button
+            type="button"
+            className="header__cart-btn"
+            onClick={openCart}
+            aria-label={`Carrito, ${itemCount} artículos`}
+          >
+            <ShoppingBag size={20} strokeWidth={1.5} />
+            <AnimatePresence>
+              {itemCount > 0 && (
+                <motion.span
+                  className="header__cart-badge"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  key={itemCount}
+                >
+                  {itemCount > 9 ? '9+' : itemCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+
+          <Link to="/reservar" className="btn btn--primary header__cta">
+            Reservar
+          </Link>
+        </div>
 
         <button
           type="button"
@@ -112,6 +146,17 @@ export function Header() {
                 </NavLink>
               </motion.div>
             ))}
+            <button
+              type="button"
+              className="header__mobile-cart"
+              onClick={() => {
+                openCart();
+                setOpen(false);
+              }}
+            >
+              <ShoppingBag size={18} />
+              Carrito ({itemCount})
+            </button>
             <Link to="/reservar" className="btn btn--primary header__mobile-cta">
               Reservar
             </Link>

@@ -8,8 +8,17 @@ import { ROOMS } from '../data/rooms';
 import { HOME_GALLERY } from '../data/galleries';
 import './HomePage.scss';
 
+const EXPERIENCES = [
+  { title: 'Piscina & Relax', img: HOME_GALLERY[1]?.src || '/images/hotel/piscina.jpg' },
+  { title: 'Naturaleza', img: HOME_GALLERY[2]?.src || '/images/hero/hero-1.jpg' },
+  { title: 'Zonas BBQ', img: HOME_GALLERY[3]?.src || '/images/hero/hero-2.jpg' },
+  { title: 'Deportes', img: HOME_GALLERY[4]?.src || '/images/hotel/piscina.jpg' },
+  { title: 'Eventos', img: HOME_GALLERY[5]?.src || '/images/hero/hero-1.jpg' },
+];
+
 export function HomePage() {
   const [slide, setSlide] = useState(0);
+  const [expIndex, setExpIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
   const featuredRoomTypes = [
@@ -38,6 +47,13 @@ export function HomePage() {
     const t = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), 5000);
     return () => clearInterval(t);
   }, [isPlaying]);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024;
+    if (!isMobile) return;
+    const t = setInterval(() => setExpIndex((i) => (i + 1) % EXPERIENCES.length), 4500);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <div className="home">
@@ -182,42 +198,52 @@ export function HomePage() {
             <span className="home-experiences__eyebrow">¿Qué hay para hacer?</span>
             <h2 className="home-experiences__title">Experiencias Inolvidables</h2>
           </motion.div>
-          
-          <div className="home-experiences__carousel">
-            <motion.div
-              className="home-experiences__track"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={{
-                hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-              }}
-            >
-              {[
-                { title: 'Piscina & Relax', img: HOME_GALLERY[1]?.src || '/images/hotel/piscina.jpg' },
-                { title: 'Naturaleza', img: HOME_GALLERY[2]?.src || '/images/hero/hero-1.jpg' },
-                { title: 'Zonas BBQ', img: HOME_GALLERY[3]?.src || '/images/hero/hero-2.jpg' },
-                { title: 'Deportes', img: HOME_GALLERY[4]?.src || '/images/hotel/piscina.jpg' },
-                { title: 'Eventos', img: HOME_GALLERY[5]?.src || '/images/hero/hero-1.jpg' }
-              ].map((exp, i) => (
-                <motion.div
-                  key={i}
-                  className="experience-card"
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.55, delay: i * 0.08, ease: 'easeOut' }}
-                  whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.22 } }}
-                >
-                  <img src={media(exp.img, 400, 600)} alt={exp.title} loading="lazy" />
-                  <div className="experience-card__overlay">
-                    <h3>{exp.title}</h3>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
 
+          <div className="home-experiences__carousel">
+            <div className="home-experiences__viewport">
+              <div
+                className="home-experiences__track"
+                style={{ transform: `translateX(-${expIndex * 100}%)` }}
+              >
+                {EXPERIENCES.map((exp, i) => (
+                  <div key={i} className="experience-card">
+                    <img src={media(exp.img, 400, 600)} alt={exp.title} loading="lazy" />
+                    <div className="experience-card__overlay">
+                      <h3>{exp.title}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="home-experiences__btn home-experiences__btn--prev"
+              aria-label="Anterior"
+              onClick={() => setExpIndex((i) => (i === 0 ? EXPERIENCES.length - 1 : i - 1))}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <button
+              type="button"
+              className="home-experiences__btn home-experiences__btn--next"
+              aria-label="Siguiente"
+              onClick={() => setExpIndex((i) => (i === EXPERIENCES.length - 1 ? 0 : i + 1))}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+
+            <div className="home-experiences__dots">
+              {EXPERIENCES.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`home-experiences__dot${i === expIndex ? ' home-experiences__dot--active' : ''}`}
+                  aria-label={`Ir a experiencia ${i + 1}`}
+                  onClick={() => setExpIndex(i)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

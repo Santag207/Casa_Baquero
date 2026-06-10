@@ -9,7 +9,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container site-footer__top">
         <div className="site-footer__col">
-          <img src={media('/media/28995/logo-hotel-casa-baquero.png', 160)} alt={SITE.name} className="site-footer__logo" />
+          <img src={media('/images/hero/logo-hotel-casa-baquero.png')} alt={SITE.name} className="site-footer__logo" />
           <h3>Acerca de nosotros</h3>
           <p>El refugio perfecto en el corazón del Llano, combinando la paz del campo con la comodidad que mereces.</p>
         </div>

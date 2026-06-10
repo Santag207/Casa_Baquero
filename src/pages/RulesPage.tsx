@@ -295,26 +295,6 @@ export function RulesPage() {
         </div>
       </section>
 
-      {/* ── GALLERY STRIP ── */}
-      <section className="rules-gallery">
-        <div className="container">
-          <div className="rules-gallery__strip">
-            {HOME_GALLERY.slice(0, 5).map((img, i) => (
-              <motion.div
-                key={img.src}
-                className="rules-gallery__item"
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-              >
-                <img src={media(img.src, 500, 400)} alt={img.alt} loading="lazy" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── SPLIT CTA ── */}
       <section className="rules-cta">
         <div

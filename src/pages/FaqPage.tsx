@@ -258,22 +258,6 @@ export function FaqPage() {
         </div>
       </header>
 
-      {/* ── INTRO STATS ── */}
-      <section className="faq-intro-bar">
-        <div className="container faq-intro-bar__grid">
-          {[
-            { value: '30+', label: 'Preguntas resueltas' },
-            { value: '6', label: 'Categorías de ayuda' },
-            { value: '24h', label: 'Tiempo de respuesta' },
-          ].map((s) => (
-            <div key={s.label} className="faq-intro-stat">
-              <span className="faq-intro-stat__value">{s.value}</span>
-              <span className="faq-intro-stat__label">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── MAIN CONTENT ── */}
       <section className="faq-main">
         <div className="container faq-main__inner">
@@ -347,6 +331,22 @@ export function FaqPage() {
               ))}
             </div>
           </main>
+        </div>
+      </section>
+
+      {/* ── INTRO STATS ── */}
+      <section className="faq-intro-bar">
+        <div className="container faq-intro-bar__grid">
+          {[
+            { value: '30+', label: 'Preguntas resueltas' },
+            { value: '6', label: 'Categorías de ayuda' },
+            { value: '24h', label: 'Tiempo de respuesta' },
+          ].map((s) => (
+            <div key={s.label} className="faq-intro-stat">
+              <span className="faq-intro-stat__value">{s.value}</span>
+              <span className="faq-intro-stat__label">{s.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 

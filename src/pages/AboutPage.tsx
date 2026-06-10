@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -74,7 +75,21 @@ const team = [
 ];
 
 /* ─── COMPONENTE ─── */
+const galleryImages = [
+  ...HOME_GALLERY.slice(0, 3),
+  ...GALLERY_GROUPS[2].images.slice(0, 3),
+];
+
 export function AboutPage() {
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024;
+    if (!isMobile) return;
+    const t = setInterval(() => setGalleryIndex((i) => (i + 1) % galleryImages.length), 4500);
+    return () => clearInterval(t);
+  }, []);
+
   return (
     <div className="about-page">
       {/* ── HERO ── */}
@@ -325,26 +340,52 @@ export function AboutPage() {
             <span className="about-gallery__eyebrow">Galería</span>
             <h2 className="about-gallery__title">Imágenes de nuestra finca</h2>
           </div>
-          <div className="about-gallery__grid">
-            {[...HOME_GALLERY.slice(0, 3), ...GALLERY_GROUPS[2].images.slice(0, 3)].map(
-              (img, i) => (
-                <motion.div
-                  key={img.src}
-                  className="about-gallery__item"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.55, delay: i * 0.07 }}
-                  whileHover={{ scale: 1.02, transition: { duration: 0.25 } }}
-                >
-                  <img
-                    src={media(img.src, 600, 500)}
-                    alt={img.alt}
-                    loading="lazy"
-                  />
-                </motion.div>
-              )
-            )}
+          <div className="about-gallery__carousel">
+            <div className="about-gallery__viewport">
+              <div
+                className="about-gallery__track"
+                style={{ transform: `translateX(-${galleryIndex * 100}%)` }}
+              >
+                {galleryImages.map((img) => (
+                  <div key={img.src} className="about-gallery__item">
+                    <img src={media(img.src, 600, 500)} alt={img.alt} loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="about-gallery__btn about-gallery__btn--prev"
+              aria-label="Anterior"
+              onClick={() =>
+                setGalleryIndex((i) => (i === 0 ? galleryImages.length - 1 : i - 1))
+              }
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <button
+              type="button"
+              className="about-gallery__btn about-gallery__btn--next"
+              aria-label="Siguiente"
+              onClick={() =>
+                setGalleryIndex((i) => (i === galleryImages.length - 1 ? 0 : i + 1))
+              }
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
+
+            <div className="about-gallery__dots">
+              {galleryImages.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`about-gallery__dot${i === galleryIndex ? ' about-gallery__dot--active' : ''}`}
+                  aria-label={`Ir a imagen ${i + 1}`}
+                  onClick={() => setGalleryIndex(i)}
+                />
+              ))}
+            </div>
           </div>
           <div className="about-gallery__cta">
             <Link to="/galerias" className="btn btn--outline">
